@@ -1,23 +1,39 @@
-name: GitHub Actions Build and Deploy Demo
+name: Deployement
+
 on:
   push:
     branches:
       - main
+
 jobs:
-  build-and-deploy:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
         with:
-          persist-credentials: false
-      - name: Install and Build
-        run: |
-          npm install
-          npm run-script build
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+          node-version: '15'
+
+      - name: node version
+        run: node -v
+
+      - name: npm version
+        run: npm -v
+
+      - name: build
+        run: yarn && yarn build
+        env:
+          CI: false
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.3
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: build
+          token: ${{ secrets.GITHUB_TOKEN }}
+          git-config-email: socialfi_xyz@gmail.com
+          git-config-name: socialfi_xyz
+          folder: build
+          branch: gh-pages
+          clean: false
