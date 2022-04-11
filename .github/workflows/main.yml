@@ -23,8 +23,10 @@ jobs:
       - name: npm version
         run: npm -v
 
-      - name: build
-        run: yarn && yarn build
+      - name: Install and Build
+        run: |
+          npm install
+          npm run-script build
         env:
           CI: false
 
