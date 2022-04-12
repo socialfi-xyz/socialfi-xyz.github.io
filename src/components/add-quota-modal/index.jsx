@@ -5,7 +5,7 @@ import './index.less'
 import { Steps } from 'antd';
 import {Share} from "react-twitter-widgets";
 
-import {getUserInfo} from "../../request/twitter";
+import {getNodeSign, getUserInfo} from "../../request/twitter";
 import {getHref} from "../../utils";
 import {HASHTAG, TASK_TYPE_QUOTA} from "../../request";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
@@ -39,14 +39,16 @@ export function AddQuotaModal({visible, onClose, userData, getMoreTwitters}) {
     }
     getUserInfo(params).then(async data => {
       console.log(data)
-      setLoading(false)
       if (!data.sign) {
         message.warn("Not found you @ more users")
         return
       }
       const moreQuota = await calcQuota(data.sign.twitters)
-      data.sign.moreQuota = moreQuota
-      getMoreTwitters(data.sign)
+      const signData = await getNodeSign(params)
+      signData.moreQuota = moreQuota
+      console.log('signData', signData)
+      getMoreTwitters(signData)
+      setLoading(false)
       onClose()
     }).catch(() => {
       if (!again){

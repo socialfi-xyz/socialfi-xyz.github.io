@@ -21,7 +21,7 @@ export function calcQuota(users){
 }
 
 export const getHref = (twitterId, calcNonce) => {
-  const href = 'https://www.google.com' //window.location.href
+  const href = 'https://socialfi.xyz' //window.location.href
   const params = '?referrer=' + twitterId + '&nonce=' + calcNonce
   if (href[href.length - 1] === '/'){
     return href + params

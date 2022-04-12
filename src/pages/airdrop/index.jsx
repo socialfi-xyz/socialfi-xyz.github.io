@@ -30,6 +30,7 @@ export default function Airdrop(){
   const [analyzeLoading, setAnalyzeLoading] = useState(false)
   const [userData, setUserData] = useState(null)
   const [shareData, setShareData] = useState('#SocialFi Airdrop')
+  const [params, setParams] = useState(null)
 
   const location = useLocation()
   const onAnalyze = (type, again) => {
@@ -49,6 +50,7 @@ export default function Airdrop(){
       if (data.twitterIdClaimed === 2) {
         message.error("The current user has already bound another address", 6)
       } else {
+        setParams(params)
         setUserData(data)
         setStep(2)
       }
@@ -207,7 +209,7 @@ export default function Airdrop(){
           </div>
         </div>
         <ConnectWall visible={showConnectWallet} onClose={() => setShowConnectWallet(false)}/>
-        <ClaimAirdropModal visible={showAirdropClaim} onClose={() => setShowAirdropClaim(false)} userData={userData}/>
+        <ClaimAirdropModal visible={showAirdropClaim} onClose={() => setShowAirdropClaim(false)} userData={userData} params={params}/>
       </div>
     </Layout>
   )

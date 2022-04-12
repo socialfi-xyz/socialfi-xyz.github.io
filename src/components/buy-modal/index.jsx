@@ -185,13 +185,13 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
       })
   }
   const onBuyMore = async () => {
-    setLoading(true)
     const contract = getContract(library, SFI.abi, SFI.address)
 
     let buyValue = numToWei(Number(tokenValve).toFixed(buyTokenData.decimal), buyTokenData.decimal).toString()
     if (buyValue <=0 ){
       return
     }
+    setLoading(true)
     let PermitSign = {
       deadline: 0,
       allowed: buyTokenData.allowed,
@@ -199,19 +199,24 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
       r: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64),
       s: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64)
     }
+    const tokenContract = new ClientContract(SFI.abi, SFI.address)
     let tokenNonce = 0
     if (!buyTokenData.isPermitSign){
-      const tokenContract = new ClientContract(SFI.abi, SFI.address, ChainId.MAINNET)
       tokenNonce = await multicallClient([
         tokenContract.nonces(account)
       ]).then(data => data[0])
       PermitSign = permitSignData
       console.log('tokenNonce', tokenNonce)
+    } else {
+      tokenNonce = await multicallClient([
+        tokenContract.nonceOf(account)
+      ]).then(data => data[0])
     }
     let buyMoreParams = [Web3.utils.padLeft(Web3.utils.numberToHex(0), 64), tokenNonce, [], []]
     if (buyMoreSign) {
-      buyMoreParams = [buyMoreSign.referrer, tokenNonce, buyMoreSign.twitters, [buyMoreSign.signature]]
+      buyMoreParams = [buyMoreSign.referrer, tokenNonce, buyMoreSign.twitters, [buyMoreSign.signatureList[0]]]
     }
+    console.log('buyMoreParams', buyMoreParams)
     console.log(PermitSign, buyTokenData.router, buyValue, ...buyMoreParams)
     contract.methods.donate(PermitSign, buyTokenData.router, buyValue, ...buyMoreParams).send({
       from: account,

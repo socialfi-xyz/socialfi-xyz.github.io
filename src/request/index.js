@@ -1,8 +1,17 @@
 let requestUrl_ = "/api"
-if (sessionStorage.getItem('twitter_dao_test')){
-  requestUrl_ = 'http://18.176.71.103:12345/api'
+if (sessionStorage.getItem('socialfi_xyz_test')){
+  requestUrl_ = 'https://node1.socialfi.xyz'
 }
 export const requestUrl = requestUrl_
+
+export const signNodes = [
+  'https://node1.socialfi.xyz',
+  'https://node2.socialfi.xyz',
+  'https://node3.socialfi.xyz',
+  'https://node4.socialfi.xyz',
+  'https://node5.socialfi.xyz',
+]
+export const VALID_SIGNATURE = 3
 
 export const HASHTAG = 'swithpokemon'
 // type

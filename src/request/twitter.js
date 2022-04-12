@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {requestUrl} from "./index";
+import {requestUrl, signNodes, VALID_SIGNATURE} from "./index";
 import {rsort} from "semver";
 import {calcDays, calcQuota} from "../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../web3/multicall";
@@ -26,10 +26,10 @@ export function getNonce(account) {
 }
 
 
-export function getUser(taskId, nonce) {
+export function getUser(taskId, nonce, signNode) {
   return new Promise((resolve, reject) => {
     function getUser_() {
-      axios.post(requestUrl + '/task/get', {
+      axios.post((signNode || requestUrl) + '/task/get', {
         taskId
       }).then(async ret => {
         const {data: {data}} = ret
@@ -89,8 +89,7 @@ export function getUser(taskId, nonce) {
     getUser_()
   })
 }
-
-export async function getUserInfo({username, account, type, referrer, calcNonce}) {
+async function getTask ({username, account, type, referrer, calcNonce}){
   const lockupParams = {
     address: account,
     type,
@@ -104,9 +103,43 @@ export async function getUserInfo({username, account, type, referrer, calcNonce}
   if (!nonce) {
     nonce = await getNonce(account)
   }
-  console.log('nonce', nonce)
+  return {
+    taskId,
+    nonce
+  }
+}
+
+export async function getUserInfo({username, account, type, referrer, calcNonce}) {
+  const {taskId, nonce} = await getTask({username, account, type, referrer, calcNonce})
   return getUser(taskId, nonce)
 }
+
+export function getNodeSign({username, account, type, referrer, calcNonce}){
+  return new Promise(async (resolve, reject)=>{
+    const {taskId, nonce} = await getTask({username, account, type, referrer, calcNonce})
+    const signList = []
+    for (let i = 0; i < signNodes.length; i++) {
+      getUser(taskId, nonce, signNodes[i]).then(data => {
+        if (signList.length === VALID_SIGNATURE) {
+          let signData = {
+            ...signList[0],
+            signatureList: []
+          }
+          console.log(signList)
+          for (let j = 0; j < signList.length; j++) {
+            signData.signatureList.push(signList[j].signature)
+          }
+          resolve(signData)
+        } else {
+          signList.push(data.sign)
+        }
+      })
+    }
+  })
+
+}
+
+
 
 export function getUserByAddress(account, referrer) {
   const params = {

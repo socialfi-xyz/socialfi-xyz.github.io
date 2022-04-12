@@ -12,8 +12,9 @@ import {useHistory} from 'react-router-dom'
 import {connect} from "react-redux";
 import {changeUpdateCount} from "../../redux/actions/web3";
 import CloseIcon from "../../assets/images/svg/close.svg";
+import {getNodeSign} from "../../request/twitter";
 
-function ClaimAirdropModal({visible, onClose, userData, changeUpdateCount}) {
+function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCount}) {
   const {chainId, library, account} = useWeb3ReactCore()
   const [checkedBuy, setCheckedBuy] = useState(false)
   const [ethValve, setETHValve] = useState(null)
@@ -53,8 +54,13 @@ function ClaimAirdropModal({visible, onClose, userData, changeUpdateCount}) {
     // const callContract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
     // const nonceOf = await multicallClient([callContract.nonceOf(account)]).then(data => data[0])
     const contract = getContract(library, SFI.abi, SFI.address)
-    console.log(userData, buyValue, userData.sign.referrer, userData.sign.nonce, userData.sign.twitters, [userData.sign.signature])
-    contract.methods.airClaim(userData.sign.referrer, userData.sign.nonce, userData.sign.twitters, [userData.sign.signature]).send({
+    const signData = await getNodeSign(params)
+    const tokenContract = new ClientContract(SFI.abi, SFI.address)
+    const tokenNonce = await multicallClient([
+      tokenContract.nonceOf(account)
+    ]).then(data => data[0])
+    console.log('signData', signData)
+    contract.methods.airClaim(signData.referrer, tokenNonce, signData.twitters, [signData.signatureList[0]]).send({
       from: account,
       value: buyValue
     }).on('transactionHash', hash => {
