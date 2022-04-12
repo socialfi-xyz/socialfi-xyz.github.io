@@ -17,25 +17,25 @@ const links = [
     icon: Twitter,
     link: 'https://twitter.com/SocialFiLabs'
   },
-  {
-    name: 'Medium',
-    icon: Medium,
-    link: ''
-  },
+  // {
+  //   name: 'Medium',
+  //   icon: Medium,
+  //   link: ''
+  // },
   {
     name: 'Discord',
     icon: Discord,
-    link: ''
+    link: 'https://discord.gg/jE8WbqCmTq'
   },
-  {
-    name: 'Telegram',
-    icon: Telegram,
-    link: ''
-  },
+  // {
+  //   name: 'Telegram',
+  //   icon: Telegram,
+  //   link: ''
+  // },
   {
     name: 'Github',
     icon: Github,
-    link: ''
+    link: 'https://github.com/socialfi-xyz/socialfi-xyz.github.io'
   },
 
 ]
