@@ -1,4 +1,4 @@
-let requestUrl_ = "/api"
+let requestUrl_ = "/"
 if (sessionStorage.getItem('socialfi_xyz_test')){
   requestUrl_ = 'https://node1.socialfi.xyz'
 }
