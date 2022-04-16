@@ -302,9 +302,9 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
             </div>
             <div className="buy-view">
               <p className="p-t">
-                The current {userData.priceDiscount}off, available quota {toFormat(userData.quotaOf)}
+                Available quota: {toFormat(userData.quotaOf)}
                 {buyMoreSign && ` + (${toFormat(buyMoreSign.moreQuota)})`}
-                <span onClick={() => setShowAddQuota(true)}>Add quota</span>
+                <span onClick={() => setShowAddQuota(true)} style={{marginRight: '10px'}}>Add quota</span>
               </p>
               <div>
                 <div className="token-select flex-center">
@@ -330,16 +330,16 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
                   </div>
                 </div>
               </div>
-              <p className="p-b">Currently available： {buyTokenData.balanceOf} {byToken}</p>
+              <p className="p-b">Currently balance： {buyTokenData.balanceOf} {byToken}</p>
             </div>
             <div className="arrow-d">
               <img src={ArrowDown} alt=""/>
             </div>
             <div className="calc-eth-token">
-              {buyOut} TWTR
+              {buyOut} SFI
             </div>
             <div className="btn-submit">
-              <p className="tip-p">You can accelerate the unlocking of airdrop rewards by purchasing</p>
+              <p className="tip-p">You can accelerate the vesting schedule by bonding</p>
               {
                 !buyTokenData.isApprove && (
                   <Button type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</Button>
@@ -354,7 +354,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
               {
                 ((!buyTokenData.isPermitSign && permitSignData) || buyTokenData.isPermitSign) && buyTokenData.isApprove && (
                   <Button type="primary" onClick={onBuyMore} loading={loading} style={{width: '100%'}}>
-                    {buyMoreSign ? 'Buy More' : 'Buy'}
+                    {buyMoreSign ? 'Bond More' : 'Bond'}
                   </Button>
                 )
               }

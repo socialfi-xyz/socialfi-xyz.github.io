@@ -76,7 +76,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
                 <p className="p-t">Amount</p>
                 <div>
                   <div className="input-eth">
-                    <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)} placeholder="1 TWTR"
+                    <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)} placeholder="1 SFI"
                            onBlur={e => (e.target.value * 1) > userData.unlockedOf && onMax()}/>
                     <div className="input-menu">
                       {/*<span>TWTR</span>*/}
@@ -84,7 +84,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
                     </div>
                   </div>
                 </div>
-                <p className="p-b">Available： {toFormat(userData.unlockedOf)} TWTR</p>
+                <p className="p-b">Available： {toFormat(userData.unlockedOf)} SFI</p>
               </div>
               <div className="btn-submit">
                 <Button type="primary" onClick={onTransfer} loading={transferLoading}>

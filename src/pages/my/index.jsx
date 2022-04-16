@@ -139,7 +139,7 @@ function My({updateCount}) {
               <div className="u-info-data">
                   <div>Total Balance</div>
                   <div>{toFormat(userData.balanceOf, '-')}(${userData.balanceOfValue})</div>
-                  <div><Button onClick={() => setShowByModal(true)}>Buy</Button></div>
+                  <div><Button onClick={() => setShowByModal(true)}>Bond</Button></div>
 
                   <div>Locked Balance</div>
                   <div>{toFormat(userData.lockedOf, '-')}</div>
