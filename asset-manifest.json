@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.58f82b79.chunk.css",
-    "main.js": "/static/js/main.fe0bafeb.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.b45c9295.js",
+    "main.js": "/static/js/main.defd875b.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.2ac587f1.js",
     "static/css/2.9764842d.chunk.css": "/static/css/2.9764842d.chunk.css",
-    "static/js/2.e4b8f3d4.chunk.js": "/static/js/2.e4b8f3d4.chunk.js",
-    "static/js/3.4a26654d.chunk.js": "/static/js/3.4a26654d.chunk.js",
-    "static/js/4.1e7ad0dc.chunk.js": "/static/js/4.1e7ad0dc.chunk.js",
+    "static/js/2.ed4fed17.chunk.js": "/static/js/2.ed4fed17.chunk.js",
+    "static/js/3.4105a523.chunk.js": "/static/js/3.4105a523.chunk.js",
+    "static/js/4.db894ff1.chunk.js": "/static/js/4.db894ff1.chunk.js",
     "index.html": "/index.html",
     "static/css/2.9764842d.chunk.css.gz": "/static/css/2.9764842d.chunk.css.gz",
     "static/css/main.58f82b79.chunk.css.gz": "/static/css/main.58f82b79.chunk.css.gz",
-    "static/js/2.e4b8f3d4.chunk.js.LICENSE.txt": "/static/js/2.e4b8f3d4.chunk.js.LICENSE.txt",
-    "static/js/2.e4b8f3d4.chunk.js.gz": "/static/js/2.e4b8f3d4.chunk.js.gz",
-    "static/js/3.4a26654d.chunk.js.gz": "/static/js/3.4a26654d.chunk.js.gz",
-    "static/js/main.fe0bafeb.chunk.js.gz": "/static/js/main.fe0bafeb.chunk.js.gz",
+    "static/js/2.ed4fed17.chunk.js.LICENSE.txt": "/static/js/2.ed4fed17.chunk.js.LICENSE.txt",
+    "static/js/2.ed4fed17.chunk.js.gz": "/static/js/2.ed4fed17.chunk.js.gz",
+    "static/js/3.4105a523.chunk.js.gz": "/static/js/3.4105a523.chunk.js.gz",
+    "static/js/main.defd875b.chunk.js.gz": "/static/js/main.defd875b.chunk.js.gz",
     "static/media/index.less": "/static/media/header-bg.410eb50d.png",
     "static/media/airdrop-icon-off.2e93f570.svg": "/static/media/airdrop-icon-off.2e93f570.svg",
     "static/media/airdrop-icon-on.ab1980f4.svg": "/static/media/airdrop-icon-on.ab1980f4.svg",
@@ -39,10 +39,10 @@
     "static/media/twitter.8014dcf5.svg": "/static/media/twitter.8014dcf5.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b45c9295.js",
+    "static/js/runtime-main.2ac587f1.js",
     "static/css/2.9764842d.chunk.css",
-    "static/js/2.e4b8f3d4.chunk.js",
+    "static/js/2.ed4fed17.chunk.js",
     "static/css/main.58f82b79.chunk.css",
-    "static/js/main.fe0bafeb.chunk.js"
+    "static/js/main.defd875b.chunk.js"
   ]
 }
