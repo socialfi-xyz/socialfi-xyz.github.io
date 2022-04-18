@@ -3,7 +3,6 @@ import './index.less'
 import LOGO from '../../assets/images/logo.png'
 import BannerImg from '../../assets/images/home/banner-img.svg'
 import BannerImgMask from '../../assets/images/home/banner-img-mask.png'
-import FooterAddr from '../../assets/images/home/footer-addr.svg'
 import Twitter from '../../assets/images/links/twitter.svg'
 import Medium from '../../assets/images/links/medium.svg'
 import Discord from '../../assets/images/links/discord.svg'
@@ -46,12 +45,7 @@ export default function Home() {
       <div className="home-header">
         <div className="home-header-c">
           <div className="home-logo">
-            <img src={LOGO} alt=""/>
             SocialFi
-          </div>
-          <div>
-            <NavLink className="home-page-enter-app flex-center claim-airdrop-btn" to="/dashboard">Enter App</NavLink>
-            <NavLink className="home-page-enter-app flex-center" to="/airdrop">Claim Airdrop</NavLink>
           </div>
         </div>
       </div>
@@ -59,16 +53,19 @@ export default function Home() {
         <div className="home-banner-title">
           <h2>The <span>SocialFi Token.</span></h2>
           <p>SocialFi is a token created to support and reward the everyday contributors on Twitter and progress educational and insightful content</p>
+          <div className="home-banner-btn">
+            <NavLink className="home-page-enter-app flex-center" to="/dashboard">Enter App</NavLink>
+            <NavLink className="home-page-enter-app flex-center claim-airdrop-btn" to="/airdrop">Claim Airdrop</NavLink>
+          </div>
         </div>
         <div className="home-banner-img">
           <div>
-            <img src={BannerImg} alt=""/>
             <img className="home-banner-img-bg" src={BannerImgMask} alt=""/>
+            <img src={BannerImg} alt=""/>
           </div>
         </div>
       </div>
       <div className="home-footer-img">
-        <img src={FooterAddr} alt=""/>
       </div>
       <div className="home-footer flex-center">
         <div className="links">
