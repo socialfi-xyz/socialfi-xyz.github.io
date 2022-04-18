@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Switch, Route, useHistory} from "react-router-dom";
+import {HashRouter as Router, Switch, Route, useHistory} from "react-router-dom";
 import Home from "./home";
 import Dashboard from "./dashboard";
 import Airdrop from "./airdrop";

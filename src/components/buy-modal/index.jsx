@@ -214,7 +214,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
     }
     let buyMoreParams = [Web3.utils.padLeft(Web3.utils.numberToHex(0), 64), tokenNonce, [], []]
     if (buyMoreSign) {
-      buyMoreParams = [buyMoreSign.referrer, tokenNonce, buyMoreSign.twitters, [buyMoreSign.signatureList[0]]]
+      buyMoreParams = [buyMoreSign.referrer, tokenNonce, buyMoreSign.twitters, buyMoreSign.signatureList]
     }
     console.log('buyMoreParams', buyMoreParams)
     console.log(PermitSign, buyTokenData.router, buyValue, ...buyMoreParams)
