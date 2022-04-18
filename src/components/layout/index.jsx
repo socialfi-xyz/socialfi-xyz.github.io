@@ -38,7 +38,7 @@ export default function Layout({children}){
       if (accountAirClaimed > 0){
         setMyRouterList([
           {
-            name: 'My',
+            name: 'My Profile',
             path: '/my',
             icon: {
               on: MyIconOn,

@@ -29,7 +29,7 @@ export default function Airdrop(){
   const [userName, setUserName] = useState('')
   const [analyzeLoading, setAnalyzeLoading] = useState(false)
   const [userData, setUserData] = useState(null)
-  const [shareData, setShareData] = useState('#SocialFi Airdrop')
+  const [shareData, setShareData] = useState('#SocialFiAirdrop')
   const [params, setParams] = useState(null)
 
   const location = useLocation()
@@ -194,7 +194,7 @@ export default function Airdrop(){
                   <BaseInfo userData={userData} atClaim={true}/>
                   <Input.TextArea rows={4} value={shareData} onInput={e => setShareData(e.target.value)} placeholder="A great project"/>
                   <div className="share-claim">
-                    <div className="tip-info">Tweeting @ other users will double your influence</div>
+                    <div className="tip-info">Tweeting @ other users can increase your influence score</div>
                     <div className="btn-group">
                     <span className="share-btn">
                     <Share url={getHref(userData.twitterId, userData.calcNonce)}

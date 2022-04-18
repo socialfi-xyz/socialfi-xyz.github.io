@@ -13,6 +13,7 @@ import {
   YAxis
 } from 'recharts'
 import {Tooltip} from "antd";
+import {toFormat} from "../../utils/format";
 
 export default function BaseInfo({userData, atClaim}){
   console.log('userData', userData)
@@ -42,23 +43,23 @@ export default function BaseInfo({userData, atClaim}){
           <img src={userData.avatar} alt=""/>
           <div>
             <p>{userData.name}</p>
-            <p>{userData.username}</p>
+            <p>@{userData.username}</p>
           </div>
         </div>
         <div className="base-data-txt">
           <div>Days on Twitter</div>
-          <div>{userData.days}</div>
+          <div>{toFormat(userData.days)}</div>
           <div>Followers</div>
-          <div>{userData.followersCount}</div>
+          <div>{toFormat(userData.followersCount)}</div>
           <div>Tweets</div>
-          <div>{userData.sign && userData.sign.twitters &&userData.sign.twitters.length || 0}</div>
+          <div>{(userData.sign && userData.sign.twitters && userData.sign.twitters.length) || 0}</div>
           <div>Influence</div>
-          <div>{userData.Influence}</div>
+          <div>{toFormat(userData.Influence)}</div>
           {
             atClaim && (
               <>
                 <div>Available to Claim</div>
-                <div>{userData.availableClaim || 0}</div>
+                <div>{toFormat(userData.availableClaim || 0)}</div>
               </>
             )
           }

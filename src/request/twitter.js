@@ -70,6 +70,7 @@ export function getUser(taskId, nonce, signNode) {
           data.Influence = calcQuota([data])
           data.mentions = Math.min(data.Influence, calcQuota(data.mentions || []))
           data.mentionsProportion = (data2.airClaimAll > 0 ? ((data2.airClaimAll - data2.airClaim1) / data2.airClaim1).toFixed(4) : 0) * 100 + '%'
+          data.mentionsAmount = data2.airClaimAll - data2.airClaim1
           data.quotaOf = data2.quota
           data.calcNonce = nonce
           data.twitterIdClaimed = ~~data2.twitterIdClaimed

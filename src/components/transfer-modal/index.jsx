@@ -84,7 +84,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
                     </div>
                   </div>
                 </div>
-                <p className="p-b">Available： {toFormat(userData.unlockedOf)} SFI</p>
+                <p className="p-b">Available amount： {toFormat(userData.unlockedOf)} SFI</p>
               </div>
               <div className="btn-submit">
                 <Button type="primary" onClick={onTransfer} loading={transferLoading}>

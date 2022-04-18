@@ -5,7 +5,7 @@ import './index.less'
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
 import {getContract, getWeb3} from "../../web3";
 import {SFI} from "../../web3/address";
-import {fromWei, numToWei} from "../../utils/format";
+import {fromWei, numToWei, toFormat} from "../../utils/format";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import {useHistory} from 'react-router-dom'
@@ -98,7 +98,7 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
   return (
     <React.Fragment>
       <Modal
-        title="claim"
+        title="Claim"
         visible={visible}
         footer={null}
         onCancel={onClose}
@@ -112,9 +112,9 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
           userData && (
             <div className="claim-airdrop-dialog">
               <div className="claim-data">
-                <div>Influence {userData.Influence}</div>
-                <div>Ertra by @User {userData.mentionsProportion}</div>
-                <div>Available to Claim {userData.availableClaim}</div>
+                <div>Influence: {toFormat(userData.Influence)}</div>
+                <div>Additional influence score: {userData.mentionsAmount}</div>
+                <div>Available to Claim: {userData.availableClaim}</div>
               </div>
               <div className="buy-view">
                 <p className="p-t">Available quota: {userData.quotaOf}</p>
