@@ -94,7 +94,7 @@ function My({updateCount}) {
       ratio = fromWei(ratio, 18).toFixed(4)
 
       const balanceOfValue = new BigNumber(balanceOf).multipliedBy(price2).toFormat(2)
-      const priceDiscount = ((price2 - price1)/price2 * 100).toFixed(2) + '%'
+      const priceDiscount = (price2 > 0 ? ((price2 - price1)/price2 * 100).toFixed(2) : 0) + '%'
       quotaOf = fromWei(quotaOf, 18).toFixed(0)
       setUserData({
         isCmpdOf, price2, balanceOf, unlockEndOf, lockedOf, unlockedOf, quotaOf, discount,
