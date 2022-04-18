@@ -29,7 +29,7 @@ export default function Airdrop(){
   const [userName, setUserName] = useState('')
   const [analyzeLoading, setAnalyzeLoading] = useState(false)
   const [userData, setUserData] = useState(null)
-  const [shareData, setShareData] = useState('#SocialFiAirdrop')
+  const [shareData, setShareData] = useState('SocialFiAirdrop')
   const [params, setParams] = useState(null)
 
   const location = useLocation()

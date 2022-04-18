@@ -1,4 +1,4 @@
-let requestUrl_ = "https://node1.socialfi.xyz/"
+let requestUrl_ = "https://node1.socialfi.xyz"
 if (sessionStorage.getItem('socialfi_xyz_test')){
   requestUrl_ = 'https://node1.socialfi.xyz'
 }
@@ -13,7 +13,7 @@ export const signNodes = [
 ]
 export const VALID_SIGNATURE = 3
 
-export const HASHTAG = 'swithpokemon'
+export const HASHTAG = 'SocialFiAirdrop'
 // type
 export const TASK_TYPE_LOOKUP = 0 // default
 export const TASK_TYPE_CLAIM = 1 // claim

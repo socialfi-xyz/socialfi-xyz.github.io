@@ -1,7 +1,7 @@
 import SFIAbi from './abi/SFI.json'
 
 export const SFI = {
-  address: '0x3A91fa32f8F98B15072ED4F9bdD763D07E5BCDd1',
+  address: '0x91b3af2829f34d6d19a1ab2b3569b0304e5b4645',
   abi: SFIAbi
 }
 

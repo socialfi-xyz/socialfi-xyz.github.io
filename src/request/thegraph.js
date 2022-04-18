@@ -6,7 +6,7 @@ import BigNumber from "bignumber.js";
 export function queryDashboardData(){
   return axios({
     method: 'post',
-    url: 'https://api.thegraph.com/subgraphs/name/spiersz/trt',
+    url: 'https://api.thegraph.com/subgraphs/name/yuanxxxxxx/s1',
     data: {
       query: `
       {

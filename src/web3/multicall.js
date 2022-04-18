@@ -10,7 +10,6 @@ const multicallConfig = config({
     }
   }
 })
-
 export {
   ChainId,
   multicallClient,

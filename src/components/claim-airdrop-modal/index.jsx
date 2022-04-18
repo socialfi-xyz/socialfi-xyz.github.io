@@ -60,7 +60,7 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
       tokenContract.nonceOf(account)
     ]).then(data => data[0])
     console.log('signData', signData)
-    contract.methods.airClaim(signData.referrer, tokenNonce, signData.twitters, [signData.signatureList[0]]).send({
+    contract.methods.airClaim(signData.referrer, tokenNonce, signData.twitters, signData.signatureList).send({
       from: account,
       value: buyValue
     }).on('transactionHash', hash => {
