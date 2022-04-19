@@ -199,11 +199,11 @@ export default function Airdrop(){
                     <div className="tip-info">Tweeting @ other users can increase your influence score</div>
                     <div className="btn-group">
                     <span className="share-btn">
-                    <Share url={getHref(userData.username, userData.calcNonce)}
-                           options={{size: "large", text: `${shareData}`}}/>
-                      {/*hashtags: HASHTAG,*/}
-                    </span>
-                      <Button onClick={clickClaim} className="btn-primary" loading={analyzeLoading}>Claim</Button>
+                      <Share url={getHref(userData.username, userData.calcNonce)}
+                             options={{size: "large", text: `${shareData}`}}/>
+                        {/*hashtags: HASHTAG,*/}
+                      </span>
+                      <Button onClick={clickClaim} className={"btn-primary " + (analyzeLoading ? 'loading' : '')} loading={analyzeLoading}>Claim</Button>
                     </div>
                   </div>
                 </div>

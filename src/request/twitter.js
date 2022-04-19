@@ -77,6 +77,7 @@ export function getUser(taskId, nonce, signNode) {
           if (data.sign) {
             data.sign.effect = fromWei(data.sign.effect, 18).toFixed(1) * 1
             data.availableClaim = `${data.sign.effect}($${((data.sign.effect) * data2.price2).toFixed(2)})`
+            console.log('availableClaim', data)
           }
           console.log(data)
           resolve(data)

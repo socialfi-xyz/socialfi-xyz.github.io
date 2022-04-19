@@ -35,7 +35,7 @@ export default function BaseInfo({userData, atClaim}){
       val: userData.Influence || 0
     }
   ]
-
+  console.log('userDataxxxx', userData)
   return (
     <div className="user-base-info-view">
       <div className="twitter-base-data">
@@ -59,7 +59,7 @@ export default function BaseInfo({userData, atClaim}){
             atClaim && (
               <>
                 <div>Available to claim</div>
-                <div>{toFormat(userData.availableClaim || 0)}</div>
+                <div>{userData.availableClaim || 0}</div>
               </>
             )
           }
