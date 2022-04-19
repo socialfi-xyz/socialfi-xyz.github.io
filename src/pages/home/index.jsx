@@ -11,6 +11,7 @@ import Github from '../../assets/images/links/github.svg'
 import Gitbook from '../../assets/images/links/gitbook.svg'
 import {NavLink} from "react-router-dom";
 import {getQueryString} from "../../utils";
+import Web3 from "web3";
 
 const links = [
   {
@@ -51,6 +52,7 @@ const links = [
 export default function Home() {
   useMemo(()=>{
     const referrer = getQueryString('referrer')
+    console.log('referrer', referrer)
     if (referrer){
       sessionStorage.setItem('referrer', referrer)
     }

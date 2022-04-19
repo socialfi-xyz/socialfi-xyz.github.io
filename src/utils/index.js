@@ -1,3 +1,8 @@
+import Web3 from "web3";
+
+export function checkHexToUtf8(hex){
+  return hex && Web3.utils.isHex(hex) ? Web3.utils.hexToUtf8(hex) : undefined
+}
 
 export function getQueryString(keyWords) {
   let href = window.location.href;
@@ -5,8 +10,9 @@ export function getQueryString(keyWords) {
   let vars = query.split("&");
   for (let i = 0; i < vars.length; i++) {
     let pair = vars[i].split("=");
-    if (pair[0] === keyWords) {
-      return pair[1];
+    if (pair[0] === keyWords && pair[1]) {
+      let p = pair[1].split("#")
+      return p[0];
     }
   }
   return undefined
@@ -25,10 +31,9 @@ export function calcQuota(users){
     return count
   }, 0)
 }
-
-export const getHref = (twitterId, calcNonce) => {
+export const getHref = (username, calcNonce) => {
   const href = 'https://socialfi.xyz' //window.location.href
-  const params = '?referrer=' + twitterId + '&nonce=' + calcNonce
+  const params = '?referrer=' + Web3.utils.stringToHex(username) + '&nonce=' + calcNonce
   if (href[href.length - 1] === '/'){
     return href + params
   }

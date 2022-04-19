@@ -1,7 +1,7 @@
 import React, {useContext, useMemo, useRef, useState} from 'react'
 import './index.less'
 import Layout from "../../components/layout";
-import {calcDays, calcQuota, getQueryString} from "../../utils";
+import {calcDays, calcQuota, checkHexToUtf8, getQueryString} from "../../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
 import {SFI} from "../../web3/address";
 import {formatAmount, fromWei, toFormat} from "../../utils/format";
@@ -54,8 +54,10 @@ function My({updateCount}) {
 
   const getData = async () => {
     setLoadLoading(true)
-    const referrer_ = sessionStorage.getItem('referrer')
-    const referrer = getQueryString('referrer') || referrer_
+    // let referrer_ = checkHexToUtf8(sessionStorage.getItem('referrer'))
+    // let tReferrer_ = checkHexToUtf8(getQueryString('referrer'))
+
+    const referrer = undefined//tReferrer_ || referrer_
     const serverInfo = await getUserByAddress(account, referrer)
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)

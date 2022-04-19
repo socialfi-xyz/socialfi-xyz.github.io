@@ -7,7 +7,7 @@ import {ConnectWall} from "../../components/connect-wallet";
 import { SyncOutlined } from "@ant-design/icons";
 import {Share} from 'react-twitter-widgets'
 import {getUserInfo} from "../../request/twitter";
-import { getHref, getQueryString} from "../../utils";
+import {checkHexToUtf8, getHref, getQueryString} from "../../utils";
 import {useHistory} from "react-router-dom";
 import {HASHTAG, TASK_TYPE_CLAIM, TASK_TYPE_LOOKUP} from "../../request/index";
 import ClaimAirdropModal from "../../components/claim-airdrop-modal";
@@ -37,8 +37,10 @@ export default function Airdrop(){
       return
     }
     setAnalyzeLoading(true)
-    const referrer_ = sessionStorage.getItem('referrer')
-    const referrer = getQueryString('referrer') || referrer_
+    let referrer_ = checkHexToUtf8(sessionStorage.getItem('referrer'))
+    let tReferrer_ = checkHexToUtf8(getQueryString('referrer'))
+
+    const referrer = tReferrer_ || referrer_
     const params = {
       username: userName,
       account,
@@ -197,7 +199,7 @@ export default function Airdrop(){
                     <div className="tip-info">Tweeting @ other users can increase your influence score</div>
                     <div className="btn-group">
                     <span className="share-btn">
-                    <Share url={getHref(userData.twitterId, userData.calcNonce)}
+                    <Share url={getHref(userData.username, userData.calcNonce)}
                            options={{size: "large", text: `${shareData}`}}/>
                       {/*hashtags: HASHTAG,*/}
                     </span>
