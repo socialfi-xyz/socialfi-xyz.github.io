@@ -114,22 +114,24 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
               <div className="claim-data">
                 <div>Influence: {toFormat(userData.Influence)}</div>
                 <div>Additional influence score: {userData.mentionsAmount}</div>
-                <div>Available to Claim: {userData.availableClaim}</div>
+                <div>Available to claim: {userData.availableClaim}</div>
               </div>
               <div className="buy-view">
-                <p className="p-t">Available quota: {userData.quotaOf}</p>
-                <div>
-                  <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy SFI</span></Checkbox>
-                  <div className="input-eth">
-                    <Input type="number" value={ethValve} onInput={changeETHValue}
-                           onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
-                    <div className="input-menu">
-                      {/*<span>ETH</span>*/}
-                      <Button size="small" onClick={onMax}>MAX</Button>
+                {
+                  false && <div>
+                    <p className="p-t">Available quota: {userData.quotaOf}</p>
+                    <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy SFI</span></Checkbox>
+                    <div className="input-eth">
+                      <Input type="number" value={ethValve} onInput={changeETHValue}
+                             onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
+                      <div className="input-menu">
+                        {/*<span>ETH</span>*/}
+                        <Button size="small" onClick={onMax}>MAX</Button>
+                      </div>
                     </div>
+                    <p className="p-b">Currently balance： {ethBalance} ETH</p>
                   </div>
-                </div>
-                <p className="p-b">Currently balance： {ethBalance} ETH</p>
+                }
               </div>
               <div className="btn-submit">
                 <Button type="primary" onClick={onClaim} style={{width: '100%'}} loading={claimLoading}>

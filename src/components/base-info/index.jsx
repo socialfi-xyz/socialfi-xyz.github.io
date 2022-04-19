@@ -58,7 +58,7 @@ export default function BaseInfo({userData, atClaim}){
           {
             atClaim && (
               <>
-                <div>Available to Claim</div>
+                <div>Available to claim</div>
                 <div>{toFormat(userData.availableClaim || 0)}</div>
               </>
             )

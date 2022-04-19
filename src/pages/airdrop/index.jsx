@@ -29,7 +29,7 @@ export default function Airdrop(){
   const [userName, setUserName] = useState('')
   const [analyzeLoading, setAnalyzeLoading] = useState(false)
   const [userData, setUserData] = useState(null)
-  const [shareData, setShareData] = useState('SocialFiAirdrop')
+  const [shareData, setShareData] = useState('#' + HASHTAG)
   const [params, setParams] = useState(null)
 
   const location = useLocation()
@@ -173,7 +173,7 @@ export default function Airdrop(){
               step === 1 && (
                 <div className="analyze-view">
                   <div className="analyze-twitter-input">
-                    <Input placeholder="Twitter Username or Link (e.g. https://twitter.com/elonmusk" value={userName} onInput={(e) => setUserName(e.target.value)}/>
+                    <Input placeholder="Twitter Username or Link (e.g. https://twitter.com/elonmusk)" value={userName} onInput={(e) => setUserName(e.target.value)}/>
                     <Button type="primary" className="btn-primary" onClick={()=>onAnalyze(TASK_TYPE_LOOKUP)}>Analyze</Button>
                   </div>
                   <div className="loading-view">
@@ -198,7 +198,8 @@ export default function Airdrop(){
                     <div className="btn-group">
                     <span className="share-btn">
                     <Share url={getHref(userData.twitterId, userData.calcNonce)}
-                           options={{size: "large", hashtags: HASHTAG, text: `${shareData}`}}/>
+                           options={{size: "large", text: `${shareData}`}}/>
+                      {/*hashtags: HASHTAG,*/}
                     </span>
                       <Button onClick={clickClaim} className="btn-primary" loading={analyzeLoading}>Claim</Button>
                     </div>

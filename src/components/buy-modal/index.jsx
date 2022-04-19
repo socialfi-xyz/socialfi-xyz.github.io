@@ -339,7 +339,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
               {buyOut} SFI
             </div>
             <div className="btn-submit">
-              <p className="tip-p">You can accelerate the vesting schedule by bonding</p>
+              <p className="tip-p">You can accelerate the vesting period by contributing</p>
               {
                 !buyTokenData.isApprove && (
                   <Button type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</Button>
@@ -354,7 +354,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
               {
                 ((!buyTokenData.isPermitSign && permitSignData) || buyTokenData.isPermitSign) && buyTokenData.isApprove && (
                   <Button type="primary" onClick={onBuyMore} loading={loading} style={{width: '100%'}}>
-                    {buyMoreSign ? 'Bond More' : 'Bond'}
+                    {buyMoreSign ? 'Contribute More' : 'Contribute'}
                   </Button>
                 )
               }

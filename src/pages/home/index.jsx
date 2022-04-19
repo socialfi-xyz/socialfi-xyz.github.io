@@ -8,6 +8,7 @@ import Medium from '../../assets/images/links/medium.svg'
 import Discord from '../../assets/images/links/discord.svg'
 import Telegram from '../../assets/images/links/telegram.svg'
 import Github from '../../assets/images/links/github.svg'
+import Gitbook from '../../assets/images/links/gitbook.svg'
 import {NavLink} from "react-router-dom";
 
 const links = [
@@ -32,10 +33,17 @@ const links = [
   //   link: ''
   // },
   {
+    name: 'Gitbook',
+    icon: Gitbook,
+    link: 'https://socialfixyz.gitbook.io/socialfi/'
+  },
+  {
     name: 'Github',
     icon: Github,
     link: 'https://github.com/socialfi-xyz/socialfi-xyz.github.io'
   },
+
+
 
 ]
 
@@ -45,6 +53,7 @@ export default function Home() {
       <div className="home-header">
         <div className="home-header-c">
           <div className="home-logo">
+            <img src={LOGO} alt=""/>
             SocialFi
           </div>
         </div>

@@ -88,12 +88,12 @@ export function AddQuotaModal({visible, onClose, userData, getMoreTwitters}) {
         {
             <div className="add-quota-dialog">
               <Steps direction="vertical" size="small" current={current}>
-                <Step title="Send a tweet, @ More users" description={
+                <Step title="Send a tweet to @ more users" description={
                   <div className="share-btn">
                   <Share className="share" url={getHref(userData.twitterId, userData.calcNonce)}
                          options={{size: "large", hashtags: HASHTAG, text: `${shareData}`}} />
                   </div>} />
-                <Step title="This is a description." description={<Button onClick={()=>queryQuota()} loading={loading} className="btn-primary">Get quota and use</Button>} />
+                <Step title="Receive quota" description={<Button onClick={()=>queryQuota()} loading={loading} className="btn-primary">Get quota and use</Button>} />
               </Steps>
             </div>
         }

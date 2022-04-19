@@ -139,7 +139,9 @@ function My({updateCount}) {
               <div className="u-info-data">
                   <div>Total Balance</div>
                   <div>{toFormat(userData.balanceOf, '-')}(${userData.balanceOfValue})</div>
-                  <div><Button onClick={() => setShowByModal(true)}>Contribute</Button></div>
+                  <div>
+                    {/*<Button onClick={() => setShowByModal(true)}>Contribute</Button>*/}
+                  </div>
 
                   <div>Locked Balance</div>
                   <div>{toFormat(userData.lockedOf, '-')}</div>
@@ -151,11 +153,15 @@ function My({updateCount}) {
 
                   <div>Vesting Period</div>
                   <div>{unlockRemainingTime}</div>
-                  <div><Button onClick={() => setShowByModal(true)}>Speed Up</Button></div>
+                  <div>
+                    {/*<Button onClick={() => setShowByModal(true)}>Speed Up</Button>*/}
+                  </div>
 
                   <div>Purchase Quota</div>
                   <div>{toFormat(userData.quotaOf, '-')}</div>
-                  <div><Button onClick={onGetMore}>Get more quota</Button></div>
+                  <div>
+                    {/*<Button onClick={onGetMore}>Get more quota</Button>*/}
+                  </div>
                   {/*calcRebaseProfit*/}
 
                   <div>Next Rebase Reward</div>
