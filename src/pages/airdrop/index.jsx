@@ -8,7 +8,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import {Share} from 'react-twitter-widgets'
 import {getUserInfo} from "../../request/twitter";
 import { getHref, getQueryString} from "../../utils";
-import {useHistory, useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {HASHTAG, TASK_TYPE_CLAIM, TASK_TYPE_LOOKUP} from "../../request/index";
 import ClaimAirdropModal from "../../components/claim-airdrop-modal";
 import BaseInfo from "../../components/base-info";
@@ -32,13 +32,13 @@ export default function Airdrop(){
   const [shareData, setShareData] = useState('#' + HASHTAG)
   const [params, setParams] = useState(null)
 
-  const location = useLocation()
   const onAnalyze = (type, again) => {
     if (!userName || analyzeLoading){
       return
     }
     setAnalyzeLoading(true)
-    const referrer = getQueryString(location.search, 'referrer')
+    const referrer_ = sessionStorage.getItem('referrer')
+    const referrer = getQueryString('referrer') || referrer_
     const params = {
       username: userName,
       account,

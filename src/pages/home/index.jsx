@@ -10,6 +10,7 @@ import Telegram from '../../assets/images/links/telegram.svg'
 import Github from '../../assets/images/links/github.svg'
 import Gitbook from '../../assets/images/links/gitbook.svg'
 import {NavLink} from "react-router-dom";
+import {getQueryString} from "../../utils";
 
 const links = [
   {
@@ -48,6 +49,12 @@ const links = [
 ]
 
 export default function Home() {
+  useMemo(()=>{
+    const referrer = getQueryString('referrer')
+    if (referrer){
+      sessionStorage.setItem('referrer', referrer)
+    }
+  }, [])
   return (
     <div className="home-page">
       <div className="home-header">

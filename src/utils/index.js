@@ -1,9 +1,15 @@
 
-export function getQueryString(search, name) {
-  const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-  const r = search.substr(1).match(reg);
-  if (r != null) return decodeURI(r[2]);
-  return undefined;
+export function getQueryString(keyWords) {
+  let href = window.location.href;
+  let query = href.substring(href.indexOf("?") + 1);
+  let vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
+    if (pair[0] === keyWords) {
+      return pair[1];
+    }
+  }
+  return undefined
 }
 export function calcDays(dateStr){
   const userCreatedAt = ~~(new Date(dateStr).getTime()/86400000)

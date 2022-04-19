@@ -6,7 +6,7 @@ import {ClientContract, multicallClient, multicallConfig} from "../../web3/multi
 import {SFI} from "../../web3/address";
 import {formatAmount, fromWei, toFormat} from "../../utils/format";
 import {getNonce, getUserByAddress, getUserInfo} from "../../request/twitter";
-import {useHistory, useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import BaseInfo from "../../components/base-info";
 import {useActiveWeb3React} from "../../web3";
 import {Button, Spin} from "antd";
@@ -26,7 +26,6 @@ function My({updateCount}) {
   const {accountAirClaimed} = useContext(VarContext)
   const history = useHistory()
   const { account} = useActiveWeb3React()
-  const location = useLocation()
   const [userData, setUserData] = useState({})
   const [showByModal, setShowByModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
@@ -55,7 +54,8 @@ function My({updateCount}) {
 
   const getData = async () => {
     setLoadLoading(true)
-    const referrer = getQueryString(location.search, 'referrer')
+    const referrer_ = sessionStorage.getItem('referrer')
+    const referrer = getQueryString('referrer') || referrer_
     const serverInfo = await getUserByAddress(account, referrer)
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)
