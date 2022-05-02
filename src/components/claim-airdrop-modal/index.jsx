@@ -116,10 +116,10 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
                 <div>Additional influence score: {userData.mentionsAmount}</div>
                 <div>Available to claim: {userData.availableClaim}</div>
               </div>
-              <div className="buy-view">
-                {
-                  false && <div>
-                    <p className="p-t">Available quota: {userData.quotaOf}</p>
+              {
+                false && <div className="buy-view">
+                  <p className="p-t">Available quota: {userData.quotaOf}</p>
+                  <div>
                     <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy SFI</span></Checkbox>
                     <div className="input-eth">
                       <Input type="number" value={ethValve} onInput={changeETHValue}
@@ -129,10 +129,10 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
                         <Button size="small" onClick={onMax}>MAX</Button>
                       </div>
                     </div>
-                    <p className="p-b">Currently balance： {ethBalance} ETH</p>
                   </div>
-                }
-              </div>
+                  <p className="p-b">Currently balance： {ethBalance} ETH</p>
+                </div>
+              }
               <div className="btn-submit">
                 <Button type="primary" onClick={onClaim} style={{width: '100%'}} loading={claimLoading}>
                   {checkedBuy ? 'Claim & Buy' : 'Claim'}
