@@ -3,7 +3,7 @@ import {Modal, Checkbox, Button, Input, message} from 'antd'
 import {useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import './index.less'
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {getContract, getWeb3} from "../../web3";
+import {getContract, useActiveWeb3React} from "../../web3";
 import {SFI} from "../../web3/address";
 import {fromWei, numToWei, toFormat} from "../../utils/format";
 import Web3 from "web3";
@@ -15,7 +15,7 @@ import CloseIcon from "../../assets/images/svg/close.svg";
 import {getNodeSign} from "../../request/twitter";
 
 function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCount}) {
-  const {chainId, library, account} = useWeb3ReactCore()
+  const {chainId, library, account} = useActiveWeb3React()
   const [checkedBuy, setCheckedBuy] = useState(false)
   const [ethValve, setETHValve] = useState(null)
   const [ethBalance, setETHBalance] = useState(0)

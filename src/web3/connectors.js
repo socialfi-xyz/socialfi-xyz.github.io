@@ -1,5 +1,5 @@
 import {ChainId, multicallConfig} from './multicall'
-import {changeShowConnectWall, changeShowSwitchWallet} from '../redux/actions/index'
+import {changeShowConnectWall, changeShowSwitchWallet, changeWebWalletData} from '../redux/actions/index'
 import {
   InjectedConnector,
   NoEthereumProviderError,
@@ -98,6 +98,7 @@ export const useConnectWallet = () => {
   const {activate, deactivate, active} = useWeb3React()
   const connectWallet = useCallback((connector, chainId) => changeNetwork(chainId).then(() => activate(connector, undefined, true)
     .then(e => {
+      store.dispatch(changeWebWalletData({webWalletData: {}}))
       store.getState().index.showSwitchWallet && store.dispatch(changeShowSwitchWallet({showSwitchWallet: false}))
       store.getState().index.showConnectWallet && store.dispatch(changeShowConnectWall({showConnectWallet: false}))
       if (window.ethereum && window.ethereum.on) {
@@ -141,4 +142,12 @@ export const useConnectWallet = () => {
     })
   }, [])
   return connectWallet
+}
+
+export const useConnectWebWallet = () => {
+  const connectWebWallet = useCallback((data) => {
+    store.dispatch(changeWebWalletData({webWalletData: data}))
+  }, [])
+  return connectWebWallet
+
 }

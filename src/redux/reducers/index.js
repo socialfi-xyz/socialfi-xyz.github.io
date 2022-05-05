@@ -1,11 +1,12 @@
-import {LANGUAGE, SHOW_CONNECT_WALLET, SHOW_SWITCH_WALLET} from '../actions/index'
+import {LANGUAGE, SHOW_CONNECT_WALLET, SHOW_SWITCH_WALLET, WEB_WALLET_DATA} from '../actions/index'
 
 const language = window.localStorage.getItem('p_language') || 'en'
 
 const initState = {
   language: language,
   showSwitchWallet: false,
-  showConnectWallet: false
+  showConnectWallet: false,
+  webWalletData: {}
 }
 
 // reducer
@@ -26,6 +27,11 @@ export default function reducer(state = initState, action) {
       return {
         ...state,
         showConnectWallet: action.params.showConnectWallet,
+      }
+    case WEB_WALLET_DATA:
+      return {
+        ...state,
+        webWalletData: action.params.webWalletData,
       }
     default:
       return state
