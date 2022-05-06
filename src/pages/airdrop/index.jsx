@@ -13,16 +13,16 @@ import {HASHTAG, TASK_TYPE_CLAIM, TASK_TYPE_LOOKUP} from "../../request/index";
 import ClaimAirdropModal from "../../components/claim-airdrop-modal";
 import BaseInfo from "../../components/base-info";
 import {ERROR_MSG} from "../../request";
-import {VarContext} from "../../context";
 import cs from "classnames";
 import SuccessIcon from '../../assets/images/svg/success.svg'
+import {useSelector} from "react-redux";
 
 const { Step } = Steps;
 
 export default function Airdrop(){
   const {account} = useActiveWeb3React()
   const history = useHistory()
-  const {accountAirClaimed} = useContext(VarContext)
+  const {accountAirClaimed} = useSelector(state => state.index)
   const [step, setStep] = useState(0)
   const [showConnectWallet, setShowConnectWallet] = useState(false)
   const [showAirdropClaim, setShowAirdropClaim] = useState(false)

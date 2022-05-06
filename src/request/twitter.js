@@ -3,7 +3,7 @@ import {requestUrl, signNodes, VALID_SIGNATURE} from "./index";
 import {rsort} from "semver";
 import {calcDays, calcQuota} from "../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../web3/multicall";
-import {ADDRESS_0, SFI} from "../web3/address";
+import {ADDRESS_0, WOOF} from "../web3/address";
 import {fromWei} from "../utils/format";
 import Web3 from "web3";
 
@@ -38,7 +38,7 @@ export function getUser(taskId, nonce, signNode) {
             getUser_(taskId)
           }, 1000)
         } else {
-          const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+          const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
           const calls = [
             contract.price2(),
             contract.isAirClaimed(ADDRESS_0, Web3.utils.padLeft(Web3.utils.numberToHex(data.twitterId), 64))

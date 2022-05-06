@@ -3,7 +3,7 @@ import './index.less'
 import Layout from "../../components/layout";
 import {calcDays, calcQuota, checkHexToUtf8, getQueryString} from "../../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {SFI} from "../../web3/address";
+import {WOOF} from "../../web3/address";
 import {formatAmount, fromWei, toFormat} from "../../utils/format";
 import {getNonce, getUserByAddress, getUserInfo} from "../../request/twitter";
 import {useHistory} from "react-router-dom";
@@ -13,8 +13,7 @@ import {Button, Spin} from "antd";
 import BuyModal from "../../components/buy-modal";
 import Web3 from "web3";
 import {TransferModal} from "../../components/transfer-modal";
-import {connect} from 'react-redux'
-import {VarContext} from "../../context";
+import {connect, useSelector} from 'react-redux'
 import {TASK_TYPE_LOOKUP} from "../../request";
 import BigNumber from "bignumber.js";
 import moment from "moment";
@@ -23,7 +22,8 @@ import CloseIcon  from '../../assets/images/svg/close.svg'
 let timer = null
 function My({updateCount}) {
   const buyModalRef = useRef()
-  const {accountAirClaimed} = useContext(VarContext)
+  const {accountAirClaimed} = useSelector(state => state.index)
+
   const history = useHistory()
   const { account} = useActiveWeb3React()
   const [userData, setUserData] = useState({})
@@ -63,7 +63,7 @@ function My({updateCount}) {
     serverInfo.days = calcDays(serverInfo.userCreatedAt)
     serverInfo.calcNonce = calcNonce
     console.log('serverInfo', serverInfo)
-    const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+    const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const calls = [
       contract.isCmpdOf(account),
       contract.price1(),
@@ -142,7 +142,7 @@ function My({updateCount}) {
                   <div>Total Balance</div>
                   <div>{toFormat(userData.balanceOf, '-')}(${userData.balanceOfValue})</div>
                   <div>
-                    {/*<Button onClick={() => setShowByModal(true)}>Contribute</Button>*/}
+                    <Button onClick={() => setShowByModal(true)}>Contribute</Button>
                   </div>
 
                   <div>Locked Balance</div>
@@ -156,18 +156,18 @@ function My({updateCount}) {
                   <div>Vesting Period</div>
                   <div>{unlockRemainingTime}</div>
                   <div>
-                    {/*<Button onClick={() => setShowByModal(true)}>Speed Up</Button>*/}
+                    <Button onClick={() => setShowByModal(true)}>Speed Up</Button>
                   </div>
 
                   <div>Purchase Quota</div>
                   <div>{toFormat(userData.quotaOf, '-')}</div>
                   <div>
-                    {/*<Button onClick={onGetMore}>Get more quota</Button>*/}
+                    <Button onClick={onGetMore}>Get more quota</Button>
                   </div>
                   {/*calcRebaseProfit*/}
 
                   <div>Next Rebase Reward</div>
-                  <div> {toFormat(userData.calcRebaseProfit && userData.calcRebaseProfit.profit, '-')} SFI</div>
+                  <div> {toFormat(userData.calcRebaseProfit && userData.calcRebaseProfit.profit, '-')} WOOF</div>
                   <div></div>
                 </div>
             </div>

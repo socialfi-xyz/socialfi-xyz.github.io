@@ -4,6 +4,8 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import Web3 from 'web3'
 import {multicallConfig} from './multicall'
 import {ChainId, Token, WETH, Fetcher, Route } from "@uniswap/sdk";
+import store from "../redux/store";
+import _ from 'lodash'
 
 export const addToken = async (address, symbol, icon) =>{
   try {
@@ -37,9 +39,10 @@ export const getContract = (library, abi, address) => {
 export const getHttpWeb3 = chainId => new Web3(new Web3.providers.HttpProvider(multicallConfig.rpc[chainId].url))
 
 export const useActiveWeb3React = () => {
+  const { webWalletData } = store.getState().index
   const context = useWeb3ReactCore()
   const contextNetwork = useWeb3ReactCore()
-  return context.active ? context : contextNetwork
+  return !_.isEmpty(webWalletData) ? webWalletData : context.active ? context : contextNetwork
 }
 
 export function useBlockHeight() {
@@ -59,14 +62,9 @@ export function useBlockHeight() {
   return blockNumber
 }
 
-export async function getETHPrice() {
-  const USDC = new Token(
-    ChainId.MAINNET,
-    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    6
-  );
-  const pair = await Fetcher.fetchPairData(USDC, WETH[ChainId.MAINNET]);
-  const route = new Route([pair], WETH[ChainId.MAINNET]);
-  return route.midPrice.toSignificant(2)
-}
-
+export const web3Obj = {
+  web3: new Web3(),
+  setClvWeb3(provider) {
+    web3Obj.web3.setProvider(provider);
+  },
+};

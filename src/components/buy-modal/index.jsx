@@ -1,10 +1,9 @@
 import React, {forwardRef, useImperativeHandle, useMemo, useState} from 'react'
 import {Modal, Checkbox, Button, Input, message, Select} from 'antd'
-import {useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import './index.less'
 import {ChainId, ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {getContract} from "../../web3";
-import {ADDRESS_INFINITY, DAI, SFI, USDT, WETH} from "../../web3/address";
+import {getContract, useActiveWeb3React} from "../../web3";
+import {ADDRESS_INFINITY, DAI, WOOF, USDT, WETH} from "../../web3/address";
 import {formatAmount, fromWei, numToWei, toFormat} from "../../utils/format";
 import {AddQuotaModal} from "../add-quota-modal";
 import Web3 from "web3";
@@ -15,8 +14,11 @@ import DAI_ABI from '../../web3/abi/DAI.json'
 import CloseIcon from "../../assets/images/svg/close.svg";
 import ArrowDown from '../../assets/images/svg/arrow-down.svg'
 import ArrowDown2 from '../../assets/images/svg/arrow-down2.svg'
+import {permitSign} from "../../web3/sign";
+import {useDispatch, useSelector} from "react-redux";
+import {UPDATE_COUNT} from "../../redux";
 
-const supperByTokenList = [
+const supperbuyTokenList = [
   {
     symbol: 'ETH',
     decimal: 18,
@@ -45,54 +47,22 @@ const supperByTokenList = [
 ]
 
 function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
-  const {chainId, library, account} = useWeb3ReactCore()
+  const {chainId, library, account} = useActiveWeb3React()
   const [tokenValve, setTokenValve] = useState(null)
 
   const [buyOut, setBuyOut] = useState('0')
-  const [byTokenList, setByTokenList] = useState(supperByTokenList)
   const [buyMoreSign, setBuyMoreSign] = useState(null)
+  const {superBuyTokenList} = useSelector(state => state.index)
+  const dispatch = useDispatch()
 
   const [showAddQuota, setShowAddQuota] = useState(false)
-  const [byToken, setByToken] = useState(byTokenList[0].symbol)
+  const [buyToken, setBuyToken] = useState(superBuyTokenList[0].symbol)
   const [permitSignData, setPermitSignData] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const getBuyTokenData = () => (byTokenList.filter(item => item.symbol === byToken))[0]
+  const getBuyTokenData = () => (superBuyTokenList.filter(item => item.symbol === buyToken))[0]
   const buyTokenData = getBuyTokenData()
-  const getByTokenListData = async () => {
-    const byTokenList_ = cloneDeep(byTokenList)
-    const calls = []
-    for (let i = 1; i < byTokenList_.length; i++) {
-      const contract = new ClientContract(DAI_ABI, byTokenList_[i].address, ChainId.MAINNET)
-      calls.push(contract.balanceOf(account))
-      if (!byTokenList_[i].isApprove) {
-        calls.push(contract.allowance(account, SFI.address))
-      }
-    }
-    await Promise.all([
-      multicallClient.getEthBalance(account, ChainId.MAINNET),
-      multicallClient(calls)
-    ]).then(res => {
-      const res1 = res[1]
-      byTokenList_[0].balanceOf = fromWei(res[0], byTokenList_[0].decimal).toFixed(4) * 1
-      for (let i = 1, j = 0; i < byTokenList_.length; i++) {
-        byTokenList_[i].balanceOf = fromWei(res1[j] || 0, byTokenList_[i].decimal).toFixed(4)
-        j = j + 1
-        if (!byTokenList_[i].isApprove) {
-          byTokenList_[i].isApprove = res1[j] > 0
-          j = j + 1
-        }
-      }
-      setByTokenList(byTokenList_)
-      console.log(byTokenList_)
-    })
-  }
 
-  useMemo(() => {
-    if (account) {
-      getByTokenListData()
-    }
-  }, [account])
   useImperativeHandle(ref, () => ({
     setShowAddQuota
   }))
@@ -106,78 +76,18 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
     if (!tokenValve || tokenValve <= 0){
       return
     }
-
-    const web3 = new Web3(window.ethereum)
-    let nonce = 0
-    const tokenContract = new ClientContract(buyTokenData.abi, buyTokenData.address, ChainId.MAINNET)
-    nonce = await multicallClient([
-      tokenContract.nonces(account)
-    ]).then(data => data[0])
-    const contract = new ClientContract(SFI.abi, buyTokenData.address, ChainId.MAINNET)
-    const calls = [
-        contract.PERMIT_TYPEHASH(),
-        contract.DOMAIN_SEPARATOR(),
-    ]
-    const [PERMIT_TYPEHASH, DOMAIN_SEPARATOR] = await multicallClient(calls)
-    const deadline = 4070880000
-
-    // Permit(address holder,address spender,uint256 nonce,uint256 expiry,bool allowed)
-    let structHash;
-      if (buyTokenData.allowed){
-        structHash = web3.utils.keccak256(web3.eth.abi.encodeParameters(['bytes32', 'address', 'address', 'uint256', 'uint256', 'bool'], [
-          PERMIT_TYPEHASH,
-          account,
-          SFI.address,
-          nonce,
-          deadline,
-          buyTokenData.allowed]
-        ))
-      } else {
-        structHash = web3.utils.keccak256(
-          web3.eth.abi.encodeParameters(['bytes32', 'address', 'address', 'uint256', 'uint256', 'uint256'], [
-            PERMIT_TYPEHASH,
-            account,
-            SFI.address,
-            numToWei(tokenValve, buyTokenData.decimal),
-            nonce,
-            deadline
-          ])
-        )
-      }
-    const digest = web3.utils.soliditySha3(
-      {
-        type: 'string',
-        value: '\x19\x01'
-      },
-      {
-        type: 'bytes32',
-        value: DOMAIN_SEPARATOR
-      },
-      {
-        type: 'bytes32',
-        value: structHash
-      }
-    )
-    // const signature = web3.eth.si
-    console.log(digest)
-
-    const signature = await web3.eth.sign(digest, account);
-    console.log(signature)
-    const sv = fromRpcSig(signature)
-    sv.allowed = buyTokenData.allowed
-    sv.deadline = deadline
-    sv.s = web3.utils.bytesToHex(sv.s)
-    sv.r = web3.utils.bytesToHex(sv.r)
-    console.log(sv)
+    const sv = await permitSign(tokenValve, account, buyTokenData)
     setPermitSignData(sv)
   }
   const onApprove = () => {
     setLoading(true)
     const contract = getContract(library, ERC20Abi, buyTokenData.address)
-    contract.methods.approve(SFI.address, ADDRESS_INFINITY).send({
+    contract.methods.approve(WOOF.address, ADDRESS_INFINITY).send({
       from: account
     }).on('receipt', async (_, receipt) => {
-      await getByTokenListData()
+      dispatch({
+        type: UPDATE_COUNT
+      })
       setLoading(false)
     })
       .on('error', (err, receipt) => {
@@ -185,7 +95,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
       })
   }
   const onBuyMore = async () => {
-    const contract = getContract(library, SFI.abi, SFI.address)
+    const contract = getContract(library, WOOF.abi, WOOF.address)
 
     let buyValue = numToWei(Number(tokenValve).toFixed(buyTokenData.decimal), buyTokenData.decimal).toString()
     if (buyValue <=0 ){
@@ -199,7 +109,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
       r: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64),
       s: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64)
     }
-    const tokenContract = new ClientContract(SFI.abi, SFI.address)
+    const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
     let tokenNonce = 0
     if (!buyTokenData.isPermitSign){
       tokenNonce = await multicallClient([
@@ -220,7 +130,7 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
     console.log(PermitSign, buyTokenData.router, buyValue, ...buyMoreParams)
     contract.methods.donate(PermitSign, buyTokenData.router, buyValue, ...buyMoreParams).send({
       from: account,
-      value: buyTokenData.symbol === byTokenList[0].symbol ? buyValue : undefined
+      value: buyTokenData.symbol === superBuyTokenList[0].symbol ? buyValue : undefined
     })
       .on('transactionHash', hash => {
       })
@@ -241,9 +151,9 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
     // console.log(tokenValve, buyMoreSign)
     const tokenValue_ = numToWei(Number(tokenValve||0).toFixed(buyTokenData.decimal), buyTokenData.decimal)
     if (tokenValue_ > 0) {
-      const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+      const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
       const calls = [
-        contract.calcOut(account, buyMoreSign ? buyMoreSign.twitters : [], tokenValue_, buyTokenData.router)
+        contract.calcOut(tokenValue_, buyTokenData.router)
       ]
       multicallClient(calls).then(data => {
         setBuyOut(formatAmount(data[0], 18, 2))
@@ -265,10 +175,10 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
   useMemo(() => {
     setTokenValve(null)
     setPermitSignData(null)
-  }, [byToken])
+  }, [buyToken])
 
   const onMax = () => {
-    if (byToken === byTokenList[0].symbol) {
+    if (buyToken === superBuyTokenList[0].symbol) {
       setTokenValve(buyTokenData.balanceOf - 0.1)
     } else {
       setTokenValve(buyTokenData.balanceOf)
@@ -306,15 +216,15 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
                 {buyMoreSign && ` + (${toFormat(buyMoreSign.moreQuota)})`}
                 <span onClick={() => setShowAddQuota(true)} style={{marginRight: '10px'}}>Add quota</span>
               </p>
-              <div>
+              <div className="st-input">
                 <div className="token-select flex-center">
-                  <span>{byToken}</span>
+                  <span>{buyToken}</span>
                   <img src={ArrowDown2} alt=""/>
                   <div className="token-select-menu">
                     {
-                      byTokenList.map(item => (
+                      superBuyTokenList.map(item => (
                         <div key={item.symbol} onClick={() => {
-                          setByToken(item.symbol)
+                          setBuyToken(item.symbol)
                         }}>
                           {item.symbol}
                         </div>
@@ -323,20 +233,20 @@ function BuyModal({visible, onClose, userData, onRefreshData}, ref) {
                   </div>
                 </div>
                 <div className="input-eth">
-                  <Input type="number" value={tokenValve} onInput={changeTokenValve} placeholder={'0 ' + byToken}/>
+                  <Input type="number" value={tokenValve} onInput={changeTokenValve} placeholder={'0 ' + buyToken}/>
                   <div className="input-menu">
-                    <span>{byToken}</span>
+                    <span>{buyToken}</span>
                     <Button size="small" onClick={onMax}>MAX</Button>
                   </div>
                 </div>
               </div>
-              <p className="p-b">Currently balance： {buyTokenData.balanceOf} {byToken}</p>
+              <p className="p-b">Currently balance： {buyTokenData.balanceOf} {buyToken}</p>
             </div>
             <div className="arrow-d">
               <img src={ArrowDown} alt=""/>
             </div>
             <div className="calc-eth-token">
-              {buyOut} SFI
+              {buyOut} WOOF
             </div>
             <div className="btn-submit">
               <p className="tip-p">You can accelerate the vesting period by contributing</p>

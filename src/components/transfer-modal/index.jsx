@@ -1,16 +1,15 @@
 import React, {useMemo, useState} from 'react'
 import {Modal, Checkbox, Button, Input, message} from 'antd'
-import {useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import './index.less'
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {getContract, getWeb3} from "../../web3";
-import {SFI} from "../../web3/address";
+import {getContract, getWeb3, useActiveWeb3React} from "../../web3";
+import {WOOF} from "../../web3/address";
 import {fromWei, numToWei, toFormat} from "../../utils/format";
 import CloseIcon from "../../assets/images/svg/close.svg";
 import Web3 from "web3";
 
 export function TransferModal({visible, onClose, userData, onRefreshData}) {
-  const {chainId, library, account} = useWeb3ReactCore()
+  const {chainId, library, account} = useActiveWeb3React()
   const [tokenValve, setTokenValve] = useState(null)
   const [toAddress, setToAddress] = useState(null)
 
@@ -26,7 +25,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
       return;
     }
     setTransferLoading(true)
-    const contract = getContract(library, SFI.abi, SFI.address)
+    const contract = getContract(library, WOOF.abi, WOOF.address)
 
     const tokenValve_ = numToWei(Number(tokenValve).toFixed(16), 18)
     contract.methods.transfer(toAddress, tokenValve_).send({
@@ -76,7 +75,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
                 <p className="p-t">Amount</p>
                 <div>
                   <div className="input-eth">
-                    <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)} placeholder="1 SFI"
+                    <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)} placeholder="1 WOOF"
                            onBlur={e => (e.target.value * 1) > userData.unlockedOf && onMax()}/>
                     <div className="input-menu">
                       {/*<span>TWTR</span>*/}
@@ -84,7 +83,7 @@ export function TransferModal({visible, onClose, userData, onRefreshData}) {
                     </div>
                   </div>
                 </div>
-                <p className="p-b">Available amount： {toFormat(userData.unlockedOf)} SFI</p>
+                <p className="p-b">Available amount： {toFormat(userData.unlockedOf)} WOOF</p>
               </div>
               <div className="btn-submit">
                 <Button type="primary" onClick={onTransfer} loading={transferLoading}>

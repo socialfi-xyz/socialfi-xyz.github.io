@@ -1,27 +1,27 @@
 import React, {useMemo, useState} from 'react'
 import {Modal, Checkbox, Button, Input, message} from 'antd'
-import {useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import './index.less'
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {getContract, getWeb3} from "../../web3";
-import {SFI} from "../../web3/address";
+import {getContract, getWeb3, useActiveWeb3React} from "../../web3";
+import {WOOF} from "../../web3/address";
 import {fromWei, numToWei, toFormat} from "../../utils/format";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import {useHistory} from 'react-router-dom'
-import {connect} from "react-redux";
-import {changeUpdateCount} from "../../redux/actions/web3";
+import {connect, useDispatch} from "react-redux";
 import CloseIcon from "../../assets/images/svg/close.svg";
 import {getNodeSign} from "../../request/twitter";
+import {UPDATE_COUNT} from "../../redux";
 
-function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCount}) {
-  const {chainId, library, account} = useWeb3ReactCore()
+function ClaimAirdropModal({visible, onClose, userData, params}) {
+  const {chainId, library, account} = useActiveWeb3React()
   const [checkedBuy, setCheckedBuy] = useState(false)
   const [ethValve, setETHValve] = useState(null)
   const [ethBalance, setETHBalance] = useState(0)
   const [claimLoading, setClaimLoading] = useState(false)
   const [quota, setQuota] = useState('-')
   const history = useHistory()
+  const dispath = useDispatch()
 
   const getETHBalance = () => {
     multicallClient.getEthBalance(account, multicallConfig.defaultChainId).then(data => {
@@ -30,7 +30,7 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
   }
 
   const getData = () => {
-    const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+    const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const calls = [
       contract.gets([Web3.utils.stringToHex('discount')])
     ]
@@ -51,11 +51,11 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
       buyValue = numToWei(new BigNumber(ethValve).toFixed(18), 18).toString()
     }
     setClaimLoading(true)
-    // const callContract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+    // const callContract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     // const nonceOf = await multicallClient([callContract.nonceOf(account)]).then(data => data[0])
-    const contract = getContract(library, SFI.abi, SFI.address)
+    const contract = getContract(library, WOOF.abi, WOOF.address)
     const signData = await getNodeSign(params)
-    const tokenContract = new ClientContract(SFI.abi, SFI.address)
+    const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
     const tokenNonce = await multicallClient([
       tokenContract.nonceOf(account)
     ]).then(data => data[0])
@@ -66,7 +66,9 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
     }).on('transactionHash', hash => {
     })
     .on('receipt', (_, receipt) => {
-      changeUpdateCount()
+      dispath({
+        type: UPDATE_COUNT
+      })
       message.success("success")
       setClaimLoading(false)
     })
@@ -120,7 +122,7 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
                 false && <div className="buy-view">
                   <p className="p-t">Available quota: {userData.quotaOf}</p>
                   <div>
-                    <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy SFI</span></Checkbox>
+                    <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy WOOF</span></Checkbox>
                     <div className="input-eth">
                       <Input type="number" value={ethValve} onInput={changeETHValue}
                              onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
@@ -146,8 +148,4 @@ function ClaimAirdropModal({visible, onClose, userData, params, changeUpdateCoun
   )
 }
 
-export default connect(
-  state => state.reduxWeb3, {
-    changeUpdateCount
-  }
-)(ClaimAirdropModal)
+export default ClaimAirdropModal

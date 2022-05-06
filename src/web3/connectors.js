@@ -1,14 +1,16 @@
 import {ChainId, multicallConfig} from './multicall'
-import {changeShowConnectWall, changeShowSwitchWallet} from '../redux/actions/index'
 import {
   InjectedConnector,
   NoEthereumProviderError,
   UserRejectedRequestError
 } from '@web3-react/injected-connector'
+
 import {UnsupportedChainIdError, useWeb3React} from '@web3-react/core'
 import {WalletConnectConnector} from '@web3-react/walletconnect-connector'
 import {useCallback, useMemo} from 'react'
 import store from '../redux/store'
+import {WEB_WALLET_DATA} from "../redux";
+import {useSelector} from "react-redux";
 
 export const SCAN_ADDRESS = {
   [ChainId.ETH]: 'https://etherscan.io',
@@ -98,8 +100,10 @@ export const useConnectWallet = () => {
   const {activate, deactivate, active} = useWeb3React()
   const connectWallet = useCallback((connector, chainId) => changeNetwork(chainId).then(() => activate(connector, undefined, true)
     .then(e => {
-      store.getState().index.showSwitchWallet && store.dispatch(changeShowSwitchWallet({showSwitchWallet: false}))
-      store.getState().index.showConnectWallet && store.dispatch(changeShowConnectWall({showConnectWallet: false}))
+      store.dispatch({
+        type: WEB_WALLET_DATA,
+        data: {}
+      })
       if (window.ethereum && window.ethereum.on) {
         window.ethereum.on('accountsChanged', accounts => {
           if (accounts.length === 0) {
@@ -122,12 +126,10 @@ export const useConnectWallet = () => {
     .catch(error => {
       switch (true) {
         case error instanceof UnsupportedChainIdError:
-          store.dispatch(changeShowSwitchWallet({showSwitchWallet: true}))
           break
         case error instanceof NoEthereumProviderError:
           break
         case error instanceof UserRejectedRequestError:
-          store.dispatch(changeShowConnectWall({showConnectWallet: true}))
           break
         default:
           console.log(error)
@@ -142,3 +144,15 @@ export const useConnectWallet = () => {
   }, [])
   return connectWallet
 }
+
+export const useConnectWebWallet = () => {
+  const connectWebWallet = useCallback((data) => {
+    store.dispatch({
+      type: WEB_WALLET_DATA,
+      data
+    })
+  }, [])
+  return connectWebWallet
+}
+
+

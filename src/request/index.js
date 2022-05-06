@@ -13,7 +13,7 @@ export const signNodes = [
 ]
 export const VALID_SIGNATURE = 3
 
-export const HASHTAG = 'SocialFiAirdrop'
+export const HASHTAG = 'WooferAirdrop'
 // type
 export const TASK_TYPE_LOOKUP = 0 // default
 export const TASK_TYPE_CLAIM = 1 // claim
