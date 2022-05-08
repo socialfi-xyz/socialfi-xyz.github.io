@@ -17,7 +17,6 @@ import {useSelector} from "react-redux";
 import {tweetIntent} from "../../utils/tweet";
 import {AirdropPage} from "./style";
 
-
 export default function Airdrop(){
   const {account} = useActiveWeb3React()
   const history = useHistory()
