@@ -5,6 +5,7 @@ import useClaimed from "./hooks/useClaimed";
 import useBuyTokenList from "./hooks/useBuyTokenList";
 import useBalanceOf from "./hooks/useBalanceOf";
 import useEthPrice from "./hooks/useEthPrice";
+import useTwitterUserInfo from "./hooks/useTwitterUserInfo";
 
 function App() {
   useUpdate()
@@ -12,6 +13,7 @@ function App() {
   useBuyTokenList()
   useBalanceOf()
   useEthPrice()
+  useTwitterUserInfo()
   return (
     <Routers />
   )

@@ -1,56 +1,67 @@
-.layout-view{
+import styled from "styled-components";
+
+export const LayoutView = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: #28293D;
-  .layout-menu{
+  background: ${({ theme }) => theme.bg1};
+
+  .layout-menu {
     display: flex;
     width: 305px;
     min-width: 305px;
     //padding-bottom: 30px;
     box-shadow: 1px 0px 15px rgba(25, 3, 69, 0.1);
     height: 100vh;
-    background: #2D2F45;
-    .layout-menu-view{
+    background: ${({ theme }) => theme.bg1};
+
+    .layout-menu-view {
       flex: 1;
       //border-radius: 10px;
       padding: 0 30px;
-      .layout-logo{
+
+      .layout-logo {
         display: flex;
         align-items: center;
         flex-direction: column;
         padding: 40px 0;
-        img{
+
+        img {
           width: 80px;
           height: 80px;
         }
-        span{
+
+        span {
           margin-top: 8px;
           font-style: normal;
           font-weight: 700;
           font-size: 32px;
           line-height: 44px;
           /* identical to box height */
-          color: #FFFFFF;
+          color: ${({ theme }) => theme.text1};
         }
       }
-      .menu-item{
+
+      .menu-item {
         height: 54px;
         display: flex;
         align-items: center;
         border-radius: 8px;
-        color: #AEB9BE;
+        color: ${({ theme }) => theme.text2};
         font-style: normal;
         font-weight: bold;
         font-size: 15px;
         line-height: 18px;
         letter-spacing: -0.01em;
         padding-left: 56px;
-        &.active{
+        margin-bottom: 20px;
+
+        &.active {
           background: #1D9BF0;
           color: #ffffff;
         }
-        img{
+
+        img {
           width: 20px;
           height: 20px;
           margin-right: 16px;
@@ -58,30 +69,36 @@
       }
     }
   }
-  .layout-main{
+
+  .layout-main {
     flex: 1;
     display: flex;
     flex-direction: column;
     //padding: 0 30px 0 30px;
     overflow: hidden;
-    .header-router-h5{
+
+    .header-router-h5 {
       display: none;
     }
-    .header{
+
+    .header {
       width: 100%;
       display: flex;
       height: 105px;
       padding: 20px 40px;
       align-items: center;
-      .header-l{
-        .layout-logo-h5{
+
+      .header-l {
+        .layout-logo-h5 {
           display: none;
           align-items: center;
-          img{
+
+          img {
             width: 45px;
             height: 45px;
           }
-          span{
+
+          span {
             color: #FFFFFF;
             font-size: 18px;
             margin-left: 10px;
@@ -89,17 +106,20 @@
           }
         }
       }
-      .header-center{
+
+      .header-center {
         flex: 1;
       }
-      .header-r{
+
+      .header-r {
         display: flex;
-        .header-connect-wallet{
+
+        .header-connect-wallet {
           width: 196px;
           height: 41px;
           left: 1212px;
           top: 32px;
-          background: #1D9BF0;
+          background: ${({ theme }) => theme.primary1};
           border-radius: 8px;
           font-style: normal;
           font-weight: 600;
@@ -109,44 +129,59 @@
           color: #FFFFFF;
           cursor: pointer;
         }
-        .header-lan-btn{
+        .theme-switch{
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          background: ${({ theme }) => theme.primary1};
+          margin-left: 16px;
+          cursor: pointer;
+        }
+
+        .header-lan-btn {
           width: 66px;
           height: 34px;
           background: #FFFFFF;
           border-radius: 17px;
           margin-left: 20px;
-          img{
+
+          img {
             width: 30px;
             height: 16px;
           }
         }
       }
     }
-    .layout-content{
+
+    .layout-content {
       flex: 1;
       display: flex;
       overflow-y: auto;
-      .layout-content-page{
+
+      .layout-content-page {
         flex: 1;
         padding: 0 20px 30px 40px;
         overflow-y: auto;
       }
     }
   }
-}
-@media (max-width: 1000px) {
-  .layout-view{
-    .layout-menu{
+
+  @media (max-width: 1000px) {
+
+    .layout-menu {
       width: 180px;
       min-width: 180px;
-      display: none!important;
-      .layout-menu-view{
+      display: none !important;
+
+      .layout-menu-view {
         padding: 20px;
-        .menu-item{
+
+        .menu-item {
           height: 45px;
           font-size: 14px;
           padding-left: 10px;
-          img{
+
+          img {
             width: 18px;
             height: 18px;
             margin-right: 10px;
@@ -154,29 +189,35 @@
         }
       }
     }
-    .layout-main{
+
+    .layout-main {
       //padding: 0 10px 0 10px;
-      .header{
+      .header {
         height: 80px;
         padding: 10px 20px;
+
         .header-l {
-          .header-router-pc{
+          .header-router-pc {
             display: none;
           }
-          .layout-logo-h5{
+
+          .layout-logo-h5 {
             display: flex;
-            img{
+
+            img {
               width: 45px;
               height: 45px;
             }
           }
         }
       }
+
       .header-router-h5 {
         display: flex;
         align-items: center;
         padding-bottom: 10px;
-        .menu-item{
+
+        .menu-item {
           min-width: 105px;
           padding: 0 10px;
           background: #373951;
@@ -187,47 +228,52 @@
           color: #ffffff;
           font-style: normal;
           font-weight: bold;
-          &.active{
+
+          &.active {
             background: #EDF4FF;
             color: #1D9BF0;
           }
         }
       }
-      .layout-content{
-        .layout-content-page{
+
+      .layout-content {
+        .layout-content-page {
           padding: 0 10px 30px 10px;
         }
       }
     }
+
   }
-}
-@media (max-width: 750px) {
-  .layout-view{
+  @media (max-width: 750px) {
+
     .layout-menu {
-      display: none!important;
+      display: none !important;
     }
+
     .layout-main {
       padding: 0 10px 0 10px;
+
       .header {
         padding: 20px;
+
         .header-r {
           .header-connect-wallet {
             white-space: nowrap;
-            width: 115px!important;
-            height: 36px!important;
-            font-size: 14px!important;
+            width: 115px !important;
+            height: 36px !important;
+            font-size: 14px !important;
           }
         }
       }
     }
   }
-}
-@media (max-width: 450px) {
-  .layout-view {
+  @media (max-width: 450px) {
     .layout-main {
       padding: 0;
+
       .header {
         padding: 10px;
+
         .header-l {
           .header-router {
             .menu-item {
@@ -240,4 +286,6 @@
       }
     }
   }
-}
+
+
+`

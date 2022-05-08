@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import Web3 from "web3";
 
 BigNumber.config({ EXPONENTIAL_AT: [-20, 40] })
 
@@ -61,28 +62,11 @@ export const toFormat = (value, r = '0') => {
   return new BigNumber(value).toFormat()
 }
 
-export const splitFormat = (num, fractionDigits) => {
-  if (!fractionDigits) fractionDigits = 0
-  if (isNaN(num)) return num
-  if (num) {
-    if (num === '0') {
-      return num
-    }
-    if (fractionDigits === 0) {
-      return parseInt(num)
-    }
-    if (num.toString().indexOf('.') > -1) {
-      let digit = num.toString().split('.')
-      if (digit[1].length > fractionDigits) {
-        let digitResult = digit[1].substring(0, fractionDigits)
-        return digit[0] + '.' + digitResult
-      } else {
-        return num
-      }
-    } else {
-      return num
-    }
-  } else {
-    return num
-  }
+
+export const numToHex = (num, characterAmount = 32) => {
+  return Web3.utils.padLeft(Web3.utils.numberToHex(num), characterAmount * 2)
 }
+export const stringToHex = (str, characterAmount = 32) => {
+  return Web3.utils.padLeft(Web3.utils.stringToHex(str), characterAmount * 2)
+}
+export const fromTwitterId = (id) => Web3.utils.hexToNumberString(id)

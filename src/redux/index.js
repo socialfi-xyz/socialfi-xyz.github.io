@@ -11,9 +11,11 @@ export const WOOF_BALANCE_OF = 'WOOF_BALANCE_OF'
 export const ETH_PRICE = 'ETH_PRICE'
 export const WOOF_PRICE = 'WOOF_PRICE'
 export const WEB_WALLET_DATA = 'WEB_WALLET_DATA'
+export const TWITTER_USER_INFO = 'TWITTER_USER_INFO'
+export const TWITTER_USER_INFO_RELY = 'TWITTER_USER_INFO_RELY'
 
 const language = window.localStorage.getItem('p_language') || 'en'
-const darkMode = localStorage.getItem('isDarkMode') === '1'
+const darkMode = !(localStorage.getItem('isDarkMode') === '0')
 const initState = {
   language,
   showConnectWallet: false,
@@ -25,7 +27,9 @@ const initState = {
   superBuyTokenList: DEF_SUPPER_BY_TOKEN_LIST,
   woofBalanceOf: 0,
   ethPrice: 0,
-  woofPrice: 0
+  woofPrice: 0,
+  twitterUserInfo: {},
+  twitterUserInfoRely: 0
 }
 export default function reducer(state = initState, action) {
   switch (action.type) {
@@ -79,6 +83,16 @@ export default function reducer(state = initState, action) {
       return {
         ...state,
         webWalletData: action.data
+      }
+    case TWITTER_USER_INFO:
+      return {
+        ...state,
+        twitterUserInfo: action.data
+      }
+    case TWITTER_USER_INFO_RELY:
+      return {
+        ...state,
+        twitterUserInfoRely: state.twitterUserInfoRely + 1
       }
 
     default:

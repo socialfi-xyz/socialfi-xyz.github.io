@@ -4,7 +4,7 @@ import './index.less'
 import CloseIcon from "../../assets/images/svg/close.svg";
 import ReWoof from "../re-woof";
 
-export function WoofModal({onClose, woofType}) {
+export function WoofModal({onClose, woofType, coWoofItem}) {
 
   return (
     <Modal
@@ -22,7 +22,7 @@ export function WoofModal({onClose, woofType}) {
     >
       <div className="woof-modal-wrap-box custom-scroll">
         {
-          woofType && <ReWoof woofType={woofType}/>
+          woofType && <ReWoof woofType={woofType} coWoofItem={coWoofItem}/>
         }
       </div>
     </Modal>

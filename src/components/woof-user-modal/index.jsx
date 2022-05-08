@@ -22,10 +22,10 @@ export function WoofUserModal({visible, onClose, list, title}) {
         {
           list.map((item, index) => (
             <div className="woof-user-modal-item" key={index}>
-              <img src={item.avatar} alt=""/>
+              <img src={item.accountTwitterData.avatar} alt=""/>
               <div>
-                <h2>{item.name}</h2>
-                <p>@{item.username}</p>
+                <h2>{item.accountTwitterData.name}</h2>
+                <p>@{item.accountTwitterData.username}</p>
               </div>
             </div>
           ))

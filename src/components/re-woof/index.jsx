@@ -1,29 +1,50 @@
 import React, {useMemo, useState} from "react";
-import './index.less'
 import {Button, Input} from "antd";
 import ArrowDown2 from "../../assets/images/svg/arrow-down2.svg";
 import ArrowDown3 from "../../assets/images/svg/arrow-down3.svg";
 import cs from "classnames";
-import {useSelector} from "react-redux";
-import {formatAmount, fromWei, numToWei, toFormat} from "../../utils/format";
+import {useDispatch, useSelector} from "react-redux";
+import {formatAmount, fromWei, numToHex, numToWei, toFormat} from "../../utils/format";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {WOOF} from "../../web3/address";
+import {ADDRESS_INFINITY, WOOF} from "../../web3/address";
+import {ReWoofView} from "./style";
+import {STInput, CInput, CButton, StepRadius} from "../../theme/styleComponent";
+import {tweetIntent} from "../../utils/tweet";
+import {getHref} from "../../utils";
+import {HASHTAG, TASK_TYPE_QUOTA, TASK_TYPE_RE_WOOF} from "../../request";
+import {getContract, useActiveWeb3React} from "../../web3";
+import Web3 from "web3";
+import {permitSign} from "../../web3/sign";
+import ERC20Abi from "../../web3/abi/ERC20.json";
+import {UPDATE_COUNT} from "../../redux";
+import {getNonce, getUserInfo} from "../../request/twitter";
 
-function SInput({tokenValve, buyTokenData, selectToken, superBuyTokenList, setSelectToken, setTokenValve, onMax, woofType, outWoof}) {
+function SInput({
+                  tokenValve,
+                  buyTokenData,
+                  selectToken,
+                  superBuyTokenList,
+                  setSelectToken,
+                  setTokenValve,
+                  onMax,
+                  woofType,
+                  outWoof
+                }) {
 
   return (
     <>
       <div className="s-view">
         {
           (tokenValve < buyTokenData.woofMin) && (woofType === 'woof' || woofType === 'Co-woof') &&
-          <p className="input-error-t">Minimum required to woof: {buyTokenData.woofMin} {buyTokenData.symbol} {buyTokenData.woofMinOut}
+          <p className="input-error-t">Minimum required to
+            woof: {buyTokenData.woofMin} {buyTokenData.symbol} {buyTokenData.woofMinOut}
             WOOF</p>
         }
-        <div className="st-input">
-          <div className="token-select flex-center">
+        <STInput>
+          <div className="select-view flex-center">
             <span>{selectToken}</span>
             <img src={ArrowDown2} alt=""/>
-            <div className="token-select-menu">
+            <div className="select-view-menu">
               {
                 superBuyTokenList.map(item => (
                   <div key={item.symbol} onClick={() => {
@@ -35,15 +56,15 @@ function SInput({tokenValve, buyTokenData, selectToken, superBuyTokenList, setSe
               }
             </div>
           </div>
-          <div className="input-eth">
-            <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)}
-                   placeholder={'0 ' + selectToken}/>
-            <div className="input-menu">
+          <div className="st-input-box">
+            <CInput type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)}
+                    placeholder={'0 ' + selectToken}/>
+            <div className="st-input-menu">
               <span>{selectToken}</span>
-              <Button size="small" onClick={onMax}>MAX</Button>
+              <CButton size="small" onClick={onMax}>MAX</CButton>
             </div>
           </div>
-        </div>
+        </STInput>
       </div>
       <div className="input-ad">
         <p>{tokenValve > 0 && <>{tokenValve}{selectToken} = {toFormat(outWoof)} WOOF</>}</p>
@@ -55,35 +76,41 @@ function SInput({tokenValve, buyTokenData, selectToken, superBuyTokenList, setSe
 
 
 //woofType = Woof Rewoof Co-woof
-export default function ReWoof({woofType = 'Woof'}) {
+export default function ReWoof({woofType = 'Woof', coWoofItem}) {
+  console.log('coWoofItem', coWoofItem)
 
-  const [tweetLink, setTweetLink] = useState('')
-  const {superBuyTokenList, woofBalanceOf, ethPrice, woofPrice} = useSelector(state => state.index)
+  const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
+  const {superBuyTokenList, woofBalanceOf, ethPrice, woofPrice, twitterUserInfo} = useSelector(state => state.index)
+  const {account, library} = useActiveWeb3React()
+  const dispatch = useDispatch()
+
   const [selectToken, setSelectToken] = useState(superBuyTokenList[0].symbol)
   const [permitSignData, setPermitSignData] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [tokenValve, setTokenValve] = useState(null)
-  const [woofValve, setWoofValue] = useState(null)
+  const [tokenValve, setTokenValve] = useState('')
+  const [woofValve, setWoofValue] = useState(0)
   const [showMore, setShowMore] = useState(false)
   const buyTokenData = useMemo(() => (superBuyTokenList.filter(item => item.symbol === selectToken))[0],
     [superBuyTokenList, selectToken])
   const [outWoof, setOutWoof] = useState('0')
+  const [calcNonce, setCalcNonce] = useState('')
+
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
-      setTokenValve(buyTokenData.balanceOf - 0.1)
+      setTokenValve(Math.max(buyTokenData.balanceOf - 0.1, 0))
     } else {
       setTokenValve(buyTokenData.balanceOf)
     }
   }
   const calcOut = () => {
-    const tokenValue_ = numToWei(Number(tokenValve||0).toFixed(buyTokenData.decimal), buyTokenData.decimal)
+    const tokenValue_ = numToWei(Number(tokenValve || 0).toFixed(buyTokenData.decimal), buyTokenData.decimal)
     if (tokenValue_ > 0) {
       const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
       const calls = [
         contract.calcOut(tokenValue_, buyTokenData.router)
       ]
       multicallClient(calls).then(data => {
-        if (data[0] === undefined){
+        if (data[0] === undefined) {
           return
         }
         setOutWoof(fromWei(data[0], WOOF.decimals).toFixed(2))
@@ -92,14 +119,130 @@ export default function ReWoof({woofType = 'Woof'}) {
       setOutWoof('0')
     }
   }
+
+
   useMemo(() => {
     calcOut()
+    setPermitSignData(null)
   }, [selectToken, tokenValve])
+
+  useMemo(() => {
+    setTokenValve(null)
+    setPermitSignData(null)
+  }, [selectToken])
+
+  const onTweet = async () => {
+    if (account) {
+      const calcNonce_ = await getNonce(account)
+
+      setCalcNonce(calcNonce_)
+      console.log('calcNonce_', calcNonce_)
+      window.open(tweetIntent({
+        text: getHref(twitterUserInfo.username, calcNonce_),
+        url: tweetLink,
+        hashtags: HASHTAG
+      }))
+    }
+  }
+
+  const onPermitSign = async () => {
+    if (!tokenValve || tokenValve <= 0){
+      return
+    }
+    const sv = await permitSign(tokenValve, account, buyTokenData)
+    setPermitSignData(sv)
+  }
+  const onApprove = () => {
+    setLoading(true)
+    const contract = getContract(library, ERC20Abi, buyTokenData.address)
+    contract.methods.approve(WOOF.address, ADDRESS_INFINITY).send({
+      from: account
+    }).on('receipt', async (_, receipt) => {
+      dispatch({
+        type: UPDATE_COUNT
+      })
+      setLoading(false)
+    })
+      .on('error', (err, receipt) => {
+        setLoading(false)
+      })
+  }
+
+  const onReWoof = async () => {
+    if (!account) {
+      return
+    }
+    let PermitSign = {
+      deadline: 0,
+      allowed: buyTokenData.allowed,
+      v: 0,
+      r: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64),
+      s: Web3.utils.padLeft(Web3.utils.numberToHex(0), 64)
+    }
+    const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
+    let tokenNonce = 0
+    if (!buyTokenData.isPermitSign){
+      tokenNonce = await multicallClient([
+        tokenContract.nonces(account)
+      ]).then(data => data[0])
+      PermitSign = permitSignData
+      console.log('tokenNonce', tokenNonce)
+    }
+    const params = {
+      username: twitterUserInfo.username,
+      account,
+      type: TASK_TYPE_RE_WOOF,
+      calcNonce: calcNonce
+    }
+    console.log('calcNonce', calcNonce)
+    console.log('params', params)
+    const queryData = await getUserInfo(params)
+
+    console.log('queryData', queryData)
+
+
+    const contract = getContract(library, WOOF.abi, WOOF.address)
+    const value = numToWei(tokenValve, buyTokenData.decimal).toString()
+    const amount = numToWei(woofValve, WOOF.decimals)
+    const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.conversation_id : queryData.tweet.tweetId
+    const twitterId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.author_id : queryData.tweet.twitterId
+
+    if(woofType === 'Co-woof') {
+      contract.methods.cowoof(
+        numToHex(twitterUserInfo.twitterId, 32),
+        numToHex(twitterId_, 32),
+        numToHex(tweetId_, 32),
+        amount,
+        value,
+        PermitSign,
+        buyTokenData.router,
+        []
+      ).send({
+        from: account,
+        value: buyTokenData.symbol === superBuyTokenList[0].symbol ? value : undefined
+      })
+    } else if (woofType === 'Rewoof') {
+      contract.methods.rewoof(
+        numToHex(twitterUserInfo.twitterId, 32),
+        numToHex(tweetId_, 32),
+        amount,
+        value,
+        PermitSign,
+        buyTokenData.router,
+        []
+      ).send({
+        from: account,
+        value: buyTokenData.symbol === superBuyTokenList[0].symbol ? value : undefined
+      })
+    }
+
+    // bytes32 id, bytes32 twitterId, bytes32 tweetId, uint amount, uint value, PermitSign calldata ps, address[] calldata path, Signature[] calldata signatures
+  }
   return (
-    <div className="re-woof-view">
+    <ReWoofView>
       {
         woofType !== 'Rewoof' && <>
-          <Input
+          <CInput
             type="text"
             className="pro-input"
             value={tweetLink}
@@ -123,15 +266,15 @@ export default function ReWoof({woofType = 'Woof'}) {
             showMore && <>
               <div className="h-view">
                 <div className="s-view">
-                  <div className="st-input">
-                    <div className="input-eth">
-                      <Input type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
-                             placeholder="WOOF"/>
-                      <div className="input-menu">
-                        <Button size="small" onClick={() => setWoofValue(woofBalanceOf)}>MAX</Button>
+                  <STInput>
+                    <div className="st-input-box">
+                      <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
+                              placeholder="WOOF"/>
+                      <div className="st-input-menu">
+                        <CButton size="small" onClick={() => setWoofValue(woofBalanceOf)}>MAX</CButton>
                       </div>
                     </div>
-                  </div>
+                  </STInput>
                 </div>
               </div>
             </>
@@ -176,18 +319,34 @@ export default function ReWoof({woofType = 'Woof'}) {
 
       <div className="step-btn-box">
         <div className="flex-center">
-          <div className="step-radius">1</div>
-          <Button type="primary">Tweet</Button>
+          <StepRadius>1</StepRadius>
+          <CButton type="primary" onClick={onTweet}>Tweet</CButton>
         </div>
         <div className="flex-center">
-          <div className="step-radius disabled">2</div>
-          <Button type="primary" disabled>Woof</Button>
+          <StepRadius disabled>2</StepRadius>
+
+          {
+            !buyTokenData.isApprove && (
+              <CButton type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</CButton>
+            )
+          }
+          {
+            !buyTokenData.isPermitSign && !permitSignData && (
+            <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
+            )
+          }
+
+          <CButton type="primary" onClick={onReWoof} >Woof</CButton>
+
+
+
+
           <img src={ArrowDown3} className={cs({
             "arrow-down-3": true,
             'top-v': showMore
           })} alt="" onClick={() => setShowMore(!showMore)}/>
         </div>
       </div>
-    </div>
+    </ReWoofView>
   )
 }

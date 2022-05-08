@@ -38,6 +38,9 @@ export default function useEthPrice() {
 
   useMemo(() => {
     getPrice().then(data => {
+      if (data[0]===undefined){
+        return
+      }
       dispatch({
         type: ETH_PRICE,
         data: data.ethPrice

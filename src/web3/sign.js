@@ -3,7 +3,6 @@ import {ChainId, ClientContract, multicallClient} from "./multicall";
 import {WOOF} from "./address";
 import {numToWei} from "../utils/format";
 import {fromRpcSig} from "ethereumjs-util";
-
 export const permitSign = async (tokenValve, account, buyTokenData) => {
   const web3 = new Web3(window.ethereum)
   let nonce = 0

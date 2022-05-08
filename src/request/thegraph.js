@@ -2,6 +2,8 @@ import axios from 'axios'
 import {fromWei} from "../utils/format";
 import {getMStr} from "../utils";
 import BigNumber from "bignumber.js";
+import Web3 from "web3";
+import {getUserByAddress} from "./twitter";
 
 export function queryDashboardData(){
   return axios({
@@ -40,5 +42,78 @@ export function queryDashboardData(){
       hourDatas[i].backingPerToken = hourDatas[i].totalSupply <= 0 ? 0 : new BigNumber(hourDatas[i].treasuryValue).div(new BigNumber(hourDatas[i].totalSupply)).toFixed(6)*1
     }
     return hourDatas
+  })
+}
+
+export function getWoofData() {
+
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'post',
+      url: 'https://api.thegraph.com/subgraphs/name/yuanxxxxxx/woof',
+      data: {
+        query: `
+      {
+      woofs(first: 100) {
+        id
+        tweetId
+        reward
+        account
+        cowoofs {
+          id
+          account
+          tweetId
+          twitterId
+          reward
+        }
+        rewoofs{
+          id
+          account
+          tweetId
+          twitterId
+          amount
+        }
+      }
+    }`,
+      },
+    }).then(data => {
+      const woofs = data.data.data.woofs
+      const users = []
+      for (let i = 0; i < woofs.length; i++) {
+        woofs[i].tweetId = Web3.utils.hexToNumberString(woofs[i].tweetId)
+        users.push(woofs[i].account)
+        for (let j = 0; j < woofs[i].cowoofs.length; j++) {
+          woofs[i].cowoofs[j].tweetId = Web3.utils.hexToNumberString(woofs[i].cowoofs[j].tweetId)
+          woofs[i].cowoofs[j].twitterId = Web3.utils.hexToNumberString(woofs[i].cowoofs[j].twitterId)
+          users.push(woofs[i].cowoofs[j].account)
+        }
+        for (let j = 0; j < woofs[i].rewoofs.length; j++) {
+          woofs[i].rewoofs[j].tweetId = Web3.utils.hexToNumberString(woofs[i].rewoofs[j].tweetId)
+          woofs[i].rewoofs[j].twitterId = Web3.utils.hexToNumberString(woofs[i].rewoofs[j].twitterId)
+          users.push(woofs[i].rewoofs[j].account)
+        }
+      }
+      console.log(users)
+      getUserByAddress([...new Set(users)].join(',')).then(usersData => {
+        console.log('res', usersData)
+        const map = {}
+        for (let i = 0; i < usersData.length; i++) {
+          map[usersData[i].address] = usersData[i]
+        }
+        for (let i = 0; i < woofs.length; i++) {
+          woofs[i].accountTwitterData = map[woofs[i].account]
+          for (let j = 0; j < woofs[i].cowoofs.length; j++) {
+            woofs[i].cowoofs[j].accountTwitterData = map[woofs[i].cowoofs[j].account]
+          }
+          for (let j = 0; j < woofs[i].rewoofs.length; j++) {
+            woofs[i].rewoofs[j].accountTwitterData = map[woofs[i].rewoofs[j].account]
+          }
+        }
+        console.log('woofs', woofs)
+        resolve(woofs)
+      })
+    }).catch(() => {
+      reject([])
+    })
   })
 }

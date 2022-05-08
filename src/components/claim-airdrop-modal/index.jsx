@@ -35,7 +35,7 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
       contract.gets([Web3.utils.stringToHex('discount')])
     ]
     multicallClient(calls).then(data => {
-      setQuota(fromWei(data[0][0], 18)*100 + '%')
+      setQuota(fromWei(data[0][0], 18) * 100 + '%')
     })
   }
 
@@ -45,7 +45,7 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
     }
     let buyValue = '0'
     if (checkedBuy) {
-      if (!ethValve){
+      if (!ethValve) {
         return
       }
       buyValue = numToWei(new BigNumber(ethValve).toFixed(18), 18).toString()
@@ -55,27 +55,28 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
     // const nonceOf = await multicallClient([callContract.nonceOf(account)]).then(data => data[0])
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const signData = await getNodeSign(params)
-    const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
-    const tokenNonce = await multicallClient([
-      tokenContract.nonceOf(account)
-    ]).then(data => data[0])
+    // const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
+    // const tokenNonce = await multicallClient([
+    //   tokenContract.nonces(account)
+    // ]).then(data => data[0])
     console.log('signData', signData)
-    contract.methods.airClaim(signData.referrer, tokenNonce, signData.twitters, signData.signatureList).send({
+    console.log('userData', userData)
+    // signData.signatureList
+    contract.methods.airClaim(Web3.utils.padLeft(Web3.utils.numberToHex(userData.twitterId), 64), signData.twitters, []).send({
       from: account,
       value: buyValue
     }).on('transactionHash', hash => {
     })
-    .on('receipt', (_, receipt) => {
-      dispath({
-        type: UPDATE_COUNT
+      .on('receipt', (_, receipt) => {
+        dispath({
+          type: UPDATE_COUNT
+        })
+        message.success("success")
+        setClaimLoading(false)
       })
-      message.success("success")
-      setClaimLoading(false)
-    })
-    .on('error', (err, receipt) => {
-      setClaimLoading(false)
-    })
-
+      .on('error', (err, receipt) => {
+        setClaimLoading(false)
+      })
   }
   const changeETHValue = (e) => {
     if (!checkedBuy) {
@@ -114,27 +115,28 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
           userData && (
             <div className="claim-airdrop-dialog">
               <div className="claim-data">
-                <div>Influence: {toFormat(userData.Influence)}</div>
-                <div>Additional influence score: {userData.mentionsAmount}</div>
+                {/*<div>Influence: {toFormat(userData.Influence)}</div>*/}
+                {/*<div>Additional influence score: {userData.mentionsAmount}</div>*/}
                 <div>Available to claim: {userData.availableClaim}</div>
               </div>
-              {
-                false && <div className="buy-view">
-                  <p className="p-t">Available quota: {userData.quotaOf}</p>
-                  <div>
-                    <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span style={{whiteSpace: 'nowrap'}}>Buy WOOF</span></Checkbox>
-                    <div className="input-eth">
-                      <Input type="number" value={ethValve} onInput={changeETHValue}
-                             onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
-                      <div className="input-menu">
-                        {/*<span>ETH</span>*/}
-                        <Button size="small" onClick={onMax}>MAX</Button>
-                      </div>
+
+              <div className="buy-view">
+                {/*<p className="p-t">Available quota: {userData.quotaOf}</p>*/}
+                <div>
+                  <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span
+                    style={{whiteSpace: 'nowrap'}}>Buy WOOF</span></Checkbox>
+                  <div className="input-eth">
+                    <Input type="number" value={ethValve} onInput={changeETHValue}
+                           onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
+                    <div className="input-menu">
+                      {/*<span>ETH</span>*/}
+                      <Button size="small" onClick={onMax}>MAX</Button>
                     </div>
                   </div>
-                  <p className="p-b">Currently balance： {ethBalance} ETH</p>
                 </div>
-              }
+                <p className="p-b">Currently balance： {ethBalance} ETH</p>
+              </div>
+
               <div className="btn-submit">
                 <Button type="primary" onClick={onClaim} style={{width: '100%'}} loading={claimLoading}>
                   {checkedBuy ? 'Claim & Buy' : 'Claim'}

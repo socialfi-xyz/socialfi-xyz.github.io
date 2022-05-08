@@ -1,22 +1,27 @@
 import React, {useMemo} from 'react'
-import './index.less'
 import LOGO from '../../assets/images/logo.svg'
 import BannerImg from '../../assets/images/domain/banner-img.svg'
 import BannerImgMask from '../../assets/images/domain/banner-img-mask.png'
-import Twitter from '../../assets/images/links/twitter.svg'
-import Medium from '../../assets/images/links/medium.svg'
-import Discord from '../../assets/images/links/discord.svg'
-import Telegram from '../../assets/images/links/telegram.svg'
-import Github from '../../assets/images/links/github.svg'
-import Gitbook from '../../assets/images/links/gitbook.svg'
+import TwitterDark from '../../assets/images/links/twitter_dark.svg'
+import TwitterLight from '../../assets/images/links/twitter_light.svg'
+import DiscordDark from '../../assets/images/links/discord_dark.svg'
+import DiscordLight from '../../assets/images/links/discord_light.svg'
+import GithubDark from '../../assets/images/links/github_dark.svg'
+import GithubLight from '../../assets/images/links/github_light.svg'
+import GitbookDark from '../../assets/images/links/gitbook_dark.svg'
+import GitbookLight from '../../assets/images/links/gitbook_light.svg'
 import {NavLink} from "react-router-dom";
 import {getQueryString} from "../../utils";
-import Web3 from "web3";
+import {DomainPage} from "./style";
+import {useIsDarkMode} from "../../hooks";
 
 const links = [
   {
     name: 'Twitter',
-    icon: Twitter,
+    icon: {
+      dark: TwitterDark,
+      light: TwitterLight
+    },
     link: 'https://twitter.com/WooferLabs'
   },
   // {
@@ -26,7 +31,10 @@ const links = [
   // },
   {
     name: 'Discord',
-    icon: Discord,
+    icon: {
+      dark: DiscordDark,
+      light: DiscordLight
+    },
     link: 'https://discord.gg/jE8WbqCmTq'
   },
   // {
@@ -36,12 +44,18 @@ const links = [
   // },
   {
     name: 'Gitbook',
-    icon: Gitbook,
+    icon: {
+      dark: GitbookDark,
+      light: GitbookLight
+    },
     link: 'https://socialfixyz.gitbook.io/socialfi/'
   },
   {
     name: 'Github',
-    icon: Github,
+    icon: {
+      dark: GithubDark,
+      light: GithubLight
+    },
     link: 'https://github.com/socialfi-xyz/socialfi-xyz.github.io'
   },
 
@@ -50,6 +64,7 @@ const links = [
 ]
 
 export default function Domain() {
+  const {darkMode, changeDarkMode} = useIsDarkMode()
   useMemo(()=>{
     const referrer = getQueryString('referrer')
     console.log('referrer', referrer)
@@ -58,7 +73,7 @@ export default function Domain() {
     }
   }, [])
   return (
-    <div className="domain-page">
+    <DomainPage darkMode={darkMode}>
       <div className="domain-header">
         <div className="domain-header-c">
           <div className="domain-logo">
@@ -90,13 +105,13 @@ export default function Domain() {
           {
             links.map((item, index) => (
               <a href={item.link} target="_blank" key={index}>
-                <img src={item.icon} alt={item.name}/>
+                <img src={darkMode ? item.icon.dark : item.icon.light} alt={item.name}/>
               </a>
             ))
           }
         </div>
         <p> Woofer 2022. All rights reserved.</p>
       </div>
-    </div>
+    </DomainPage>
   )
 }

@@ -7,6 +7,7 @@ export function tweetReply(tweet_id){
 }
 
 export function tweetIntent({text, url, hashtags}){
-  return `https://twitter.com/intent/tweet?hashtags=${hashtags}&text=${text}&url=${url}`
+  const url_ = url ? `&url=${encodeURIComponent(url)}` : ''
+  const text_ = text ? `&text=${text.replace('#', '')}` : ''
+  return `https://twitter.com/intent/tweet?hashtags=${hashtags}${text_}${url_}`
 }
-
