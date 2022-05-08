@@ -1,14 +1,14 @@
 import {HashRouter as Router, Switch, Route, useHistory} from "react-router-dom";
-import Home from "./home";
-import Dashboard from "./dashboard";
+import Domain from "./domain";
 import Airdrop from "./airdrop";
+import Home from "./home";
 import MyPage from "./my";
-import {useContext, useMemo} from "react";
-import {VarContext} from "../context";
-function NotFound(){
+import {useMemo} from "react";
+
+function NotFound() {
   const history = useHistory()
   useMemo(() => {
-    history.push('/dashboard')
+    history.push('/home')
   }, [])
   return <div>404</div>
 }
@@ -18,19 +18,19 @@ export default function App() {
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <Domain/>
         </Route>
-        <Route path="/dashboard" exact>
-          <Dashboard />
+        <Route path="/home" exact>
+          <Home/>
         </Route>
         <Route path="/airdrop" exact>
-          <Airdrop />
+          <Airdrop/>
         </Route>
         <Route path="/my" exact>
-          <MyPage />
+          <MyPage/>
         </Route>
         <Route path="*">
-          <NotFound />
+          <NotFound/>
         </Route>
       </Switch>
     </Router>

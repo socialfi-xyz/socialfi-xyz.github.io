@@ -3,20 +3,20 @@ import {Provider} from 'react-redux'
 import App from './App'
 import store from './redux/store'
 import {Web3ReactProvider} from '@web3-react/core'
-import '../src/assets/css/index.less'
-import 'moment/locale/zh-cn'
+// import 'moment/locale/zh-cn'
+import './assets/css/index.less'
 import Intl from './locales/intl'
 import {getLibrary} from './web3/getLibrary'
-import Context from './context'
+import ThemeProvider from "./theme";
 
 ReactDom.render(
   <Provider store={store}>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Context>
-        <Intl>
+      <Intl>
+        <ThemeProvider>
           <App/>
-        </Intl>
-      </Context>
+        </ThemeProvider>
+      </Intl>
     </Web3ReactProvider>
   </Provider>,
   document.getElementById('root')

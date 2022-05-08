@@ -3,7 +3,7 @@ import './index.less'
 import Layout from "../../components/layout";
 
 import {ChainId, ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {ADDRESS_0, SFI} from "../../web3/address";
+import {ADDRESS_0, WOOF} from "../../web3/address";
 import {formatAmount, fromWei, numToWei} from "../../utils/format";
 import {cloneDeep} from "lodash";
 import {VarContext} from "../../context";
@@ -47,13 +47,13 @@ export default function Dashboard() {
         value: '-',
         icon: StatisticsIcon
       },
-      SFIPrice: {
-        name: 'SFI Price',
+      WOOFPrice: {
+        name: 'WOOF Price',
         value: '-',
         icon: StatisticsIcon
       },
-      BackingPerSFI: {
-        name: 'Backing Per SFI',
+      BackingPerWOOF: {
+        name: 'Backing Per WOOF',
         value: '-',
         icon: StatisticsIcon
       },
@@ -86,7 +86,7 @@ export default function Dashboard() {
   )
   const [graphData, setGraphData] = useState([])
   const getData = () => {
-    const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+    const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const calls = [
       contract.calcRebaseProfit(ADDRESS_0),
       contract.price1(),
@@ -95,7 +95,7 @@ export default function Dashboard() {
     Promise.all([
       multicallClient(calls),
       queryDashboardData()
-      // multicallClient.getEthBalance(SFI.address, multicallConfig.defaultChainId),
+      // multicallClient.getEthBalance(WOOF.address, multicallConfig.defaultChainId),
       ])
     .then(res => {
       const [[profit, ratio, period], price1, price2] = res[0]
@@ -109,8 +109,8 @@ export default function Dashboard() {
       data_.MarketCap.value = `$${new BigNumber(graphLastData.marketCap).toFormat(0)}`
       data_.TreasuryValue.value = `$${new BigNumber(graphLastData.treasuryValue).toFormat(0)}`
       data_.TotalSupply.value = `${new BigNumber(graphLastData.totalSupply).toFormat(0)}`
-      data_.SFIPrice.value = `$${graphLastData.price}`
-      data_.BackingPerSFI.value = `${new BigNumber(graphLastData.backingPerToken).toFixed(2)*1}`
+      data_.WOOFPrice.value = `$${graphLastData.price}`
+      data_.BackingPerWOOF.value = `${new BigNumber(graphLastData.backingPerToken).toFixed(2)*1}`
       data_.Index.value = `${graphLastData.index*1}`
       data_.ClaimCoefficient.value = `${fromWei(graphLastData.claimFactor, 18).toFixed(2)*1}`
       data_.RebaseAPY.value = `${(graphLastData.apy * 100).toFixed(0) * 1}%`

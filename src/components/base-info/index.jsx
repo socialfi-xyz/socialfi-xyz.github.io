@@ -16,7 +16,6 @@ import {Tooltip} from "antd";
 import {toFormat} from "../../utils/format";
 
 export default function BaseInfo({userData, atClaim}){
-  console.log('userData', userData)
   const data = [
     {
       subject: 'DAYS ON TWITTER',
@@ -35,7 +34,6 @@ export default function BaseInfo({userData, atClaim}){
       val: userData.Influence || 0
     }
   ]
-  console.log('userDataxxxx', userData)
   return (
     <div className="user-base-info-view">
       <div className="twitter-base-data">

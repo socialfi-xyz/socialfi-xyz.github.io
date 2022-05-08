@@ -1,35 +1,39 @@
 import React, {useContext, useMemo, useState} from 'react'
 import {Link, NavLink, useLocation} from "react-router-dom";
 import cs from 'classnames'
-import './index.less'
 import {ConnectWall} from "../connect-wallet";
 import {useActiveWeb3React} from "../../web3";
 import {formatAddress} from "../../utils/format";
-import {VarContext} from "../../context";
-import DashboardIconOn from '../../assets/images/svg/dashboard-icon-on.svg'
-import DashboardIconOff from '../../assets/images/svg/dashboard-icon-off.svg'
+import HomeIconOn from '../../assets/images/svg/home-icon-on.svg'
+import HomeIconOff from '../../assets/images/svg/home-icon-off.svg'
 import AirdropIconOn from '../../assets/images/svg/airdrop-icon-on.svg'
 import AirdropIconOff from '../../assets/images/svg/airdrop-icon-off.svg'
 import MyIconOn from '../../assets/images/svg/my-icon-on.svg'
 import MyIconOff from '../../assets/images/svg/my-icon-off.svg'
-import LOGO from '../../assets/images/logo.png'
+import LOGO from '../../assets/images/logo.svg'
 import MenuIcon from '../../assets/images/svg/menu.svg'
+import MoonIcon from '../../assets/images/svg/moon.svg'
+import SunIcon from '../../assets/images/svg/sun.svg'
+import {useSelector} from "react-redux";
+import {useIsDarkMode} from "../../hooks";
+import {LayoutView} from "./style";
 
 const defaultRouterList = [
   {
-    name: 'Dashboard',
-    path: '/dashboard',
+    name: 'Home',
+    path: '/home',
     icon: {
-      on: DashboardIconOn,
-      off: DashboardIconOff
+      on: HomeIconOn,
+      off: HomeIconOff
     }
   },
 ]
 export default function Layout({children}){
-  const {accountAirClaimed} = useContext(VarContext)
+  const {accountAirClaimed} = useSelector(state => state.index)
   const location = useLocation()
   const [showConnectWallet, setShowConnectWallet] = useState(false)
   const {account} = useActiveWeb3React()
+  const {changeDarkMode, darkMode} = useIsDarkMode()
   const [myRouterList, setMyRouterList] = useState([])
   const routerList = [...defaultRouterList, ...myRouterList]
   useMemo(() => {
@@ -61,12 +65,12 @@ export default function Layout({children}){
     // }
   }, [accountAirClaimed, account])
   return (
-    <div className="layout-view">
+    <LayoutView>
       <div className="layout-menu">
         <div className="layout-menu-view">
           <NavLink to='/' className="layout-logo">
             <img src={LOGO} alt=""/>
-            <span>SocialFi</span>
+            <span>Woofer</span>
           </NavLink>
           {
             routerList.map((item) => (
@@ -87,7 +91,7 @@ export default function Layout({children}){
             <div className="header-l">
               <NavLink to='/' className="layout-logo-h5">
                 <img src={LOGO} alt=""/>
-                <span>SocialFi</span>
+                <span>Woofer</span>
               </NavLink>
             </div>
             <div className="header-center"></div>
@@ -97,6 +101,9 @@ export default function Layout({children}){
                 {
                   account ? formatAddress(account) : 'Connect Wallet'
                 }
+              </div>
+              <div className="theme-switch flex-center" onClick={() => changeDarkMode(!darkMode)}>
+                <img src={darkMode ? MoonIcon : SunIcon} alt=""/>
               </div>
               {/*<div className="header-lan-btn flex-center">*/}
               {/*  <img src={LanEN} alt=""/>*/}
@@ -123,6 +130,6 @@ export default function Layout({children}){
         </div>
       </div>
       <ConnectWall visible={showConnectWallet} onClose={() => setShowConnectWallet(false)}/>
-    </div>
+    </LayoutView>
   )
 }

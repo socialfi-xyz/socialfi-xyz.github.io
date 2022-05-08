@@ -37,7 +37,7 @@ export const getHref = (username, calcNonce) => {
   if (href[href.length - 1] === '/'){
     return href + params
   }
-  return href + '/' + params
+  return encodeURIComponent(href + '/' + params)
 }
 
 export function getMStr(m){

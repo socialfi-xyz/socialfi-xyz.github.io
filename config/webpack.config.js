@@ -116,15 +116,15 @@ module.exports = function (webpackEnv) {
       },
       {
         loader: require.resolve('less-loader'),
-          options: {
-             lessOptions: {
-                 modifyVars: {
-                    'primary-color': '#7935FF',
-                    'link-color': '#7935FF'
-                     },
-                 javascriptEnabled: true,
-                 },
-           },
+        options: {
+          lessOptions: {
+            modifyVars: {
+              'primary-color': '#1D9BF0',
+              'link-color': '#1D9BF0'
+            },
+            javascriptEnabled: true,
+          },
+        },
       },
       {
         // Options for PostCSS as we reference these options twice

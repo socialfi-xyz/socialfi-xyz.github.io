@@ -1,10 +1,8 @@
-import CloverWebInjected from '@clover-network/web-wallet-sdk';
 import React from 'react'
 import { Modal } from 'antd'
-import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import MathSvg from '../../assets/images/walletConnect.png'
-import CloverSvg from '../../assets/images/clover.png'
 import MetamaskSvg from '../../assets/images/metaMask.png'
+import CloverSvg from '../../assets/images/clover.png'
 import './index.less'
 import {
   getWalletConnectorParams,
@@ -14,14 +12,16 @@ import {
 } from '../../web3/connectors'
 import {multicallConfig} from "../../web3/multicall";
 import CloseIcon from "../../assets/images/svg/close.svg";
+import {useActiveWeb3React} from "../../web3";
 import { web3Obj } from '../../web3/index'
 import {ChainId} from "@uniswap/sdk";
+import CloverWebInjected from '@clover-network/web-wallet-sdk';
 const clvInject = new CloverWebInjected({ zIndex: 99999});
 
 export function ConnectWall({visible, onClose}) {
   const connectWallet = useConnectWallet()
   const connectWebWallet = useConnectWebWallet()
-  const {chainId} = useWeb3ReactCore()
+  const {chainId} = useActiveWeb3React()
   const defChainId = injected.supportedChainIds.includes(chainId) ? chainId : multicallConfig.defaultChainId
 
   const onConnectWallMetaMask = () => {

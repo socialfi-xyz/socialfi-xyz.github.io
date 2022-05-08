@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react'
 import {Modal, Checkbox, Button, Input, message} from 'antd'
-import {useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import './index.less'
 import { Steps } from 'antd';
 import {Share} from "react-twitter-widgets";
@@ -9,17 +8,18 @@ import {getNodeSign, getUserInfo} from "../../request/twitter";
 import {getHref} from "../../utils";
 import {HASHTAG, TASK_TYPE_QUOTA} from "../../request";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {SFI} from "../../web3/address";
+import {WOOF} from "../../web3/address";
 import {fromWei} from "../../utils/format";
 import CloseIcon from "../../assets/images/svg/close.svg";
+import {useActiveWeb3React} from "../../web3";
 const { Step } = Steps;
 export function AddQuotaModal({visible, onClose, userData, getMoreTwitters}) {
-  const {account} = useWeb3ReactCore()
+  const {account} = useActiveWeb3React()
   const [current, setCurrent] = useState(0)
   const [shareData, setShareData] = useState("Good project @BTCTN ")
   const [loading, setLoading] = useState(false)
   const calcQuota = async (twitters) => {
-    const contract = new ClientContract(SFI.abi, SFI.address, multicallConfig.defaultChainId)
+    const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const calls = [
       contract.calcQuota(twitters)
     ]

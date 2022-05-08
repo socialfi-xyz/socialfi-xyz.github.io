@@ -1,23 +1,25 @@
-let requestUrl_ = "https://node1.socialfi.xyz"
-if (sessionStorage.getItem('socialfi_xyz_test')){
-  requestUrl_ = 'https://node1.socialfi.xyz'
-}
+let requestUrl_ = 'https://node1.socialfi.xyz'//"http://192.168.1.239:5000"//
+// if (sessionStorage.getItem('socialfi_xyz_test')){
+//   requestUrl_ = 'https://node1.socialfi.xyz'
+// }
 export const requestUrl = requestUrl_
 
 export const signNodes = [
-  'https://node1.socialfi.xyz',
-  'https://node2.socialfi.xyz',
-  'https://node3.socialfi.xyz',
-  'https://node4.socialfi.xyz',
-  'https://node5.socialfi.xyz',
+  requestUrl_
+  // 'https://node1.socialfi.xyz',
+  // 'https://node2.socialfi.xyz',
+  // 'https://node3.socialfi.xyz',
+  // 'https://node4.socialfi.xyz',
+  // 'https://node5.socialfi.xyz',
 ]
-export const VALID_SIGNATURE = 3
+export const VALID_SIGNATURE = 1
 
-export const HASHTAG = 'SocialFiAirdrop'
+export const HASHTAG = 'WooferAirdrop'
 // type
 export const TASK_TYPE_LOOKUP = 0 // default
 export const TASK_TYPE_CLAIM = 1 // claim
 export const TASK_TYPE_QUOTA = 2 // add quota
+export const TASK_TYPE_RE_WOOF = 2 // re woof
 
 export const ERROR_CODE_OK = 0
 export const ERROR_CODE_PARAMS_0 = 400

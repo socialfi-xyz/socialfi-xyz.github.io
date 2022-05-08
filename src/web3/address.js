@@ -1,8 +1,11 @@
-import SFIAbi from './abi/SFI.json'
+import WOOFAbi from './abi/WOOF.json'
+import DAI_ABI from "./abi/DAI.json";
 
-export const SFI = {
-  address: '0x91b3af2829f34d6d19a1ab2b3569b0304e5b4645',
-  abi: SFIAbi
+export const WOOF = {
+  address: '0x01A02B24395A8927ec340fe45D78cc545c889f12',
+  abi: WOOFAbi,
+  decimals: 18,
+  symbol: 'WOOF'
 }
 
 export const WETH = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
@@ -11,4 +14,39 @@ export const USDT = '0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02'
 
 export const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
 export const ADDRESS_INFINITY = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+export const UNI_SWAP_ROUTER = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 
+export const DEF_SUPPER_BY_TOKEN_LIST = [
+  {
+    symbol: 'ETH',
+    decimal: 18,
+    address: WETH,
+    isApprove: true,
+    isPermitSign: true,
+    router: [WETH, DAI],
+    woofMin: 0.3,
+    woofMinOut: 0
+  },
+  {
+    symbol: 'DAI',
+    decimal: 18,
+    address: '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735',
+    isApprove: true,
+    isPermitSign: false,
+    router: ['0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735', WETH, DAI],
+    allowed: true,
+    abi: DAI_ABI,
+    woofMin: 1000,
+    woofMinOut: 0
+  },
+  {
+    symbol: 'USDT',
+    decimal: 18,
+    address: USDT,
+    isApprove: false,
+    isPermitSign: true,
+    router: [USDT, WETH, DAI],
+    woofMin: 1000,
+    woofMinOut: 0
+  }
+]
