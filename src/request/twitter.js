@@ -123,7 +123,6 @@ export function getNodeSign({username, account, type, referrer, calcNonce}){
     const signList = []
     for (let i = 0; i < signNodes.length; i++) {
       getUser(taskId, nonce, signNodes[i]).then(data => {
-        console.log('xxxxx', data)
         if (Array.isArray(data)) {
           data = data[0]
         }

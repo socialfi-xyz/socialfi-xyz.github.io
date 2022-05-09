@@ -35,15 +35,11 @@ export default function Airdrop(){
       return
     }
     setAnalyzeLoading(true)
-    let referrer_ = checkHexToUtf8(sessionStorage.getItem('referrer'))
-    let tReferrer_ = checkHexToUtf8(getQueryString('referrer'))
 
-    const referrer = tReferrer_ || referrer_
     const params = {
       username: userName,
       account,
-      type,
-      referrer
+      type
     }
     return getUserInfo(params).then(data => {
       setAnalyzeLoading(false)

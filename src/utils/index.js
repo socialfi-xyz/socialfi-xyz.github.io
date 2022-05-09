@@ -32,12 +32,12 @@ export function calcQuota(users){
   }, 0)
 }
 export const getHref = (username, calcNonce) => {
-  const href = 'https://socialfi.xyz' //window.location.href
-  const params = '?referrer=' + Web3.utils.stringToHex(username) + '&nonce=' + calcNonce
+  const href = 'https://woofer.xyz' //window.location.href
+  const params = '&nonce=' + calcNonce
   if (href[href.length - 1] === '/'){
     return href + params
   }
-  return encodeURIComponent(href + '/' + params)
+  return href + '/' + params
 }
 
 export function getMStr(m){
