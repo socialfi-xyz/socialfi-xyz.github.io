@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.1f6fd59c.chunk.css",
-    "main.js": "/static/js/main.c025725b.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.425c933e.js",
-    "static/css/2.40fa7abf.chunk.css": "/static/css/2.40fa7abf.chunk.css",
-    "static/js/2.6ed37a3c.chunk.js": "/static/js/2.6ed37a3c.chunk.js",
-    "static/js/3.2d4ee9ee.chunk.js": "/static/js/3.2d4ee9ee.chunk.js",
-    "static/js/4.1f3bd84f.chunk.js": "/static/js/4.1f3bd84f.chunk.js",
+    "main.js": "/static/js/main.a2d34839.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.bcef0e27.js",
+    "static/css/2.40bbe35b.chunk.css": "/static/css/2.40bbe35b.chunk.css",
+    "static/js/2.0dca1d8e.chunk.js": "/static/js/2.0dca1d8e.chunk.js",
+    "static/js/3.bc2270fb.chunk.js": "/static/js/3.bc2270fb.chunk.js",
+    "static/js/4.c363f540.chunk.js": "/static/js/4.c363f540.chunk.js",
     "index.html": "/index.html",
-    "static/css/2.40fa7abf.chunk.css.gz": "/static/css/2.40fa7abf.chunk.css.gz",
+    "static/css/2.40bbe35b.chunk.css.gz": "/static/css/2.40bbe35b.chunk.css.gz",
     "static/css/main.1f6fd59c.chunk.css.gz": "/static/css/main.1f6fd59c.chunk.css.gz",
-    "static/js/2.6ed37a3c.chunk.js.LICENSE.txt": "/static/js/2.6ed37a3c.chunk.js.LICENSE.txt",
-    "static/js/2.6ed37a3c.chunk.js.gz": "/static/js/2.6ed37a3c.chunk.js.gz",
-    "static/js/3.2d4ee9ee.chunk.js.gz": "/static/js/3.2d4ee9ee.chunk.js.gz",
-    "static/js/main.c025725b.chunk.js.gz": "/static/js/main.c025725b.chunk.js.gz",
+    "static/js/2.0dca1d8e.chunk.js.LICENSE.txt": "/static/js/2.0dca1d8e.chunk.js.LICENSE.txt",
+    "static/js/2.0dca1d8e.chunk.js.gz": "/static/js/2.0dca1d8e.chunk.js.gz",
+    "static/js/3.bc2270fb.chunk.js.gz": "/static/js/3.bc2270fb.chunk.js.gz",
+    "static/js/main.a2d34839.chunk.js.gz": "/static/js/main.a2d34839.chunk.js.gz",
     "static/media/index.less": "/static/media/Poppins.4603832f.ttf",
     "static/media/airdrop-icon-off.2e93f570.svg": "/static/media/airdrop-icon-off.2e93f570.svg",
     "static/media/airdrop-icon-on.ab1980f4.svg": "/static/media/airdrop-icon-on.ab1980f4.svg",
@@ -54,10 +54,10 @@
     "static/media/twitter_light.a1b44289.svg": "/static/media/twitter_light.a1b44289.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.425c933e.js",
-    "static/css/2.40fa7abf.chunk.css",
-    "static/js/2.6ed37a3c.chunk.js",
+    "static/js/runtime-main.bcef0e27.js",
+    "static/css/2.40bbe35b.chunk.css",
+    "static/js/2.0dca1d8e.chunk.js",
     "static/css/main.1f6fd59c.chunk.css",
-    "static/js/main.c025725b.chunk.js"
+    "static/js/main.a2d34839.chunk.js"
   ]
 }
