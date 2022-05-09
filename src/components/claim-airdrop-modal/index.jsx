@@ -59,6 +59,7 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
     // const tokenNonce = await multicallClient([
     //   tokenContract.nonces(account)
     // ]).then(data => data[0])
+
     console.log('signData', signData)
     console.log('userData', userData)
     // signData.signatureList
