@@ -1,4 +1,3 @@
-
 export const LayoutContentPage = `
     flex: 1;
     padding: 0 20px 30px 40px;
@@ -8,7 +7,7 @@ export const LayoutContentPage = `
     }
 `
 
-export const CustomScroll = `
+export const CustomScroll = (theme)=> `
  @media (min-width: 750px) {
     
     &::-webkit-scrollbar {
@@ -17,12 +16,12 @@ export const CustomScroll = `
     }
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background: rgba(83, 83, 83, 0.5);
+      background: ${theme.scrollBar};
     }
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
       border-radius: 10px;
-      background: #EDEDED;
+      background: transparent;
     }
   }
 `

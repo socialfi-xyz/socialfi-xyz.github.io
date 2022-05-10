@@ -1,10 +1,5 @@
 [
   {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -247,7 +242,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "yield",
+        "name": "yield_",
         "type": "uint256"
       }
     ],
@@ -1484,7 +1479,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "yield",
+        "name": "yield_",
         "type": "uint256"
       },
       {

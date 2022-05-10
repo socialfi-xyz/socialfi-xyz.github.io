@@ -3,7 +3,7 @@ import {CustomScroll, LayoutContentPage} from "../../theme/style";
 
 export const AirdropPage = styled.div`
   ${LayoutContentPage};
-  ${CustomScroll};
+  ${({ theme }) => CustomScroll(theme)};
   padding: 0 94px !important;
 
   .airdrop-page-view {

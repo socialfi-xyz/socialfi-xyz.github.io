@@ -11,8 +11,6 @@
     "@clover-network/web-wallet-sdk": "^0.1.2",
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.4.2",
-    "@clover-network/web-wallet-sdk": "^0.1.2",
-    "redux-persist": "^6.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.14.1",

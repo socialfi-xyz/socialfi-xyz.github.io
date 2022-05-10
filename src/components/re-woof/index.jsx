@@ -77,7 +77,6 @@ function SInput({
 
 //woofType = Woof Rewoof Co-woof
 export default function ReWoof({woofType = 'Woof', coWoofItem}) {
-  console.log('coWoofItem', coWoofItem)
 
   const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
   const {superBuyTokenList, woofBalanceOf, ethPrice, woofPrice, twitterUserInfo} = useSelector(state => state.index)
@@ -206,8 +205,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     const amount = numToWei(woofValve, WOOF.decimals)
     const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.conversation_id : queryData.tweet.tweetId
     const twitterId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.author_id : queryData.tweet.twitterId
-
-    if(woofType === 'Co-woof') {
+    if(woofType === 'Co-woof' || woofType === 'woof') {
       contract.methods.cowoof(
         numToHex(twitterUserInfo.twitterId, 32),
         numToHex(twitterId_, 32),

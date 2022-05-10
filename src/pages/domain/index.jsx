@@ -65,13 +65,6 @@ const links = [
 
 export default function Domain() {
   const {darkMode, changeDarkMode} = useIsDarkMode()
-  useMemo(()=>{
-    const referrer = getQueryString('referrer')
-    console.log('referrer', referrer)
-    if (referrer){
-      sessionStorage.setItem('referrer', referrer)
-    }
-  }, [])
   return (
     <DomainPage darkMode={darkMode}>
       <div className="domain-header">

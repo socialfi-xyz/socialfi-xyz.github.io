@@ -67,6 +67,6 @@ export const numToHex = (num, characterAmount = 32) => {
   return Web3.utils.padLeft(Web3.utils.numberToHex(num), characterAmount * 2)
 }
 export const stringToHex = (str, characterAmount = 32) => {
-  return Web3.utils.padLeft(Web3.utils.stringToHex(str), characterAmount * 2)
+  return Web3.utils.padRight(Web3.utils.stringToHex(str), characterAmount * 2)
 }
 export const fromTwitterId = (id) => Web3.utils.hexToNumberString(id)

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {CustomScroll, LayoutContentPage} from "../../theme/style";
 
 export const HomePage = styled.div`
-  ${CustomScroll};
+  ${({ theme }) => CustomScroll(theme)};
   ${LayoutContentPage};
   max-width: 1000px;
   margin: 0 auto;

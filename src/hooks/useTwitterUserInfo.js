@@ -15,8 +15,7 @@ export default function useTwitterUserInfo(){
   const dispatch = useDispatch()
   const {accountAirClaimed, twitterUserInfoRely} = useSelector(state => state.index)
   const getData = async () => {
-    const referrer = undefined//tReferrer_ || referrer_
-    const serverInfos = await getUserByAddress(account, referrer)
+    const serverInfos = await getUserByAddress(account)
     const serverInfo = serverInfos[0]
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)

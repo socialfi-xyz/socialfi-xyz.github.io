@@ -93,9 +93,7 @@ export function getWoofData() {
           users.push(woofs[i].rewoofs[j].account)
         }
       }
-      console.log(users)
       getUserByAddress([...new Set(users)].join(',')).then(usersData => {
-        console.log('res', usersData)
         const map = {}
         for (let i = 0; i < usersData.length; i++) {
           map[usersData[i].address] = usersData[i]

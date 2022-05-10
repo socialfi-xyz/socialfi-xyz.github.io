@@ -15,7 +15,7 @@ export default function useUpdate(){
       dispatch({
         type: UPDATE_COUNT
       })
-    }, 6000)
+    }, 12000)
     return () => clearTimeout(timer)
   }, [updateCount, chainId, account])
 }

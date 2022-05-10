@@ -24,7 +24,7 @@ export const DEF_SUPPER_BY_TOKEN_LIST = [
     isApprove: true,
     isPermitSign: true,
     router: [WETH, DAI],
-    woofMin: 0.3,
+    woofMin: 0,
     woofMinOut: 0
   },
   {
@@ -36,7 +36,7 @@ export const DEF_SUPPER_BY_TOKEN_LIST = [
     router: ['0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735', WETH, DAI],
     allowed: true,
     abi: DAI_ABI,
-    woofMin: 1000,
+    woofMin: 0,
     woofMinOut: 0
   },
   {
@@ -46,7 +46,7 @@ export const DEF_SUPPER_BY_TOKEN_LIST = [
     isApprove: false,
     isPermitSign: true,
     router: [USDT, WETH, DAI],
-    woofMin: 1000,
+    woofMin: 0,
     woofMinOut: 0
   }
 ]
