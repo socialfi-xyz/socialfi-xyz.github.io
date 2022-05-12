@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {fromWei} from "../utils/format";
+import {fromWei, keepDecimals} from "../utils/format";
 import {getMStr} from "../utils";
 import BigNumber from "bignumber.js";
 import Web3 from "web3";
@@ -97,19 +97,32 @@ export function getWoofData() {
       getUserByAddress([...new Set(users)].join(',')).then(usersData => {
         const map = {}
         for (let i = 0; i < usersData.length; i++) {
-          map[usersData[i].address] = usersData[i]
+          map[usersData[i].address.toLowerCase()] = usersData[i]
         }
         for (let i = 0; i < woofs.length; i++) {
-          woofs[i].accountTwitterData = map[woofs[i].account]
+          const accountTwitterData = map[woofs[i].account.toLowerCase()]
+          if (!accountTwitterData) {
+            woofs.splice(i--, 1)
+            continue
+          }
+          woofs[i].accountTwitterData = accountTwitterData
           let reward = new BigNumber(0)
           for (let j = 0; j < woofs[i].cowoofs.length; j++) {
-            woofs[i].cowoofs[j].accountTwitterData = map[woofs[i].cowoofs[j].account]
+            if (!map[woofs[i].cowoofs[j].account.toLowerCase()]) {
+              woofs[i].cowoofs.splice(j--, 1)
+              continue
+            }
+            woofs[i].cowoofs[j].accountTwitterData = map[woofs[i].cowoofs[j].account.toLowerCase()]
             reward = reward.plus(woofs[i].cowoofs[j].reward)
           }
           for (let j = 0; j < woofs[i].rewoofs.length; j++) {
-            woofs[i].rewoofs[j].accountTwitterData = map[woofs[i].rewoofs[j].account]
+            if (!map[woofs[i].rewoofs[j].account.toLowerCase()]) {
+              woofs[i].rewoofs.splice(j--, 1)
+              continue
+            }
+            woofs[i].rewoofs[j].accountTwitterData = map[woofs[i].rewoofs[j].account.toLowerCase()]
           }
-          woofs[i].reward = fromWei(reward, WOOF.decimals)
+          woofs[i].reward = keepDecimals(fromWei(reward, WOOF.decimals))
         }
         console.log('woofs', woofs)
         resolve(woofs)

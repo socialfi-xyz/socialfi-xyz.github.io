@@ -18,7 +18,9 @@ export const WooferFeedItemView = styled.div`
       max-height: 520px;
       overflow-y: auto;
       ${({theme}) => CustomScroll(theme)};
+      border-radius: 16px;
       & > div {
+        position: relative;
         background: ${({theme}) => theme.cardBg1};
         padding: 8px 12px 8px 16px;
         width: 100%;
@@ -34,6 +36,12 @@ export const WooferFeedItemView = styled.div`
             height: 40px;
             animation: rotate 1s linear infinite;
           }
+        }
+        .tweet-load-error{
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: ${({theme}) => theme.cardBg1};
         }
         .twitter-tweet.twitter-tweet-rendered {
           margin: 0 !important;

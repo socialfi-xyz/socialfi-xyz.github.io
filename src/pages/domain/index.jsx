@@ -87,7 +87,7 @@ export default function Domain() {
         <div className="domain-banner-img">
           <div>
             <img className="domain-banner-img-bg" src={BannerImgMask} alt=""/>
-            <img src={BannerImg} alt=""/>
+            <img src={BannerImg} alt="" className="domain-banner-img-c"/>
           </div>
         </div>
       </div>

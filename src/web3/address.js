@@ -2,7 +2,7 @@ import WOOFAbi from './abi/WOOF.json'
 import DAI_ABI from "./abi/DAI.json";
 
 export const WOOF = {
-  address: '0x01A02B24395A8927ec340fe45D78cc545c889f12',
+  address: '0xa9cafb5fc7fbfbeac0e4fc54edbadceb0cff4cf3',
   abi: WOOFAbi,
   decimals: 18,
   symbol: 'WOOF'

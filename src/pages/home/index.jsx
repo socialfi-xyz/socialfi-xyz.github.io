@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React from "react";
 import Layout from "../../components/layout";
 import WooferFeed from "../../components/woofer-feed";
 import ReWoof from "../../components/re-woof";

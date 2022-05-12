@@ -86,19 +86,17 @@ export const DomainPage = styled.div`
 
       div {
         position: relative;
-        padding: 10px;
+        padding: 25px;
         width: 346px;
         height: 346px;
-
-        img {
-          position: absolute;
-          left: 25px;
-          top: 25px;
-          width: calc(100% - 50px);
-          height: calc(100% - 50px);
+        .domain-banner-img-c{
+          position: relative;
+          width: 100%;
+          height: 100%;
         }
 
         .domain-banner-img-bg {
+          position: absolute;
           left: 0px;
           top: 0px;
           width: 100%;

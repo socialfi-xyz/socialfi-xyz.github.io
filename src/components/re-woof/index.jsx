@@ -16,7 +16,7 @@ import {getContract, useActiveWeb3React} from "../../web3";
 import Web3 from "web3";
 import {permitSign} from "../../web3/sign";
 import ERC20Abi from "../../web3/abi/ERC20.json";
-import {TWITTER_USER_INFO_RELY, UPDATE_COUNT} from "../../redux";
+import {TWITTER_USER_INFO_RELY, UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redux";
 import {message} from 'antd'
 import {getNonce, getUserInfo} from "../../request/twitter";
 
@@ -239,6 +239,9 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         .on('receipt', (_, receipt) => {
           setIsOnTweet(false)
           setLoading(false)
+          dispatch({
+            type: UPDATE_WOOF_LIST
+          })
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -261,6 +264,9 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         .on('receipt', (_, receipt) => {
           setIsOnTweet(false)
           setLoading(false)
+          dispatch({
+            type: UPDATE_WOOF_LIST
+          })
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -359,21 +365,12 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
           <StepRadius disabled>2</StepRadius>
 
           {
-            !buyTokenData.isApprove && (
+            !buyTokenData.isApprove ? (
               <CButton type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</CButton>
-            )
+            ) : !buyTokenData.isPermitSign ? !permitSignData && (
+              <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
+            ) : <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet} loading={loading}>Woof</CButton>
           }
-          {
-            !buyTokenData.isPermitSign && !permitSignData && (
-            <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
-            )
-          }
-
-          <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet}>Woof</CButton>
-
-
-
-
           <img src={ArrowDown3} className={cs({
             "arrow-down-3": true,
             'top-v': showMore

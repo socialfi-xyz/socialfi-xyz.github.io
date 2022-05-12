@@ -13,6 +13,7 @@ export const WOOF_PRICE = 'WOOF_PRICE'
 export const WEB_WALLET_DATA = 'WEB_WALLET_DATA'
 export const TWITTER_USER_INFO = 'TWITTER_USER_INFO'
 export const TWITTER_USER_INFO_RELY = 'TWITTER_USER_INFO_RELY'
+export const UPDATE_WOOF_LIST = 'UPDATE_WOOF_LIST'
 
 const language = window.localStorage.getItem('p_language') || 'en'
 const darkMode = !(localStorage.getItem('isDarkMode') === '0')
@@ -29,7 +30,8 @@ const initState = {
   ethPrice: 0,
   woofPrice: 0,
   twitterUserInfo: {},
-  twitterUserInfoRely: 0
+  twitterUserInfoRely: 0,
+  updateWoofList: 0,
 }
 export default function reducer(state = initState, action) {
   switch (action.type) {
@@ -94,7 +96,11 @@ export default function reducer(state = initState, action) {
         ...state,
         twitterUserInfoRely: state.twitterUserInfoRely + 1
       }
-
+    case UPDATE_WOOF_LIST:
+      return {
+        ...state,
+        updateWoofList: state.updateWoofList + 1
+      }
     default:
       return state
   }

@@ -16,6 +16,7 @@ export default function useTwitterUserInfo(){
   const {accountAirClaimed, twitterUserInfoRely} = useSelector(state => state.index)
   const getData = async () => {
     const serverInfos = await getUserByAddress(account)
+    console.log(serverInfos)
     const serverInfo = serverInfos[0]
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)
@@ -72,7 +73,7 @@ export default function useTwitterUserInfo(){
     })
   }
   useMemo(() => {
-    if (accountAirClaimed === 1 && account && twitterUserInfoRely !== 0) {
+    if (accountAirClaimed === 1 && account) {
       getData()
     }
   }, [account, accountAirClaimed, twitterUserInfoRely])

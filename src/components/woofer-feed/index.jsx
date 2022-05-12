@@ -1,17 +1,12 @@
 import React, {useMemo, useState} from "react";
 import ArrowDown2 from '../../assets/images/svg/arrow-down2.svg'
 import Check from '../../assets/images/svg/check.svg'
-import {useActiveWeb3React} from "../../web3";
-import Avatars from '../avatars'
 import {WoofUserModal} from "../woof-user-modal";
-import {Tweet} from 'react-twitter-widgets'
 import {WoofModal} from "../woof-modal";
-import moment from "moment";
 import {WooferFeedView} from './style'
-import {useIsDarkMode} from "../../hooks";
-import {CButton} from "../../theme/styleComponent";
 import {getWoofData} from "../../request/thegraph";
 import WooferFeedItem from "../woofer-feed-item";
+import {useSelector} from "react-redux";
 
 const FILTER_LIST = [
   {
@@ -45,15 +40,15 @@ const FILTER_LIST = [
 ]
 
 export default function WooferFeed() {
-  const {darkMode} = useIsDarkMode()
   const [checked, setChecked] = useState(0)
-  const {account} = useActiveWeb3React()
 
   const [coWoofItem, setCoWoofItem] = useState(null)
   // coWoof
   const [poolList, setPoolList] = useState([])
   const [showWoofUserModal, setShowWoofUserModal] = useState(false)
   const [woofType, setWoofType] = useState(null)
+
+  const {updateWoofList, updateCount} = useSelector(state => state.index)
 
   const [woofUserModalData, setWoofUserModalData] = useState({
     title: '',
@@ -80,7 +75,7 @@ export default function WooferFeed() {
 
   useMemo(() => {
     getData()
-  }, [])
+  }, [updateWoofList])
 
   return (
     <>

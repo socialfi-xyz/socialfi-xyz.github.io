@@ -122,7 +122,7 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
                 hideThread: false,
               }}
                      renderError={_err => {
-                       return <div className="tweet-loading">Could not load tweet! ...Your custom component here</div>
+                       return <div className="tweet-loading tweet-load-error">Could not load tweet!</div>
                      }}
                      onLoad={() => {
                        setTweetLoading(false)

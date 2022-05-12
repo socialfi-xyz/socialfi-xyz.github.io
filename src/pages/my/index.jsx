@@ -23,6 +23,8 @@ function My() {
 
   const [unlockRemainingTime, setUnlockRemainingTime] = useState('-')
 
+  console.log('twitterUserInfo', twitterUserInfo)
+
   useMemo(() => {
     clearInterval(timer)
     timer = setInterval(() => {
