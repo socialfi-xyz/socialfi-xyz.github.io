@@ -13,7 +13,7 @@ export const DAI = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa'
 export const USDT = '0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02'
 
 export const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
-export const ADDRESS_INFINITY = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+export const ADDRESS_INFINITY = '0xffffffffffffffffffffffffffffffffffffffff'
 export const UNI_SWAP_ROUTER = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 
 export const DEF_SUPPER_BY_TOKEN_LIST = [

@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <Layout>
       <HomePage>
+        <div className="home-view">
           <div className="home-header">
             Home
           </div>
@@ -18,6 +19,7 @@ export default function Home() {
             <ReWoof woofType="woof"/>
           </div>
           <WooferFeed/>
+        </div>
       </HomePage>
     </Layout>
   )

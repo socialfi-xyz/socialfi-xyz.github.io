@@ -4,7 +4,7 @@ import {rsort} from "semver";
 import {calcDays, calcQuota} from "../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../web3/multicall";
 import {ADDRESS_0, WOOF} from "../web3/address";
-import {fromWei} from "../utils/format";
+import {fromWei, tweetIdToHex} from "../utils/format";
 import Web3 from "web3";
 
 
@@ -41,7 +41,7 @@ export function getUser(taskId, nonce, signNode) {
           const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
           const calls = [
             contract.price2(),
-            contract.isAirClaimed(ADDRESS_0, Web3.utils.padLeft(Web3.utils.numberToHex(data.twitterId), 64))
+            contract.isAirClaimed(ADDRESS_0, tweetIdToHex(data.twitterId))
           ]
           if (data && data.sign && data.sign.twitters.length > 0) {
             calls.push(

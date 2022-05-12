@@ -62,11 +62,26 @@ export const toFormat = (value, r = '0') => {
   return new BigNumber(value).toFormat()
 }
 
-
 export const numToHex = (num, characterAmount = 32) => {
   return Web3.utils.padLeft(Web3.utils.numberToHex(num), characterAmount * 2)
 }
 export const stringToHex = (str, characterAmount = 32) => {
   return Web3.utils.padRight(Web3.utils.stringToHex(str), characterAmount * 2)
 }
+
+export const tweetIdToHex = (tweetId) => {
+  return numToHex(tweetId, 32)
+}
+
 export const fromTwitterId = (id) => Web3.utils.hexToNumberString(id)
+
+export const keepDecimals = (num) => {
+  if (num > 10000) {
+    return Number(num).toFixed(0)
+  } else if (num < 10){
+    return Number(num).toFixed(4)
+  } else {
+    return Number(num).toFixed(2)
+  }
+}
+

@@ -4,6 +4,7 @@ import {getMStr} from "../utils";
 import BigNumber from "bignumber.js";
 import Web3 from "web3";
 import {getUserByAddress} from "./twitter";
+import {WOOF} from "../web3/address";
 
 export function queryDashboardData(){
   return axios({
@@ -100,12 +101,15 @@ export function getWoofData() {
         }
         for (let i = 0; i < woofs.length; i++) {
           woofs[i].accountTwitterData = map[woofs[i].account]
+          let reward = new BigNumber(0)
           for (let j = 0; j < woofs[i].cowoofs.length; j++) {
             woofs[i].cowoofs[j].accountTwitterData = map[woofs[i].cowoofs[j].account]
+            reward = reward.plus(woofs[i].cowoofs[j].reward)
           }
           for (let j = 0; j < woofs[i].rewoofs.length; j++) {
             woofs[i].rewoofs[j].accountTwitterData = map[woofs[i].rewoofs[j].account]
           }
+          woofs[i].reward = fromWei(reward, WOOF.decimals)
         }
         console.log('woofs', woofs)
         resolve(woofs)

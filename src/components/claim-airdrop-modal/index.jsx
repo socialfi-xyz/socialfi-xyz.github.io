@@ -4,7 +4,7 @@ import './index.less'
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
 import {getContract, getWeb3, useActiveWeb3React} from "../../web3";
 import {WOOF} from "../../web3/address";
-import {fromWei, numToWei, toFormat} from "../../utils/format";
+import {fromWei, numToWei, toFormat, tweetIdToHex} from "../../utils/format";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import {useHistory} from 'react-router-dom'
@@ -63,7 +63,7 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
     console.log('signData', signData)
     console.log('userData', userData)
     // signData.signatureList
-    contract.methods.airClaim(Web3.utils.padLeft(Web3.utils.numberToHex(userData.twitterId), 64), signData.twitters, []).send({
+    contract.methods.airClaim(tweetIdToHex(userData.twitterId), signData.twitters, []).send({
       from: account,
       value: buyValue
     }).on('transactionHash', hash => {

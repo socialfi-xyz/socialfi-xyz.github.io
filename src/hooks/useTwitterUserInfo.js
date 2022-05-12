@@ -5,7 +5,7 @@ import {calcDays} from "../utils";
 import {ClientContract, multicallClient, multicallConfig} from "../web3/multicall";
 import {WOOF} from "../web3/address";
 import Web3 from "web3";
-import {fromWei} from "../utils/format";
+import {fromWei, tweetIdToHex} from "../utils/format";
 import BigNumber from "bignumber.js";
 import {useActiveWeb3React} from "../web3";
 import {TWITTER_USER_INFO} from "../redux";
@@ -20,7 +20,6 @@ export default function useTwitterUserInfo(){
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)
     serverInfo.calcNonce = calcNonce
-    console.log('serverInfo', serverInfo)
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const calls = [
       contract.isCmpdOf(account),
@@ -32,7 +31,7 @@ export default function useTwitterUserInfo(){
       contract.unlockedOf(account),
       contract.gets([Web3.utils.stringToHex('discount')]),
       contract.calcForce({
-        id: Web3.utils.padLeft(Web3.utils.numberToHex(serverInfo.twitterId), 64),
+        id: tweetIdToHex(serverInfo.twitterId),
         createTime: ~~(new Date(serverInfo.userCreatedAt).getTime() / 1000),
         followers: serverInfo.followersCount,
         tweets: serverInfo.tweetCount

@@ -13,6 +13,20 @@ export const useNow = () => {
   return now
 }
 
+export const useCountDown = (endTime) => {
+  const now = useNow()
+  const remaining = endTime - now
+  if (remaining <= 0){
+    return 'End'
+  }
+  const hours = ~~(remaining/3600)
+  const minutes = ~~((remaining%3600)/60)
+  return {
+    hours,
+    minutes
+  }
+}
+
 export const useIsDarkMode = () => {
   const darkMode = useSelector(state => state.index.darkMode)
   const dispatch = useDispatch()

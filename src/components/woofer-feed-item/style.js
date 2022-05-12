@@ -4,17 +4,20 @@ import {CustomScroll, FlexCenter} from "../../theme/style";
 export const WooferFeedItemView = styled.div`
   .woofer-item {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 428px;
     grid-column-gap: 16px;
     margin: 24px 0;
-
-    .woofer-item-cs {
-      background: ${({theme}) => theme.cardBg1};
-      max-height: 450px;
-      border-radius: 16px;
+    .woofer-item-cv{
       overflow: hidden;
+      border-radius: 16px;
+      min-width: 350px;
+    }
+    .woofer-item-cs {
       padding: 8px 0;
-
+      background: ${({theme}) => theme.cardBg1};
+      max-height: 520px;
+      overflow-y: auto;
+      ${({theme}) => CustomScroll(theme)};
       & > div {
         background: ${({theme}) => theme.cardBg1};
         padding: 8px 12px 8px 16px;
@@ -26,11 +29,12 @@ export const WooferFeedItemView = styled.div`
           height: 100%;
           color: ${({ theme }) => theme.text1};
           ${FlexCenter};
+          img{
+            width: 40px;
+            height: 40px;
+            animation: rotate 1s linear infinite;
+          }
         }
-
-        overflow-y: auto;
-        ${({theme}) => CustomScroll(theme)};
-
         .twitter-tweet.twitter-tweet-rendered {
           margin: 0 !important;
         }
@@ -55,8 +59,15 @@ export const WooferFeedItemView = styled.div`
         span {
           font-weight: 400;
           font-size: 16px;
-          line-height: 24px;
-          color: ${({theme}) => theme.text1};
+          line-height: 18px;
+          margin: 4px 0;
+          color: ${({theme}) => theme.text6};
+          &:nth-child(1){
+            white-space: nowrap;
+          }
+          &:nth-last-child(1){
+            text-align: right;
+          }
         }
       }
     }

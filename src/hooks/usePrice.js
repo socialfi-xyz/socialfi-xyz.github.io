@@ -1,13 +1,13 @@
 import {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {ETH_PRICE, WOOF_PRICE} from "../redux";
+import {ETH_PRICE, WOOF_BALANCE_OF, WOOF_PRICE} from "../redux";
 import {ChainId, Fetcher, Route, Token, WETH} from "@uniswap/sdk";
-import {ClientContract, multicallClient} from "../web3/multicall";
+import {ClientContract, multicallClient, multicallConfig} from "../web3/multicall";
 import SwapRouterAbi from '../web3/abi/SwapRouter.json'
-import {UNI_SWAP_ROUTER} from "../web3/address";
+import {UNI_SWAP_ROUTER, WOOF} from "../web3/address";
 import {fromWei, numToWei} from "../utils/format";
 
-export default function useEthPrice() {
+export const useEthPrice = () => {
   const {updateCount} = useSelector(state => state.index)
   const dispatch = useDispatch()
 
@@ -24,14 +24,10 @@ export default function useEthPrice() {
   async function getPrice() {
     const router = new ClientContract(SwapRouterAbi, UNI_SWAP_ROUTER, ChainId.MAINNET)
     return multicallClient([
-      router.getAmountsOut(numToWei('1', 18), ["0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9", WETH.address, USDC.address]),
       router.getAmountsOut(numToWei('1', 18), [WETH.address, USDC.address])
     ]).then(res => {
       if (res[0] !== null) {
-        return {
-          woofPrice: fromWei(res[0][res[0].length - 1], USDC.decimals).toString(),
-          ethPrice: fromWei(res[1][res[1].length - 1], USDC.decimals).toString()
-        }
+        return fromWei(res[0][res[0].length - 1], USDC.decimals).toString()
       }
     })
   }
@@ -43,11 +39,22 @@ export default function useEthPrice() {
       }
       dispatch({
         type: ETH_PRICE,
-        data: data.ethPrice
+        data: data
       })
+    })
+  }, [updateCount])
+}
+
+export const useWOOFPrice = () => {
+  const {updateCount} = useSelector(state => state.index)
+  const dispatch = useDispatch()
+
+  useMemo(() => {
+    const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
+    multicallClient([contract.price()]).then(data => {
       dispatch({
         type: WOOF_PRICE,
-        data: data.woofPrice
+        data: fromWei(data[0], WOOF.decimals).toFixed(4)
       })
     })
   }, [updateCount])
