@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.1f6fd59c.chunk.css",
-    "main.js": "/static/js/main.9dde6ef7.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.65c1a55e.js",
+    "main.css": "/static/css/main.86e82fe9.chunk.css",
+    "main.js": "/static/js/main.aed6914b.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.3b50a361.js",
     "static/css/2.40bbe35b.chunk.css": "/static/css/2.40bbe35b.chunk.css",
-    "static/js/2.27144422.chunk.js": "/static/js/2.27144422.chunk.js",
-    "static/js/3.944176b0.chunk.js": "/static/js/3.944176b0.chunk.js",
+    "static/js/2.b8671255.chunk.js": "/static/js/2.b8671255.chunk.js",
+    "static/js/3.cc9505d1.chunk.js": "/static/js/3.cc9505d1.chunk.js",
     "static/js/4.96568fe6.chunk.js": "/static/js/4.96568fe6.chunk.js",
     "index.html": "/index.html",
     "static/css/2.40bbe35b.chunk.css.gz": "/static/css/2.40bbe35b.chunk.css.gz",
-    "static/css/main.1f6fd59c.chunk.css.gz": "/static/css/main.1f6fd59c.chunk.css.gz",
-    "static/js/2.27144422.chunk.js.LICENSE.txt": "/static/js/2.27144422.chunk.js.LICENSE.txt",
-    "static/js/2.27144422.chunk.js.gz": "/static/js/2.27144422.chunk.js.gz",
-    "static/js/3.944176b0.chunk.js.gz": "/static/js/3.944176b0.chunk.js.gz",
-    "static/js/main.9dde6ef7.chunk.js.gz": "/static/js/main.9dde6ef7.chunk.js.gz",
+    "static/css/main.86e82fe9.chunk.css.gz": "/static/css/main.86e82fe9.chunk.css.gz",
+    "static/js/2.b8671255.chunk.js.LICENSE.txt": "/static/js/2.b8671255.chunk.js.LICENSE.txt",
+    "static/js/2.b8671255.chunk.js.gz": "/static/js/2.b8671255.chunk.js.gz",
+    "static/js/3.cc9505d1.chunk.js.gz": "/static/js/3.cc9505d1.chunk.js.gz",
+    "static/js/main.aed6914b.chunk.js.gz": "/static/js/main.aed6914b.chunk.js.gz",
     "static/media/index.less": "/static/media/Poppins.4603832f.ttf",
     "static/media/airdrop-icon-off.2e93f570.svg": "/static/media/airdrop-icon-off.2e93f570.svg",
     "static/media/airdrop-icon-on.ab1980f4.svg": "/static/media/airdrop-icon-on.ab1980f4.svg",
@@ -36,6 +36,7 @@
     "static/media/github_light.d890736e.svg": "/static/media/github_light.d890736e.svg",
     "static/media/home-icon-off.bdf77236.svg": "/static/media/home-icon-off.bdf77236.svg",
     "static/media/home-icon-on.b28a419d.svg": "/static/media/home-icon-on.b28a419d.svg",
+    "static/media/loading.bad1af50.svg": "/static/media/loading.bad1af50.svg",
     "static/media/logo.80e64d15.svg": "/static/media/logo.80e64d15.svg",
     "static/media/menu.dd385bfd.svg": "/static/media/menu.dd385bfd.svg",
     "static/media/metaMask.fd696e0b.png": "/static/media/metaMask.fd696e0b.png",
@@ -48,10 +49,10 @@
     "static/media/twitter_light.a1b44289.svg": "/static/media/twitter_light.a1b44289.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.65c1a55e.js",
+    "static/js/runtime-main.3b50a361.js",
     "static/css/2.40bbe35b.chunk.css",
-    "static/js/2.27144422.chunk.js",
-    "static/css/main.1f6fd59c.chunk.css",
-    "static/js/main.9dde6ef7.chunk.js"
+    "static/js/2.b8671255.chunk.js",
+    "static/css/main.86e82fe9.chunk.css",
+    "static/js/main.aed6914b.chunk.js"
   ]
 }
