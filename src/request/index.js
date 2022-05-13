@@ -1,4 +1,4 @@
-let requestUrl_ = 'https://node1.woofer//"http://192.168.1.239:5000".xyz'////  'https://node1.woofer
+let requestUrl_ = 'https://node1.woofer.xyz'//"http://192.168.1.239:5000"//
 // if (sessionStorage.getItem('socialfi_xyz_test')){
 //   requestUrl_ = 'https://node1.socialfi.xyz'
 // }
