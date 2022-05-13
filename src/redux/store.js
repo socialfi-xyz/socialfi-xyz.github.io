@@ -4,11 +4,12 @@ import thunkMiddleware from 'redux-thunk'
 import index from './index'
 
 import {persistStore, persistReducer} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import storageSession from 'redux-persist/lib/storage/session'
 
 const persistConfig = {
   key: 'root',
-  storage: storage,
+  storage: storageSession,
+  whitelist: ['language', 'darkMode', 'ethPrice', 'woofPrice']
 }
 
 const myPersistReducer = persistReducer(

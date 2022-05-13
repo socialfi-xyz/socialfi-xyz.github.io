@@ -14,7 +14,7 @@ import LoadingIcon from '../../assets/images/svg/loading.svg'
 
 function CountDown({endTime}) {
   const {hours, minutes} = useCountDown(endTime)
-  if (!endTime || endTime <= 0 ) {
+  if (!endTime || endTime <= 0) {
     return <>{`- hours - minutes`}</>
   }
   return <>{`${hours} hours ${minutes} minutes`}</>
@@ -38,7 +38,7 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
     earned: '0'
   })
   const [contractStateData, setContractStateData] = useState({
-    APY:'0',
+    APY: '0',
     woofEndTime: '0',
   })
 
@@ -47,14 +47,12 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
     const tweetId = tweetIdToHex(tweet.tweetId)
     const calls = [
       contract.woofEndTime(tweetId),
-      // contract.APY(tweetId),
+      contract.APY(tweetId),
     ]
     multicallClient(calls).then(res => {
-      const contractStateData_ = cloneDeep(contractStateData)
-
       setContractStateData({
-        ...contractStateData_,
         woofEndTime: res[0],
+        APY: fromWei(res[1], 18)
       })
     })
   }
@@ -62,12 +60,14 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
   const getAccountData = () => {
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const tweetId = tweetIdToHex(tweet.tweetId)
+    console.log(tweetId, account)
     const calls = [
       contract.woofDog(tweetId, account),
-      contract.roi(tweetId, account),
       contract.earned(tweetId, account),
+      // contract.roi(tweetId, account),
     ]
     multicallClient(calls).then(res => {
+      console.log(res)
       if (res[0] === null) {
         return
       }
@@ -82,9 +82,9 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
         reward: keepDecimals(fromWei(reward, 10)),
         rewardPaid: keepDecimals(fromWei(rewardPaid, 10)),
 
-        roi: keepDecimals(fromWei(res[1], 10)),
 
-        earned: keepDecimals(fromWei(res[2], 10)),
+        earned: keepDecimals(fromWei(res[1], 10)),
+        // roi: keepDecimals(fromWei(res[2], 10)),
       })
     })
   }
@@ -97,7 +97,7 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
     getContractStaticData()
   }, [updateCount])
   useMemo(() => {
-    if (account && accountAirClaimed === 1){
+    if (account && accountAirClaimed === 1) {
       getAccountData()
     }
   }, [updateCount, account, accountAirClaimed])
@@ -140,7 +140,7 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
               </div>
               <div className="woofer-item-info-data-i">
                 <span>7-day Return</span>
-                <span>150%</span>
+                <span>{(contractStateData.APY * 100).toFixed(2) * 1}%</span>
               </div>
               <div className="woofer-item-info-data-i">
                 <span>Rewards</span>
@@ -148,11 +148,11 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
               </div>
               <div className="woofer-item-info-data-i">
                 <span>Rewoof TVL</span>
-                <span></span>
+                <span>{toFormat(keepDecimals(tweet.rewoofAmount))} WOOF (${calcWoofVal(tweet.rewoofAmount)})</span>
               </div>
               <div className="woofer-item-info-data-i">
                 <span>Rewoofers</span>
-                <span></span>
+                <span>{tweet.rewoofs.length}</span>
               </div>
               {
                 account && <>
@@ -204,9 +204,9 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
             {
               (account && accountAirClaimed === 1) && (
                 <div className="actions-btn flex-center">
-                <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
-                <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
-              </div>
+                  <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
+                  <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
+                </div>
               )
             }
           </div>

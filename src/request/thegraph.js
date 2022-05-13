@@ -6,7 +6,7 @@ import Web3 from "web3";
 import {getUserByAddress} from "./twitter";
 import {WOOF} from "../web3/address";
 
-export function queryDashboardData(){
+export function queryDashboardData() {
   return axios({
     method: 'post',
     url: 'https://api.thegraph.com/subgraphs/name/yuanxxxxxx/s1',
@@ -33,14 +33,14 @@ export function queryDashboardData(){
     for (let i = 0; i < hourDatas.length; i++) {
       hourDatas[i].apy = fromWei(hourDatas[i].apy, 18).toFixed(4)
       hourDatas[i].index = fromWei(hourDatas[i].index, 18).toFixed(4)
-      hourDatas[i].ethPrice = fromWei(hourDatas[i].ethPrice, 18).toFixed(4)*1
-      hourDatas[i].price = fromWei(hourDatas[i].price, 18).toFixed(4)*1
-      hourDatas[i].totalSupply = fromWei(hourDatas[i].totalSupply, 18).toFixed(2)*1
-      const date = new Date(hourDatas[i].timestamp*1000)
+      hourDatas[i].ethPrice = fromWei(hourDatas[i].ethPrice, 18).toFixed(4) * 1
+      hourDatas[i].price = fromWei(hourDatas[i].price, 18).toFixed(4) * 1
+      hourDatas[i].totalSupply = fromWei(hourDatas[i].totalSupply, 18).toFixed(2) * 1
+      const date = new Date(hourDatas[i].timestamp * 1000)
       hourDatas[i].time = `${getMStr(date.getMonth())} ${date.getDate()}`
       hourDatas[i].marketCap = new BigNumber(hourDatas[i].price).multipliedBy(new BigNumber(hourDatas[i].totalSupply)).toFixed(2) * 1
       hourDatas[i].treasuryValue = fromWei(hourDatas[i].treasury_eth, 18).multipliedBy(hourDatas[i].ethPrice).plus(fromWei(hourDatas[i].treasury_dai)).toFixed(2) * 1
-      hourDatas[i].backingPerToken = hourDatas[i].totalSupply <= 0 ? 0 : new BigNumber(hourDatas[i].treasuryValue).div(new BigNumber(hourDatas[i].totalSupply)).toFixed(6)*1
+      hourDatas[i].backingPerToken = hourDatas[i].totalSupply <= 0 ? 0 : new BigNumber(hourDatas[i].treasuryValue).div(new BigNumber(hourDatas[i].totalSupply)).toFixed(6) * 1
     }
     return hourDatas
   })
@@ -107,6 +107,7 @@ export function getWoofData() {
           }
           woofs[i].accountTwitterData = accountTwitterData
           let reward = new BigNumber(0)
+          let rewoofAmount = new BigNumber(0)
           for (let j = 0; j < woofs[i].cowoofs.length; j++) {
             if (!map[woofs[i].cowoofs[j].account.toLowerCase()]) {
               woofs[i].cowoofs.splice(j--, 1)
@@ -121,8 +122,11 @@ export function getWoofData() {
               continue
             }
             woofs[i].rewoofs[j].accountTwitterData = map[woofs[i].rewoofs[j].account.toLowerCase()]
+            rewoofAmount = rewoofAmount.plus(woofs[i].rewoofs[j].amount)
           }
           woofs[i].reward = keepDecimals(fromWei(reward, WOOF.decimals))
+          woofs[i].rewoofAmount = keepDecimals(fromWei(rewoofAmount, WOOF.decimals))
+
         }
         console.log('woofs', woofs)
         resolve(woofs)

@@ -15,12 +15,10 @@ export const TWITTER_USER_INFO = 'TWITTER_USER_INFO'
 export const TWITTER_USER_INFO_RELY = 'TWITTER_USER_INFO_RELY'
 export const UPDATE_WOOF_LIST = 'UPDATE_WOOF_LIST'
 
-const language = window.localStorage.getItem('p_language') || 'en'
-const darkMode = !(localStorage.getItem('isDarkMode') === '0')
 const initState = {
-  language,
+  language: 'en',
   showConnectWallet: false,
-  darkMode,
+  darkMode: true,
   webWalletData: {},
   updateCount: 0,
   blockHeight: 0,

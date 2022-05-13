@@ -55,15 +55,17 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
     // const nonceOf = await multicallClient([callContract.nonceOf(account)]).then(data => data[0])
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const signData = await getNodeSign(params)
+    console.log('signData params', params)
     // const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
     // const tokenNonce = await multicallClient([
     //   tokenContract.nonces(account)
     // ]).then(data => data[0])
 
-    console.log('signData', signData)
+    console.log('signData result', signData)
     console.log('userData', userData)
+    console.log('contract params', tweetIdToHex(userData.twitterId), signData.twitters, signData.signatureList)
     // signData.signatureList
-    contract.methods.airClaim(tweetIdToHex(userData.twitterId), signData.twitters, []).send({
+    contract.methods.airClaim(tweetIdToHex(userData.tweet.tweetId), signData.twitters, signData.signatureList).send({
       from: account,
       value: buyValue
     }).on('transactionHash', hash => {

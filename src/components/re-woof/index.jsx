@@ -18,7 +18,7 @@ import {permitSign} from "../../web3/sign";
 import ERC20Abi from "../../web3/abi/ERC20.json";
 import {TWITTER_USER_INFO_RELY, UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redux";
 import {message} from 'antd'
-import {getNonce, getUserInfo} from "../../request/twitter";
+import {getNodeSign, getNonce, getUserInfo} from "../../request/twitter";
 
 function SInput({
                   tokenValve,
@@ -210,7 +210,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const value = numToWei(tokenValve, buyTokenData.decimal).toString()
     const amount = numToWei(woofValve, WOOF.decimals)
-    const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.conversation_id : queryData.tweet.tweetId
+    const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.id : queryData.tweet.tweetId
     const twitterId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.author_id : queryData.tweet.twitterId
     console.log('params__', tweetIdToHex(twitterUserInfo.twitterId),
       tweetIdToHex(twitterId_),
@@ -219,9 +219,22 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       value,
       PermitSign,
       buyTokenData.router,
-      [])
+      )
 
     setLoading(true)
+    console.log('params__', params)
+    const signData = await getNodeSign(params)
+    console.log('signData.signatureList', signData.signatureList)
+
+    console.log('contract params', tweetIdToHex(twitterUserInfo.twitterId),
+      tweetIdToHex(twitterId_),
+      tweetIdToHex(tweetId_),
+      amount,
+      value,
+      PermitSign,
+      buyTokenData.router,
+      signData.signatureList)
+
     if(woofType === 'Co-woof' || woofType === 'woof') {
       contract.methods.cowoof(
         tweetIdToHex(twitterUserInfo.twitterId),
@@ -231,7 +244,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         value,
         PermitSign,
         buyTokenData.router,
-        []
+        signData.signatureList
       ).send({
         from: account,
         value: buyTokenData.symbol === superBuyTokenList[0].symbol ? value : undefined
@@ -254,7 +267,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         value,
         PermitSign,
         buyTokenData.router,
-        []
+        signData.signatureList
       ).send({
         from: account,
         value: buyTokenData.symbol === superBuyTokenList[0].symbol ? value : undefined
@@ -323,10 +336,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
           <>
             <div>
               <div className="s-view">
-                {
-                  outWoof < woofValve * 0.1 && <p className="input-error-t">Minimum 10% of Rewoofer TVL required</p>
-                }
                 <div className="s-view">
+                  {
+                    (!outWoof || outWoof < woofValve * 0.1) && <p className="input-error-t">Minimum 10% of Rewoofer TVL required</p>
+                  }
                   <STInput>
                     <div className="st-input-box">
                       <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
@@ -339,7 +352,6 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
                 </div>
               </div>
             </div>
-
             <SInput
               onMax={onMax}
               buyTokenData={buyTokenData}
@@ -351,7 +363,6 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
               woofType={woofType}
               outWoof={outWoof}
             />
-
           </>
         )
       }

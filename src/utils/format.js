@@ -77,11 +77,11 @@ export const fromTwitterId = (id) => Web3.utils.hexToNumberString(id)
 
 export const keepDecimals = (num) => {
   if (num > 10000) {
-    return Number(num).toFixed(0)
+    return Number(num).toFixed(0) * 1
   } else if (num < 10){
-    return Number(num).toFixed(4)
+    return Number(num).toFixed(4) * 1
   } else {
-    return Number(num).toFixed(2)
+    return Number(num).toFixed(2) * 1
   }
 }
 
