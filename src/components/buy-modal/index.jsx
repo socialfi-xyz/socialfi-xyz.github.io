@@ -11,15 +11,18 @@ import ERC20Abi from '../../web3/abi/ERC20.json'
 import CloseIcon from "../../assets/images/svg/close.svg";
 import ArrowDown from '../../assets/images/svg/arrow-down.svg'
 import ArrowDown2 from '../../assets/images/svg/arrow-down2.svg'
+import ArrowDown2Dark from '../../assets/images/svg/arrow-down2_d.svg'
 import {permitSign} from "../../web3/sign";
 import {useDispatch, useSelector} from "react-redux";
 import {TWITTER_USER_INFO_RELY, UPDATE_COUNT} from "../../redux";
 import {CButton, CInput, STInput} from "../../theme/styleComponent";
+import {useIsDarkMode} from "../../hooks";
 
 
 function BuyModal({visible, onClose}, ref) {
   const { library, account} = useActiveWeb3React()
   const [tokenValve, setTokenValve] = useState(null)
+  const {darkMode} = useIsDarkMode()
 
   const {twitterUserInfo} = useSelector(state => state.index)
   const [buyOut, setBuyOut] = useState('0')
@@ -175,7 +178,7 @@ function BuyModal({visible, onClose}, ref) {
               <STInput>
                 <div className="select-view flex-center">
                   <span>{buyToken}</span>
-                  <img src={ArrowDown2} alt=""/>
+                  <img src={darkMode ? ArrowDown2Dark : ArrowDown2} alt=""/>
                   <div className="select-view-menu">
                     {
                       superBuyTokenList.map(item => (

@@ -72,6 +72,9 @@ export const stringToHex = (str, characterAmount = 32) => {
 export const tweetIdToHex = (tweetId) => {
   return numToHex(tweetId, 32)
 }
+export const hexToTweetId = (hex) => {
+  return Web3.utils.hexToNumberString(hex)
+}
 
 export const fromTwitterId = (id) => Web3.utils.hexToNumberString(id)
 

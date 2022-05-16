@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from "react";
 import {Button, Input} from "antd";
 import ArrowDown2 from "../../assets/images/svg/arrow-down2.svg";
+import ArrowDown2Dark from '../../assets/images/svg/arrow-down2_d.svg'
 import ArrowDown3 from "../../assets/images/svg/arrow-down3.svg";
 import cs from "classnames";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,6 +20,7 @@ import ERC20Abi from "../../web3/abi/ERC20.json";
 import {TWITTER_USER_INFO_RELY, UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redux";
 import {message} from 'antd'
 import {getNodeSign, getNonce, getUserInfo} from "../../request/twitter";
+import {useIsDarkMode} from "../../hooks";
 
 function SInput({
                   tokenValve,
@@ -32,6 +34,7 @@ function SInput({
                   outWoof
                 }) {
 
+  const {darkMode} = useIsDarkMode()
   return (
     <>
       <div className="s-view">
@@ -43,7 +46,7 @@ function SInput({
         <STInput>
           <div className="select-view flex-center">
             <span>{selectToken}</span>
-            <img src={ArrowDown2} alt=""/>
+            <img src={darkMode ? ArrowDown2Dark : ArrowDown2} alt=""/>
             <div className="select-view-menu">
               {
                 superBuyTokenList.map(item => (
@@ -178,6 +181,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       message.warning(`Minimum required to woof: ${toFormat(buyTokenData.woofMin)} ${buyTokenData.symbol} (${toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})`)
       return
     }
+    setLoading(true)
     let PermitSign = {
       deadline: 0,
       allowed: buyTokenData.allowed,
@@ -190,7 +194,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     if (!buyTokenData.isPermitSign){
       tokenNonce = await multicallClient([
         tokenContract.nonces(account)
-      ]).then(data => data[0])
+      ]).then(data => data[0]).catch(() => {})
       PermitSign = permitSignData
       console.log('tokenNonce', tokenNonce)
     }
@@ -202,11 +206,15 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     }
     console.log('calcNonce', calcNonce)
     console.log('params', params)
-    const queryData = await getUserInfo(params)
-
+    setLoading(true)
+    const queryData = await getUserInfo(params).catch(() => {
+      message.warning('tweet not font')
+      setLoading(false)
+    })
+    if (!queryData){
+      return
+    }
     console.log('queryData', queryData)
-
-
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const value = numToWei(tokenValve, buyTokenData.decimal).toString()
     const amount = numToWei(woofValve, WOOF.decimals)
@@ -221,9 +229,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       buyTokenData.router,
       )
 
-    setLoading(true)
     console.log('params__', params)
-    const signData = await getNodeSign(params)
+    const signData = await getNodeSign(params).catch(() => {
+      setLoading(false)
+    })
     console.log('signData.signatureList', signData.signatureList)
 
     console.log('contract params', tweetIdToHex(twitterUserInfo.twitterId),

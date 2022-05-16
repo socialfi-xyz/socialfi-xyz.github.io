@@ -10,7 +10,7 @@ export const WOOF = {
 
 export const WETH = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 export const DAI = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa'
-export const USDT = '0xD9BA894E0097f8cC2BBc9D24D308b98e36dc6D02'
+export const USDT = '0xF0d0F0Bc954123FE38172CC87b7BE923bf6e89EB'
 
 export const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
 export const ADDRESS_INFINITY = '0xffffffffffffffffffffffffffffffffffffffff'
@@ -41,7 +41,7 @@ export const DEF_SUPPER_BY_TOKEN_LIST = [
   },
   {
     symbol: 'USDT',
-    decimal: 18,
+    decimal: 6,
     address: USDT,
     isApprove: false,
     isPermitSign: true,

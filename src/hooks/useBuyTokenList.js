@@ -23,6 +23,7 @@ export default function useBuyTokenList() {
 
     for (let i = 0; i < defSuperTokenList.length; i++) {
       callsCalcIn.push(woofContract.calcIn(minCowoof, defSuperTokenList[i].router))
+      console.log()
       if (i >= 1) {
         const contract = new ClientContract(DAI_ABI, defSuperTokenList[i].address, ChainId.MAINNET)
         calls.push(contract.balanceOf(account))
@@ -39,6 +40,7 @@ export default function useBuyTokenList() {
     ]).then(res => {
       const res1 = res[1]
       const res2 = res[2]
+      console.log('res1', res1)
       defSuperTokenList[0].balanceOf = keepDecimals(fromWei(res[0], defSuperTokenList[0].decimal))
       for (let i = 0, j = 0; i < defSuperTokenList.length; i++) {
         // defSuperTokenList[i].woofMinOut = fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(4)

@@ -20,7 +20,7 @@ function CountDown({endTime}) {
   return <>{`${hours} hours ${minutes} minutes`}</>
 }
 
-export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn}) {
+export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn, reportItemsData}) {
   const {account} = useActiveWeb3React()
   const {updateCount, woofPrice, accountAirClaimed} = useSelector(state => state.index)
   const [tweetLoading, setTweetLoading] = useState(true)
@@ -52,10 +52,17 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
     multicallClient(calls).then(res => {
       setContractStateData({
         woofEndTime: res[0],
-        APY: fromWei(res[1], 18)
+        APY: fromWei(res[1], 18).toString()
+      })
+      reportItemsData({
+        tweetId: tweet.tweetId,
+        woofEndTime: res[0],
+        APY: fromWei(res[1], 18).toString()
       })
     })
   }
+
+
 
   const getAccountData = () => {
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
@@ -166,11 +173,11 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
                   {/*</div>*/}
                   <div className="woofer-item-info-data-i">
                     <span>Your Woof Rewards</span>
-                    <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
+                    <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
                   </div>
                   <div className="woofer-item-info-data-i">
                     <span>Your Rewoof Rewards</span>
-                    <span></span>
+                    <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
                   </div>
                 </>
               }
@@ -180,10 +187,10 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
                     <span>Your Co-woof Amount</span>
                     <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
                   </div>
-                  <div className="woofer-item-info-data-i">
-                    <span>Your Co-woof Rewards</span>
-                    <span></span>
-                  </div>
+                  {/*<div className="woofer-item-info-data-i">*/}
+                  {/*  <span>Your Co-woof Rewards</span>*/}
+                  {/*  <span></span>*/}
+                  {/*</div>*/}
                 </>
               }
             </div>

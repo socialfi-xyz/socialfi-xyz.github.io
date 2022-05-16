@@ -1,8 +1,7 @@
 import axios from 'axios'
-import {fromWei, keepDecimals} from "../utils/format";
+import {fromWei, hexToTweetId, keepDecimals} from "../utils/format";
 import {getMStr} from "../utils";
 import BigNumber from "bignumber.js";
-import Web3 from "web3";
 import {getUserByAddress} from "./twitter";
 import {WOOF} from "../web3/address";
 
@@ -60,6 +59,7 @@ export function getWoofData() {
         tweetId
         reward
         account
+        timestamp
         cowoofs {
           id
           account
@@ -77,24 +77,25 @@ export function getWoofData() {
       }
     }`,
       },
-    }).then(data => {
+    }).then(async data => {
       const woofs = data.data.data.woofs
       const users = []
       for (let i = 0; i < woofs.length; i++) {
-        woofs[i].tweetId = Web3.utils.hexToNumberString(woofs[i].tweetId)
+        woofs[i].tweetId = hexToTweetId(woofs[i].tweetId)
         users.push(woofs[i].account)
         for (let j = 0; j < woofs[i].cowoofs.length; j++) {
-          woofs[i].cowoofs[j].tweetId = Web3.utils.hexToNumberString(woofs[i].cowoofs[j].tweetId)
-          woofs[i].cowoofs[j].twitterId = Web3.utils.hexToNumberString(woofs[i].cowoofs[j].twitterId)
+          woofs[i].cowoofs[j].tweetId = hexToTweetId(woofs[i].cowoofs[j].tweetId)
+          woofs[i].cowoofs[j].twitterId = hexToTweetId(woofs[i].cowoofs[j].twitterId)
           users.push(woofs[i].cowoofs[j].account)
         }
         for (let j = 0; j < woofs[i].rewoofs.length; j++) {
-          woofs[i].rewoofs[j].tweetId = Web3.utils.hexToNumberString(woofs[i].rewoofs[j].tweetId)
-          woofs[i].rewoofs[j].twitterId = Web3.utils.hexToNumberString(woofs[i].rewoofs[j].twitterId)
+          woofs[i].rewoofs[j].tweetId = hexToTweetId(woofs[i].rewoofs[j].tweetId)
+          woofs[i].rewoofs[j].twitterId = hexToTweetId(woofs[i].rewoofs[j].twitterId)
           users.push(woofs[i].rewoofs[j].account)
         }
       }
-      getUserByAddress([...new Set(users)].join(',')).then(usersData => {
+      getUserByAddress([...new Set(users)].join(','))
+      .then(usersData => {
         const map = {}
         for (let i = 0; i < usersData.length; i++) {
           map[usersData[i].address.toLowerCase()] = usersData[i]

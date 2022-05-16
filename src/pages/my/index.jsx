@@ -12,6 +12,7 @@ import {TransferModal} from "../../components/transfer-modal";
 import {useSelector} from 'react-redux'
 
 import moment from "moment";
+import WooferFeed from "../../components/woofer-feed";
 
 let timer = null
 function My() {
@@ -98,6 +99,7 @@ function My() {
             </div>
           </div>
         </Spin>
+        <WooferFeed type="account"/>
         {
           showByModal && <BuyModal twitterUserInfo={twitterUserInfo} visible={showByModal} ref={buyModalRef} onClose={() => setShowByModal(false)}/>
         }

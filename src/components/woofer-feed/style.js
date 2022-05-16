@@ -35,6 +35,7 @@ export const WooferFeedView = styled.div`
         position: absolute;
         right: 0;
         top: 100%;
+        z-index: 2;
         width: 186px;
         background: #11639A;
         box-shadow: 0px 1px 4px rgba(25, 3, 69, 0.2);
