@@ -9,6 +9,7 @@ import {fromWei, tweetIdToHex} from "../utils/format";
 import BigNumber from "bignumber.js";
 import {useActiveWeb3React} from "../web3";
 import {TWITTER_USER_INFO} from "../redux";
+import {message} from "antd";
 
 export default function useTwitterUserInfo(){
   const {account} = useActiveWeb3React()
@@ -16,8 +17,11 @@ export default function useTwitterUserInfo(){
   const {accountAirClaimed, twitterUserInfoRely} = useSelector(state => state.index)
   const getData = async () => {
     const serverInfos = await getUserByAddress(account)
-    console.log(serverInfos)
+    console.log('serverInfos', serverInfos)
     const serverInfo = serverInfos[0]
+    if (!serverInfo) {
+      return message.error('unknown user')
+    }
     const calcNonce = await getNonce(account)
     serverInfo.days = calcDays(serverInfo.userCreatedAt)
     serverInfo.calcNonce = calcNonce

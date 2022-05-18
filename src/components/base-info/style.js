@@ -1,10 +1,12 @@
-.user-base-info-view {
+import styled from "styled-components";
+
+export const UserBaseInfoView = styled.div`
   display: flex;
   margin-bottom: 20px;
 
   .twitter-base-data {
     flex: 1;
-    border: 1px solid #33354C;
+    border: 1px solid ${({ theme }) => theme.inputBg1};
     border-radius: 16px;
     padding: 32px;
     .twitter-avatar {
@@ -28,7 +30,7 @@
           margin: 0;
           font-style: normal;
           font-weight: 600;
-          color: #FFFFFF;
+          color: ${({ theme }) => theme.text1};
         }
       }
     }
@@ -53,40 +55,36 @@
 
   .chart {
     width: 342px;
-    border: 1px solid #33354C;
+    border: 1px solid ${({ theme }) => theme.inputBg1};
     border-radius: 16px;
     padding: 10px;
     margin-left: 16px;
   }
-}
-@media (max-width: 750px) {
-  .user-base-info-view {
-    flex-direction: column;
-    .twitter-base-data{
-      .twitter-avatar {
-        & > img {
-          width: 56px;
-          height: 56px;
+
+  @media (max-width: 750px) {
+      flex-direction: column;
+      .twitter-base-data{
+        .twitter-avatar {
+          & > img {
+            width: 56px;
+            height: 56px;
+          }
+          & > div {
+            font-size: 16px;
+          }
         }
-        & > div {
+        .base-data-txt {
+          margin-top: 20px;
+          display: grid;
+          grid-template-columns: 150px 1fr;
+          font-style: normal;
+          font-weight: 600;
           font-size: 16px;
         }
       }
-      .base-data-txt {
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
+      .chart{
+        width: 100%;
+        margin: 10px 0 0 0;
       }
-    }
-    .chart{
-      width: 100%;
-      margin: 10px 0 0 0;
-    }
   }
-}
-@media (max-width: 450px) {
-
-}
+`

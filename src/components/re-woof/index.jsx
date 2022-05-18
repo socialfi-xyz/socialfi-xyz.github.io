@@ -21,6 +21,7 @@ import {TWITTER_USER_INFO_RELY, UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redu
 import {message} from 'antd'
 import {getNodeSign, getNonce, getUserInfo} from "../../request/twitter";
 import {useIsDarkMode} from "../../hooks";
+import BigNumber from "bignumber.js";
 
 function SInput({
                   tokenValve,
@@ -82,7 +83,7 @@ function SInput({
 export default function ReWoof({woofType = 'Woof', coWoofItem}) {
 
   const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
-  const {superBuyTokenList, woofBalanceOf, ethPrice, woofPrice, twitterUserInfo} = useSelector(state => state.index)
+  const {superBuyTokenList, ethPrice, woofPrice, twitterUserInfo} = useSelector(state => state.index)
   const {account, library} = useActiveWeb3React()
   const dispatch = useDispatch()
 
@@ -101,7 +102,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
 
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
-      setTokenValve(Math.max(buyTokenData.balanceOf - 0.1, 0))
+      setTokenValve(Math.max(new BigNumber(buyTokenData.balanceOf - 0.1).toFixed(4, 1), 0))
     } else {
       setTokenValve(buyTokenData.balanceOf)
     }
@@ -297,6 +298,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
 
     // bytes32 id, bytes32 twitterId, bytes32 tweetId, uint amount, uint value, PermitSign calldata ps, address[] calldata path, Signature[] calldata signatures
   }
+  useMemo(() => {
+    setWoofValue(twitterUserInfo.unlockedOf)
+    onMax()
+  }, [twitterUserInfo])
   return (
     <ReWoofView>
       {
@@ -330,7 +335,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
                       <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
                               placeholder="WOOF"/>
                       <div className="st-input-menu">
-                        <CButton size="small" onClick={() => setWoofValue(woofBalanceOf)}>MAX</CButton>
+                        <CButton size="small" onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
                       </div>
                     </div>
                   </STInput>
@@ -354,7 +359,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
                       <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
                               placeholder="WOOF"/>
                       <div className="st-input-menu">
-                        <CButton size="small" onClick={() => setWoofValue(woofBalanceOf)}>MAX</CButton>
+                        <CButton size="small" onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
                       </div>
                     </div>
                   </STInput>
@@ -387,7 +392,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
           {
             !buyTokenData.isApprove ? (
               <CButton type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</CButton>
-            ) : !buyTokenData.isPermitSign ? !permitSignData && (
+            ) : !buyTokenData.isPermitSign && !permitSignData ? (
               <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
             ) : <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet} loading={loading}>Woof</CButton>
           }

@@ -4,13 +4,13 @@ import {Tweet} from "react-twitter-widgets";
 import Avatars from "../avatars";
 import {CButton} from "../../theme/styleComponent";
 import {useCountDown, useIsDarkMode} from "../../hooks";
-import {useActiveWeb3React} from "../../web3";
+import {getContract, useActiveWeb3React} from "../../web3";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {ADDRESS_0, ADDRESS_INFINITY, WOOF} from "../../web3/address";
+import {WOOF} from "../../web3/address";
 import {useSelector} from "react-redux";
-import {fromWei, keepDecimals, numToHex, stringToHex, toFormat, tweetIdToHex} from "../../utils/format";
-import {cloneDeep} from "lodash";
+import {fromWei, keepDecimals, toFormat, tweetIdToHex} from "../../utils/format";
 import LoadingIcon from '../../assets/images/svg/loading.svg'
+import {UPDATE_WOOF_LIST} from "../../redux";
 
 function CountDown({endTime}) {
   const {hours, minutes} = useCountDown(endTime)
@@ -21,9 +21,10 @@ function CountDown({endTime}) {
 }
 
 export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn, reportItemsData}) {
-  const {account} = useActiveWeb3React()
+  const {account, library} = useActiveWeb3React()
   const {updateCount, woofPrice, accountAirClaimed} = useSelector(state => state.index)
   const [tweetLoading, setTweetLoading] = useState(true)
+  const [getRewardLoading, setRewardLoading] = useState(false)
   const {darkMode} = useIsDarkMode()
   const [accountData, setAccountData] = useState({
     cowoofAmt: '0',
@@ -63,7 +64,6 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
   }
 
 
-
   const getAccountData = () => {
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const tweetId = tweetIdToHex(tweet.tweetId)
@@ -98,6 +98,22 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
 
   const calcWoofVal = (amount) => {
     return toFormat(keepDecimals(amount * woofPrice))
+  }
+  const getRewards = () => {
+    setRewardLoading(true)
+    const contract = getContract(library, WOOF.abi, WOOF.address)
+    // tweetIdToHex(twitterUserInfo.twitterId),
+    contract.methods.getReward(
+      tweetIdToHex(tweet.tweetId),
+    ).send({
+      from: account,
+    })
+      .on('receipt', (_) => {
+        setRewardLoading(false)
+      })
+      .on('error', () => {
+        setRewardLoading(false)
+      })
   }
 
   useMemo(() => {
@@ -163,30 +179,42 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
               </div>
               {
                 account && <>
-                  <div className="woofer-item-info-data-i">
-                    <span>Your Rewoof Amount</span>
-                    <span>{toFormat(accountData.rewoofAmt)} WOOF (${calcWoofVal(accountData.rewoofAmt)})</span>
-                  </div>
+                  {
+                    accountData.rewoofAmt > 0 && (<div className="woofer-item-info-data-i">
+                      <span>Your Rewoof Amount</span>
+                      <span>{toFormat(accountData.rewoofAmt)} WOOF (${calcWoofVal(accountData.rewoofAmt)})</span>
+                    </div>)
+                  }
                   {/*<div className="woofer-item-info-data-i">*/}
                   {/*  <span>Your Woof Amount</span>*/}
                   {/*  <span></span>*/}
                   {/*</div>*/}
-                  <div className="woofer-item-info-data-i">
-                    <span>Your Woof Rewards</span>
-                    <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
-                  </div>
-                  <div className="woofer-item-info-data-i">
-                    <span>Your Rewoof Rewards</span>
-                    <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
-                  </div>
+                  {
+                    accountData.yield_ > 0 && (
+                      <div className="woofer-item-info-data-i">
+                        <span>Your Woof Rewards</span>
+                        <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
+                      </div>)
+                  }
+                  {
+                    accountData.reward > 0 && (
+                      <div className="woofer-item-info-data-i">
+                        <span>Your Rewoof Rewards</span>
+                        <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
+                      </div>)
+                  }
                 </>
               }
               {
                 account && <>
-                  <div className="woofer-item-info-data-i">
-                    <span>Your Co-woof Amount</span>
-                    <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
-                  </div>
+                  {
+                    accountData.cowoofAmt > 0 && (
+                      <div className="woofer-item-info-data-i">
+                        <span>Your Co-woof Amount</span>
+                        <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
+                      </div>
+                    )
+                  }
                   {/*<div className="woofer-item-info-data-i">*/}
                   {/*  <span>Your Co-woof Rewards</span>*/}
                   {/*  <span></span>*/}
@@ -213,6 +241,11 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
                 <div className="actions-btn flex-center">
                   <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
                   <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
+                  {
+                    (accountData.reward > 0 || accountData.yield_ > 0) &&
+                    <CButton type="primary" ghost onClick={getRewards} loading={getRewardLoading}>Receive
+                      rewards</CButton>
+                  }
                 </div>
               )
             }

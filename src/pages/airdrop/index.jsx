@@ -216,7 +216,7 @@ export default function Airdrop(){
             </div>
           </div>
           <ConnectWall visible={showConnectWallet} onClose={() => setShowConnectWallet(false)}/>
-          <ClaimAirdropModal visible={showAirdropClaim} onClose={() => setShowAirdropClaim(false)} userData={userData} params={params}/>
+          <ClaimAirdropModal visible={showAirdropClaim || true} onClose={() => setShowAirdropClaim(false)} userData={userData} params={params}/>
         </AirdropPage>
     </Layout>
   )

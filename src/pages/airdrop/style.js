@@ -189,7 +189,7 @@ export const AirdropPage = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff0f6;
+            color: ${({ theme }) => theme.text1};
           }
         }
       }
@@ -198,12 +198,12 @@ export const AirdropPage = styled.div`
     .analyze-twitter-data {
       max-width: 800px;
       margin: auto;
-      background: #373951;
+      background: ${({ theme }) => theme.cardBg1};
       padding: 32px;
       border-radius: 16px;
 
       textarea {
-        background: #33354C;
+        background: ${({ theme }) => theme.inputBg1};
         border-radius: 15px;
         border: 0;
 
@@ -211,7 +211,7 @@ export const AirdropPage = styled.div`
           color: rgba(194, 194, 194, 0.5);
         }
 
-        color: #ffffff;
+        color: ${({ theme }) => theme.text1};
 
         &:active, &:hover, &:focus {
           box-shadow: none;

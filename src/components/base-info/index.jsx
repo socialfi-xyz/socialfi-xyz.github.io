@@ -1,5 +1,5 @@
 import React from 'react'
-import './index.less'
+import './style'
 import {
   Area, Bar,
   CartesianGrid,
@@ -14,6 +14,7 @@ import {
 } from 'recharts'
 import {Tooltip} from "antd";
 import {toFormat} from "../../utils/format";
+import {UserBaseInfoView} from "./style";
 
 export default function BaseInfo({userData, atClaim}){
   const data = [
@@ -35,7 +36,7 @@ export default function BaseInfo({userData, atClaim}){
     }
   ]
   return (
-    <div className="user-base-info-view">
+    <UserBaseInfoView>
       <div className="twitter-base-data">
         <div className="twitter-avatar">
           <img src={userData.avatar} alt=""/>
@@ -72,6 +73,6 @@ export default function BaseInfo({userData, atClaim}){
           <Tooltip />
         </RadarChart>
       </div>
-    </div>
+    </UserBaseInfoView>
   )
 }

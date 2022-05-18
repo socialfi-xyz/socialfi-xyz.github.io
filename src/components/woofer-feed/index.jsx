@@ -137,7 +137,7 @@ export default function WooferFeed({type = 'all'}) {
         <div className="woofer-feed-header">
           <div className="woofer-feed-header-l">Woofer Feed</div>
           <div className="filter-switch flex-center">
-            Sort <img src={darkMode ? ArrowDown2Dark : ArrowDown2} alt=""/>
+            Sort <img src={ArrowDown2Dark} alt=""/>
             <div className="filter-switch-list">
               {
                 FILTER_LIST.map((item) => (

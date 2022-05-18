@@ -103,11 +103,14 @@ export const WooferFeedItemView = styled.div`
     .actions-btn {
       width: 100%;
       margin-bottom: 20px;
-
+      display: flex;
+      align-items: center;
+      justify-content: center;
       button {
-        margin: 0 20px;
-        width: 99px;
+        margin: 0 10px;
+        //width: 99px;
         height: 43px;
+        
       }
     }
   }

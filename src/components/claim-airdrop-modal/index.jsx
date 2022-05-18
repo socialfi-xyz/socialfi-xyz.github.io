@@ -118,13 +118,13 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
           userData && (
             <div className="claim-airdrop-dialog">
               <div className="claim-data">
-                {/*<div>Influence: {toFormat(userData.Influence)}</div>*/}
-                {/*<div>Additional influence score: {userData.mentionsAmount}</div>*/}
+                <div>Influence: {toFormat(userData.Influence)}</div>
+                <div>Additional influence score: {userData.mentionsAmount}</div>
                 <div>Available to claim: {userData.availableClaim}</div>
               </div>
 
-              <div className="buy-view">
-                {/*<p className="p-t">Available quota: {userData.quotaOf}</p>*/}
+            {/*<div className="buy-view">
+                <p className="p-t">Available quota: {userData.quotaOf}</p>
                 <div>
                   <Checkbox onChange={e => setCheckedBuy(e.target.checked)} checked={checkedBuy}><span
                     style={{whiteSpace: 'nowrap'}}>Buy WOOF</span></Checkbox>
@@ -132,13 +132,13 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
                     <Input type="number" value={ethValve} onInput={changeETHValue}
                            onBlur={e => (e.target.value * 1 + 0.1) > ethBalance && onMax()} placeholder="1 ETH"/>
                     <div className="input-menu">
-                      {/*<span>ETH</span>*/}
+                      <span>ETH</span>
                       <Button size="small" onClick={onMax}>MAX</Button>
                     </div>
                   </div>
                 </div>
                 <p className="p-b">Currently balance： {ethBalance} ETH</p>
-              </div>
+              </div>*/}
 
               <div className="btn-submit">
                 <Button type="primary" onClick={onClaim} style={{width: '100%'}} loading={claimLoading}>

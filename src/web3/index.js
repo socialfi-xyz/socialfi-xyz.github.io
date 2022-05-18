@@ -41,8 +41,7 @@ export const getHttpWeb3 = chainId => new Web3(new Web3.providers.HttpProvider(m
 export const useActiveWeb3React = () => {
   const { webWalletData } = store.getState().index
   const context = useWeb3ReactCore()
-  const contextNetwork = useWeb3ReactCore()
-  return !_.isEmpty(webWalletData) ? webWalletData : context.active ? context : contextNetwork
+  return !_.isEmpty(webWalletData) ? webWalletData : context
 }
 
 export function useBlockHeight() {

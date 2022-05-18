@@ -121,6 +121,15 @@ export const CInput = styled(Input)`
 `
 
 export const CButton = styled(Button)`
+    &.ant-btn-primary{
+        border-color: ${({ theme }) => theme.primary1};
+        background: ${({ theme }) => theme.primary1};
+        color: #ffffff;
+    }
+    &.ant-btn-background-ghost{
+        background: transparent;
+        color: ${({ theme }) => theme.text1}!important;
+    }
   &.ant-btn-primary[disabled] {
     background: ${({theme}) => theme.disabled} !important;
     color: #ffffff;

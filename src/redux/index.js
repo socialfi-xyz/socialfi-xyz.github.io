@@ -99,6 +99,11 @@ export default function reducer(state = initState, action) {
         ...state,
         updateWoofList: state.updateWoofList + 1
       }
+    case WOOF_BALANCE_OF:
+      return {
+        ...state,
+        woofBalanceOf: action.data
+      }
     default:
       return state
   }

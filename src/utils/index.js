@@ -33,7 +33,7 @@ export function calcQuota(users){
 }
 export const getHref = (username, calcNonce) => {
   const href = 'https://woofer.xyz' //window.location.href
-  const params = '?nonce=' + calcNonce
+  const params = '?n=' + calcNonce
   if (href[href.length - 1] === '/'){
     return href + params
   }
