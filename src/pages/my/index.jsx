@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState} from 'react'
-import './index.less'
+import './style'
 import Layout from "../../components/layout";
 import {WOOF} from "../../web3/address";
 import { toFormat} from "../../utils/format";
@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux'
 
 import moment from "moment";
 import WooferFeed from "../../components/woofer-feed";
+import {MyPage} from "./style";
 
 let timer = null
 function My() {
@@ -53,7 +54,7 @@ function My() {
 
   return (
     <Layout>
-      <div className="my-page layout-content-page custom-scroll">
+      <MyPage>
         <Spin spinning={!twitterUserInfo.twitterId}>
           <div className="my-page-main">
             <div className="my-page-main-u">
@@ -105,7 +106,7 @@ function My() {
         }
 
         <TransferModal twitterUserInfo={twitterUserInfo} visible={showTransferModal} onClose={() => setShowTransferModal(false)}/>
-      </div>
+      </MyPage>
     </Layout>
   )
 }

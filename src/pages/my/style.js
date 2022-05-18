@@ -1,18 +1,24 @@
-.my-page{
+import styled from "styled-components";
+import {CustomScroll, LayoutContentPage} from "../../theme/style";
+
+export const MyPage = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 930px;
   margin: auto;
-  .ant-spin-nested-loading{
+  ${({ theme }) => CustomScroll(theme)};
+  ${LayoutContentPage};
+  .ant-spin-nested-loading {
     border-radius: 10px;
     overflow: hidden;
   }
-  .u-info-data{
+
+  .u-info-data {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: 30px;
 
-    &>div{
+    & > div {
       //margin-top: 30px;
       font-style: normal;
       font-weight: 600;
@@ -21,71 +27,81 @@
       /* identical to box height */
       letter-spacing: -0.01em;
 
-      color: #FFFFFF;
+      color: ${({ theme }) => theme.text1};
       display: flex;
       align-items: center;
       margin-top: 30px;
-      &:nth-child(3n+2){
+
+      &:nth-child(3n+2) {
         font-weight: 500;
-        color: #BBBDBF;
+        color: ${({ theme }) => theme.text1};
       }
-      &:nth-child(3n+3){
+
+      &:nth-child(3n+3) {
         display: flex;
         align-items: center;
       }
     }
   }
-  .my-page-main{
+
+  .my-page-main {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     border-radius: 10px;
     overflow: hidden;
-    background: #373951;
-    .my-page-main-u{
+    background: ${({ theme }) => theme.cardBg1};
+
+    .my-page-main-u {
       padding: 40px 60px;
     }
-    .u-info-data-v{
+
+    .u-info-data-v {
       padding: 0 60px 40px 60px;
     }
-    button{
+
+    button {
       width: 150px;
       height: 40px;
       padding: 0 8px;
       border: 2px solid #1D9BF0;
-      background: #373951;
+      background: transparent;
       border-radius: 6px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 16px;
       line-height: 22px;
       /* identical to box height */
       text-align: center;
-      color: #ffffff;
+      color: ${({ theme }) => theme.text1};
     }
   }
-}
-@media (max-width: 750px) {
-  .my-page{
-    .u-info-data{
+
+  @media (max-width: 750px) {
+
+    .u-info-data {
       grid-template-columns: 1fr 1fr 140px;
       margin-top: 0px;
-      &>div{
+
+      & > div {
         max-width: calc(30vw);
-        word-wrap:break-word;
-        word-break:break-all;
+        word-wrap: break-word;
+        word-break: break-all;
         font-size: 16px;
         font-weight: 400;
       }
     }
-    .my-page-main{
-      .my-page-main-u{
+
+    .my-page-main {
+      .my-page-main-u {
         padding: 20px;
       }
-      .u-info-data-v{
+
+      .u-info-data-v {
         padding: 10px;
       }
-      button{
+
+      button {
         width: auto;
         height: 30px;
         font-size: 14px;
@@ -93,7 +109,4 @@
       }
     }
   }
-}
-@media (max-width: 450px) {
-
-}
+`

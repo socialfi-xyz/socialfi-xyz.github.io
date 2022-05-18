@@ -16,6 +16,7 @@ export function colors(darkMode = false) {
     text5: darkMode ? '#ffffff' : 'rgba(15, 20, 25, 0.5)',
     text6: darkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(15, 20, 25, 0.9)',
     text7: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(15, 20, 25, 0.6)',
+    text8: darkMode ? '#BBBDBF' : 'rgba(15, 20, 25, 0.5)',
 
     line1: darkMode ? '#373951' : 'rgba(15, 20, 25, 0.07)',
 

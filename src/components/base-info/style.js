@@ -42,7 +42,7 @@ export const UserBaseInfoView = styled.div`
       font-style: normal;
       font-weight: 500;
       font-size: 18px;
-      color: #BBBDBF;
+      color: ${({ theme }) => theme.text8};
       &>div{
         margin-bottom: 8px;
       }
