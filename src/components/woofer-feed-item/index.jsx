@@ -10,17 +10,43 @@ import {WOOF} from "../../web3/address";
 import {useSelector} from "react-redux";
 import {fromWei, keepDecimals, toFormat, tweetIdToHex} from "../../utils/format";
 import LoadingIcon from '../../assets/images/svg/loading.svg'
-import {UPDATE_WOOF_LIST} from "../../redux";
+import VirtualList from 'rc-virtual-list';
+import {Avatar, List} from 'antd';
 
 function CountDown({endTime}) {
-  const {hours, minutes} = useCountDown(endTime)
+  const {day, hours, minutes} = useCountDown(endTime)
   if (!endTime || endTime <= 0) {
-    return <>{`- hours - minutes`}</>
+    return <>{`- d - h - min`}</>
   }
-  return <>{`${hours} hours ${minutes} minutes`}</>
+  return <>{`${day} d ${hours} h ${minutes} min`}</>
 }
 
-export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn, reportItemsData}) {
+function WoofTwitterList ({list}) {
+  return (
+    <div className="woof-twitter-list">
+      <List>
+        <VirtualList
+          data={list}
+          height={200}
+          itemHeight={54}
+          itemKey="twitterId"
+        >
+          {it => (
+            <List.Item key={it.email}>
+              <List.Item.Meta
+                avatar={<Avatar src={it.accountTwitterData.avatar} style={{marginRight: '2px'}}/>}
+                title={<span>{it.accountTwitterData.name}</span>}
+                description={'@' + it.accountTwitterData.username}
+              />
+            </List.Item>
+          )}
+        </VirtualList>
+      </List>
+    </div>
+  )
+}
+
+export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
   const {account, library} = useActiveWeb3React()
   const {updateCount, woofPrice, accountAirClaimed} = useSelector(state => state.index)
   const [tweetLoading, setTweetLoading] = useState(true)
@@ -179,61 +205,52 @@ export default function WooferFeedItem({tweet, setShowWoofUserModalFn, onWoofBtn
               </div>
               {
                 account && <>
+                {
+                  (accountData.rewoofAmt > 0 || accountData.cowoofAmt > 0 || accountData.yield_ > 0 || accountData.reward > 0) && <h2 className="woofer-item-info-h2">Your</h2>
+                }
                   {
                     accountData.rewoofAmt > 0 && (<div className="woofer-item-info-data-i">
-                      <span>Your Rewoof Amount</span>
+                      <span>Rewoof Amount</span>
                       <span>{toFormat(accountData.rewoofAmt)} WOOF (${calcWoofVal(accountData.rewoofAmt)})</span>
                     </div>)
                   }
-                  {/*<div className="woofer-item-info-data-i">*/}
-                  {/*  <span>Your Woof Amount</span>*/}
-                  {/*  <span></span>*/}
-                  {/*</div>*/}
                   {
                     accountData.yield_ > 0 && (
                       <div className="woofer-item-info-data-i">
-                        <span>Your Woof Rewards</span>
+                        <span>Woof Rewards</span>
                         <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
                       </div>)
                   }
                   {
                     accountData.reward > 0 && (
                       <div className="woofer-item-info-data-i">
-                        <span>Your Rewoof Rewards</span>
+                        <span>Rewoof Rewards</span>
                         <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
                       </div>)
                   }
-                </>
-              }
-              {
-                account && <>
-                  {
-                    accountData.cowoofAmt > 0 && (
-                      <div className="woofer-item-info-data-i">
-                        <span>Your Co-woof Amount</span>
-                        <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
-                      </div>
-                    )
-                  }
-                  {/*<div className="woofer-item-info-data-i">*/}
-                  {/*  <span>Your Co-woof Rewards</span>*/}
-                  {/*  <span></span>*/}
-                  {/*</div>*/}
+                  <>
+                    {
+                      accountData.cowoofAmt > 0 && (
+                        <div className="woofer-item-info-data-i">
+                          <span>Co-woof Amount</span>
+                          <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
+                        </div>
+                      )
+                    }
+                  </>
                 </>
               }
             </div>
             <div className="woofer-item-partake">
-              <div className="flex-center" onClick={() => setShowWoofUserModalFn('Woofer', [tweet])}>
-                <Avatars list={[tweet]}/>
-                <span>Woofer</span>
-              </div>
-              <div className="flex-center" onClick={() => setShowWoofUserModalFn('Co-woof', tweet.cowoofs)}>
+              <div className="flex-center">
                 <Avatars list={tweet.cowoofs}/>
-                <span><span>{tweet.cowoofs.length}</span> Co-woof</span>
+                <span><span>{tweet.cowoofs.length}</span> Co-woofers</span>
+                <WoofTwitterList list={tweet.cowoofs}/>
               </div>
-              <div className="flex-center" onClick={() => setShowWoofUserModalFn('Rewoof', tweet.rewoofs)}>
+              <div className="flex-center">
                 <Avatars list={tweet.rewoofs}/>
-                <span><span>{tweet.rewoofs.length}</span> Rewoof</span>
+                <span><span>{tweet.rewoofs.length}</span> Rewoofers</span>
+                <WoofTwitterList list={tweet.rewoofs}/>
               </div>
             </div>
             {

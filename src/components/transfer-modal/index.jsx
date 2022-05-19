@@ -1,14 +1,14 @@
-import React, {useMemo, useState} from 'react'
-import {Modal, Checkbox, Button, Input, message} from 'antd'
-import './index.less'
-import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
-import {getContract, getWeb3, useActiveWeb3React} from "../../web3";
+import React, {useState} from 'react'
+import {Modal, Button, message} from 'antd'
+import {getContract, useActiveWeb3React} from "../../web3";
 import {WOOF} from "../../web3/address";
-import {fromWei, numToWei, toFormat} from "../../utils/format";
+import {numToWei, toFormat} from "../../utils/format";
 import CloseIcon from "../../assets/images/svg/close.svg";
 import Web3 from "web3";
 import {useDispatch, useSelector} from "react-redux";
 import {TWITTER_USER_INFO_RELY} from "../../redux";
+import {CButton, CInput, STInput} from "../../theme/styleComponent";
+import {TransferModalView} from "./style";
 
 export function TransferModal({visible, onClose}) {
   const {chainId, library, account} = useActiveWeb3React()
@@ -53,51 +53,50 @@ export function TransferModal({visible, onClose}) {
   }
 
   return (
-    <React.Fragment>
-      <Modal
-        title="Transfer"
-        visible={visible}
-        footer={null}
-        onCancel={onClose}
-        centered
-        wrapClassName="transfer-modal-wrap"
-        zIndex={1001}
-        destroyOnClose
-        closeIcon={<img src={CloseIcon} alt=""/>}
-      >
-        {
+    <Modal
+      title="Transfer"
+      visible={visible}
+      footer={null}
+      onCancel={onClose}
+      centered
+      wrapClassName="transfer-modal-wrap"
+      zIndex={1001}
+      destroyOnClose
+      closeIcon={<img src={CloseIcon} alt=""/>}
+    >
 
-            <div className="transfer-modal-dialog">
-              <div className="transfer-view">
-                <p className="p-t">To</p>
-                <div>
-                  <div className="input-eth">
-                    <Input type="text" value={toAddress} placeholder="0X000000" style={{ paddingRight: 0}} onInput={e => setToAddress(e.target.value)}/>
-                  </div>
-                </div>
-              </div>
-              <div className="transfer-view">
-                <p className="p-t">Amount</p>
-                <div>
-                  <div className="input-eth">
-                    <Input type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)} placeholder="1 WOOF"
-                           onBlur={e => (e.target.value * 1) > twitterUserInfo.unlockedOf && onMax()}/>
-                    <div className="input-menu">
-                      {/*<span>TWTR</span>*/}
-                      <Button size="small" onClick={onMax}>MAX</Button>
-                    </div>
-                  </div>
-                </div>
-                <p className="p-b">Available amount： {toFormat(twitterUserInfo.unlockedOf)} WOOF</p>
-              </div>
-              <div className="btn-submit">
-                <Button type="primary" onClick={onTransfer} loading={transferLoading}>
-                  Transfer
-                </Button>
+        <TransferModalView>
+          <div className="transfer-view">
+            <p className="p-t">To</p>
+            <div>
+              <div className="input-eth">
+                <CInput type="text" value={toAddress} placeholder="0X000000" style={{ paddingRight: 0}} onInput={e => setToAddress(e.target.value)}/>
               </div>
             </div>
-        }
-      </Modal>
-    </React.Fragment>
+          </div>
+          <div className="transfer-view">
+            <p className="p-t">Amount</p>
+
+            <STInput>
+              <div className="st-input-box">
+                <CInput type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)}
+                        placeholder="1 WOOF" onBlur={e => (e.target.value * 1) > twitterUserInfo.unlockedOf && onMax()}/>
+                <div className="st-input-menu">
+                  <CButton size="small" onClick={onMax}>MAX</CButton>
+                </div>
+              </div>
+            </STInput>
+
+
+
+            <p className="p-b">Available amount： {toFormat(twitterUserInfo.unlockedOf)} WOOF</p>
+          </div>
+          <div className="btn-submit">
+            <Button type="primary" onClick={onTransfer} loading={transferLoading}>
+              Transfer
+            </Button>
+          </div>
+        </TransferModalView>
+    </Modal>
   )
 }

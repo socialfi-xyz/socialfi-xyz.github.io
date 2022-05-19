@@ -1,4 +1,6 @@
-.transfer-modal-dialog{
+import styled from "styled-components";
+
+export const TransferModalView = styled.div`
   padding: 0 30px 20px 30px;
   .transfer-view{
     .p-t{
@@ -8,7 +10,7 @@
       line-height: 16px;
       letter-spacing: -0.01em;
 
-      color: #ffffff;
+      color: ${({ theme }) => theme.text1};
       margin: 24px 0 5px 0;
     }
     .input-eth{
@@ -39,4 +41,4 @@
       height: 32px;
     }
   }
-}
+`

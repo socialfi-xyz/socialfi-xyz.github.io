@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {CustomScroll, FlexCenter} from "../../theme/style";
+import {FlexCenter} from "../../theme/style";
 
 export const WooferFeedView = styled.div`
   margin-top: 40px;
@@ -73,6 +73,42 @@ export const WooferFeedView = styled.div`
     }
   }
 
+  .woof-loading{
+    background: ${({ theme }) => theme.cardBg1};
+    padding: 50px;
+    border-radius: 8px;
+    color: ${({ theme }) => theme.text1};
+    margin: 30px auto;
+    ${FlexCenter};
+    .icon-loading{
+      margin-right: 10px;
+    }
+  }
+  .woof-empty{
+    background: ${({ theme }) => theme.cardBg1};
+    padding: 50px;
+    ${FlexCenter};
+    border-radius: 8px;
+    flex-direction: column;
+    margin: 30px auto;
+    img{
+      width: 140px;
+      height: 140px;
+    }
+    p{
+      color: ${({ theme }) => theme.text1};
+      margin-top: 20px;
+    }
+    @media (min-width: 375px) and (max-width: 760px){
+      img{
+        width: 60px;
+        height: 60px;
+      }
+      p{
+        margin-top: 10px;
+      }
+    }
+  }
   .woofer-list {
     
   }

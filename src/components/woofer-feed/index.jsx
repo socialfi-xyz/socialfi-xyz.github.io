@@ -1,5 +1,4 @@
 import React, {useMemo, useState} from "react";
-import ArrowDown2 from '../../assets/images/svg/arrow-down2.svg'
 import ArrowDown2Dark from '../../assets/images/svg/arrow-down2_d.svg'
 import Check from '../../assets/images/svg/check.svg'
 import {WoofUserModal} from "../woof-user-modal";
@@ -10,7 +9,8 @@ import WooferFeedItem from "../woofer-feed-item";
 import {useSelector} from "react-redux";
 import {cloneDeep} from "lodash";
 import {useActiveWeb3React} from "../../web3";
-import {useIsDarkMode} from "../../hooks";
+import LoadingIcon from "../../assets/images/svg/loading.svg";
+import EmptyIcon from "../../assets/images/svg/empty.svg";
 
 const FILTER_LIST = [
   {
@@ -44,19 +44,19 @@ const FILTER_LIST = [
 ]
 
 export default function WooferFeed({type = 'all'}) {
-  const {darkMode} = useIsDarkMode()
   const [filterId, setFilterId] = useState(0)
   const {account} = useActiveWeb3React()
   const [coWoofItem, setCoWoofItem] = useState(null)
-  // coWoof
+
   const [poolList, setPoolList] = useState([])
   const [filterPoolList, setFilterPoolList] = useState([])
   const [showWoofUserModal, setShowWoofUserModal] = useState(false)
   const [woofType, setWoofType] = useState(null)
   const [itemsData, setItemsData] = useState({})
-  console.log('itemsData', itemsData)
-  const {updateWoofList, updateCount} = useSelector(state => state.index)
-  console.log('poolList', poolList)
+  const [loadLoading, setLoadLoading] = useState(false)
+
+  const {updateWoofList} = useSelector(state => state.index)
+
   const [woofUserModalData, setWoofUserModalData] = useState({
     title: '',
     list: []
@@ -74,6 +74,7 @@ export default function WooferFeed({type = 'all'}) {
     setShowWoofUserModal(true)
   }
   const getData = async () => {
+    setLoadLoading(true)
     const poolList_ = await getWoofData()
     console.log('poolList_', poolList_)
     if (type === 'account') {
@@ -87,15 +88,14 @@ export default function WooferFeed({type = 'all'}) {
       setPoolList(poolList_)
       onFilter(filterId, poolList_)
     } else {
-
       setPoolList(poolList_)
       onFilter(filterId, poolList_)
     }
+    setLoadLoading(false)
   }
 
   const onWoofBtn = (type, woof) => {
     setWoofType(type)
-    console.log(woof)
     setCoWoofItem(woof)
   }
 
@@ -154,12 +154,27 @@ export default function WooferFeed({type = 'all'}) {
             </div>
           </div>
         </div>
-        <div className="woofer-list">
-          {
-            filterPoolList.map((item, index) => <WooferFeedItem tweet={item} key={item.tweetId} setShowWoofUserModalFn={setShowWoofUserModalFn} onWoofBtn={onWoofBtn} reportItemsData={reportItemsData}/>)
-          }
-        </div>
-
+        {
+          loadLoading ? (
+            <div className="woof-loading">
+              <div className="icon-loading">
+                <img src={LoadingIcon} alt=""/>
+              </div>
+              <span>loading...</span>
+            </div>
+          ) : filterPoolList.length === 0 ? (
+            <div className="woof-empty">
+              <img src={EmptyIcon} alt=""/>
+              <p>No Content</p>
+            </div>
+          ) : (
+            <div className="woofer-list">
+              {
+                filterPoolList.map((item) => <WooferFeedItem tweet={item} key={item.tweetId} setShowWoofUserModalFn={setShowWoofUserModalFn} onWoofBtn={onWoofBtn} reportItemsData={reportItemsData}/>)
+              }
+            </div>
+          )
+        }
         <WoofUserModal list={woofUserModalData.list} title={woofUserModalData.title}
                        onClose={() => setShowWoofUserModal(false)}
                        visible={showWoofUserModal}/>

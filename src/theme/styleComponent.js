@@ -154,3 +154,31 @@ export const StepRadius = styled.div`
   padding-top: 2px;
   margin-right: 8px;
 `
+export const ModalView = styled.div`
+
+    .ant-modal-content{
+        border-radius: 10px;
+        overflow: hidden;
+        background: ${({ theme }) => theme.cardBg1};
+        .ant-modal-header{
+            border-bottom: 0;
+            background: ${({ theme }) => theme.cardBg1};
+            padding: 20px 24px;
+        }
+        .ant-modal-title{
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 19px;
+            /* identical to box height */
+
+            letter-spacing: -0.01em;
+
+            color: #1D9BF0;
+
+        }
+        .ant-modal-body{
+            padding-top: 10px;
+        }
+    }
+`

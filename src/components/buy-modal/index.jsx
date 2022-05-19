@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {TWITTER_USER_INFO_RELY, UPDATE_COUNT} from "../../redux";
 import {CButton, CInput, STInput} from "../../theme/styleComponent";
 import {useIsDarkMode} from "../../hooks";
+import {BuyModalView} from "./style";
 
 
 function BuyModal({visible, onClose}, ref) {
@@ -157,7 +158,7 @@ function BuyModal({visible, onClose}, ref) {
       >
         {/*<Button type="primary" onClick={onPermitSign_}>onPermitSign_</Button>*/}
         {
-          <div className="buy-modal-dialog">
+          <BuyModalView>
             <div className="claim-data">
               <div>
                 <div>{twitterUserInfo.price2}</div>
@@ -230,7 +231,7 @@ function BuyModal({visible, onClose}, ref) {
                 )
               }
             </div>
-          </div>
+          </BuyModalView>
         }
       </Modal>
     </React.Fragment>

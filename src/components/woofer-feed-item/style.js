@@ -54,6 +54,17 @@ export const WooferFeedItemView = styled.div`
     border: 1px solid ${({theme}) => theme.border1};
     box-sizing: border-box;
     border-radius: 16px;
+    .woofer-item-info-h2{
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 30px;
+      color: #FFFFFF;
+      margin: 8px 0;
+
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+
+    }
 
     .woofer-item-info-data {
       background: ${({theme}) => theme.cardBg1};
@@ -82,10 +93,11 @@ export const WooferFeedItemView = styled.div`
 
     .woofer-item-partake {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       margin: 16px 0;
 
       & > div {
+        position: relative;
         cursor: pointer;
 
         & > span {
@@ -95,6 +107,58 @@ export const WooferFeedItemView = styled.div`
 
           & > span {
             color: ${({theme}) => theme.text1};
+          }
+        }
+        .woof-twitter-list{
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 100%;
+          z-index: 10;
+          transform: translateX(-50%);
+          cursor: default;
+          width: 100%;
+          height: 200px;
+          border-radius: 10px;
+          overflow: hidden;
+          background: ${({ theme }) => theme.cardBg1};
+          box-shadow: 0px 1px 2px rgba(25, 3, 69, 0.25);
+          ${({ theme }) => CustomScroll(theme)};
+          .ant-list-item{
+            border-color: ${({ theme }) => theme.border1}!important;
+            padding: 6px 0;
+            &:hover{
+              background: rgba(255, 255, 255, 0.03);
+            }
+          }
+          .rc-virtual-list{
+            padding: 10px;
+          }
+          .ant-list-item-meta-content{
+            flex: 1;
+            overflow: hidden;
+          }
+          .ant-list-item-meta-avatar{
+            margin-right: 2px!important;
+          }
+          .ant-list-item-meta-title{
+            color: ${({ theme }) => theme.text1};
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            margin: 0;
+          }
+          .ant-list-item-meta-description{
+            color: ${({ theme }) => theme.text2};
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+          }
+        }
+        &:hover{
+          .woof-twitter-list{
+            display: block;
           }
         }
       }
