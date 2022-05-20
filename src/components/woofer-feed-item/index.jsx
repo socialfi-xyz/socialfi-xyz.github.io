@@ -157,6 +157,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
   useMemo(() => {
     setTweetLoading(true)
   }, [darkMode])
+  const now = ~~(new Date().getTime()/1000)
   return (
     <WooferFeedItemView>
       <div className="woofer-item">
@@ -259,8 +260,14 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
             {
               (account && accountAirClaimed === 1) && (
                 <div className="actions-btn flex-center">
-                  <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
-                  <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
+                  {
+                    contractStateData.woofEndTime > now && (
+                      <>
+                        <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
+                        <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
+                      </>
+                    )
+                  }
                   {
                     (accountData.reward > 0 || accountData.yield_ > 0) &&
                     <CButton type="primary" ghost onClick={getRewards} loading={getRewardLoading}>Receive
