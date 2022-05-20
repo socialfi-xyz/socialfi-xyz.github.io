@@ -17,7 +17,11 @@ export const useCountDown = (endTime) => {
   const now = useNow()
   const remaining = endTime - now
   if (remaining <= 0){
-    return 'End'
+    return {
+      day: 0,
+      hours: 0,
+      minutes: 0
+    }
   }
   const day = ~~(remaining/86400)
   const hours = ~~((remaining%86400)/3600)

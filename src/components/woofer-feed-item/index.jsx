@@ -15,6 +15,9 @@ import {Avatar, List} from 'antd';
 
 function CountDown({endTime}) {
   const {day, hours, minutes} = useCountDown(endTime)
+  if (day === 0 && hours === 0 && minutes === 0) {
+    return 'End'
+  }
   if (!endTime || endTime <= 0) {
     return <>{`- d - h - min`}</>
   }
