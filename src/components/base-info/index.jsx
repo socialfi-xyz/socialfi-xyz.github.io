@@ -69,7 +69,7 @@ export default function BaseInfo({userData, atClaim}){
           <PolarGrid />
           <PolarAngleAxis dataKey="subject" color="#ffffff" stroke="#BBBDBF"/>
           <PolarRadiusAxis angle={30} domain={[0, 150]}/>
-          <Radar dataKey="val" stroke="#7935FF" fill="#7935FF"  fillOpacity="0.8"/>
+          <Radar dataKey="val" stroke="#1D9BF0" fill="#1D9BF0"  fillOpacity="0.8"/>
           <Tooltip />
         </RadarChart>
       </div>

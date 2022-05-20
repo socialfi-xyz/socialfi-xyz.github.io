@@ -59,7 +59,7 @@ export const WooferFeedItemView = styled.div`
       font-weight: 600;
       font-size: 20px;
       line-height: 30px;
-      color: #FFFFFF;
+      color: ${({ theme }) => theme.text1};
       margin: 8px 0;
 
       border-bottom: 1px dashed rgba(255, 255, 255, 0.1);

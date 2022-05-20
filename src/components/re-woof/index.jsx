@@ -209,7 +209,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     console.log('params', params)
     setLoading(true)
     const queryData = await getUserInfo(params).catch(() => {
-      message.warning('tweet not font')
+      message.warning('tweet not found')
       setLoading(false)
     })
     if (!queryData){

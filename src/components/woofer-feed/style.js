@@ -37,7 +37,7 @@ export const WooferFeedView = styled.div`
         top: 100%;
         z-index: 2;
         width: 186px;
-        background: #11639A;
+        background: #1883CA;
         box-shadow: 0px 1px 4px rgba(25, 3, 69, 0.2);
         border-radius: 16px;
         overflow: hidden;
@@ -49,6 +49,11 @@ export const WooferFeedView = styled.div`
           height: 34px;
           font-size: 12px;
           padding: 0 24px;
+            &>div{
+                display: flex;
+                align-items: center;
+                height: 34px;
+            }
 
           img {
             width: 8px;
