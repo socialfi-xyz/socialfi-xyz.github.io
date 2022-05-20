@@ -21,7 +21,7 @@ export const MyPage = styled.div`
     & > div {
       //margin-top: 30px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 18px;
       line-height: 18px;
       /* identical to box height */
@@ -34,7 +34,7 @@ export const MyPage = styled.div`
 
       &:nth-child(3n+2) {
         font-weight: 500;
-        color: ${({ theme }) => theme.text1};
+        color: ${({ theme }) => theme.text8};
       }
 
       &:nth-child(3n+3) {
