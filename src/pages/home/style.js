@@ -27,13 +27,17 @@ export const HomePage = styled.div`
   }
 
   @media (max-width: 750px) {
-    .home-banner {
-      padding: 40px 40px;
+    .home-view {
+      .home-banner {
+        padding: 40px 40px;
+      }
     }
   }
   @media (max-width: 450px) {
-    .home-banner {
-      padding: 30px 20px;
+    .home-view {
+      .home-banner {
+        padding: 30px 20px;
+      }
     }
   }
 `

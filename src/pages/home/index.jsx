@@ -6,8 +6,6 @@ import {HomePage} from "./style";
 
 export default function Home() {
 
-
-
   return (
     <Layout>
       <HomePage>

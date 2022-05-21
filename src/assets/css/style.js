@@ -2,11 +2,11 @@ import {createGlobalStyle} from "styled-components";
 
 export const FixedGlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: Poppins;
+    font-family: "Poppins";
     src: url('../font/Poppins.ttf');
   }
-  html,body{
-    font-family: Poppins;
+  html,body,p,h1{
+    font-family: -apple-system, "Poppins";
   }
 
   .share-btn iframe{
