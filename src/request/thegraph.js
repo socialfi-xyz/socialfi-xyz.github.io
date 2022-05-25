@@ -54,7 +54,7 @@ export function getWoofData() {
       data: {
         query: `
       {
-      woofs(first: 100) {
+      woofs(first: 100, timestamp: desc) {
         id
         tweetId
         reward

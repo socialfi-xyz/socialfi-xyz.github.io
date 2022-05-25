@@ -22,6 +22,7 @@ import {message} from 'antd'
 import {getNodeSign, getNonce, getUserInfo} from "../../request/twitter";
 import {useIsDarkMode} from "../../hooks";
 import BigNumber from "bignumber.js";
+import MsgSuccess from '../../assets/images/svg/msgSuccess.svg'
 
 function SInput({
                   tokenValve,
@@ -99,6 +100,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
   const [calcNonce, setCalcNonce] = useState('')
   const [isOnTweet, setIsOnTweet] = useState(false)
   const [onTweetLoading, setOnTweetLoading] = useState(false)
+  const isDarkMode = useIsDarkMode()
 
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
@@ -265,6 +267,17 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
           dispatch({
             type: UPDATE_WOOF_LIST
           })
+          if (woofType === 'Co-woof') {
+            message.success({
+              content: 'Co-woofed!',
+              icon: <img src={MsgSuccess}/>
+            })
+          } else if (woofType === 'woof') {
+            message.success({
+              content: 'Woofed!',
+              icon: <img src={MsgSuccess}/>
+            })
+          }
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -289,6 +302,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
           setLoading(false)
           dispatch({
             type: UPDATE_WOOF_LIST
+          })
+          message.success({
+            content: 'Rewoof!',
+            icon: <img src={MsgSuccess}/>
           })
         })
         .on('error', (err, receipt) => {

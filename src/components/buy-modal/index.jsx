@@ -18,6 +18,7 @@ import {TWITTER_USER_INFO_RELY, UPDATE_COUNT} from "../../redux";
 import {CButton, CInput, STInput} from "../../theme/styleComponent";
 import {useIsDarkMode} from "../../hooks";
 import {BuyModalView} from "./style";
+import MsgSuccess from "../../assets/images/svg/msgSuccess.svg";
 
 
 function BuyModal({visible, onClose}, ref) {
@@ -100,7 +101,10 @@ function BuyModal({visible, onClose}, ref) {
       .on('transactionHash', hash => {
       })
       .on('receipt', (_, receipt) => {
-        message.success("buy success")
+        message.success({
+          content: 'buy success!',
+          icon: <img src={MsgSuccess}/>
+        })
         refreshData()
         setLoading(false)
       })

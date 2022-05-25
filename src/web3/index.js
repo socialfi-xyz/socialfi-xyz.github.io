@@ -1,11 +1,12 @@
 import {message} from 'antd'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import Web3 from 'web3'
 import {multicallConfig} from './multicall'
 import {ChainId, Token, WETH, Fetcher, Route } from "@uniswap/sdk";
 import store from "../redux/store";
 import _ from 'lodash'
+import MsgSuccess from "../assets/images/svg/msgSuccess.svg";
 
 export const addToken = async (address, symbol, icon) =>{
   try {
@@ -22,7 +23,10 @@ export const addToken = async (address, symbol, icon) =>{
       },
     })
     if (addTokenClick) {
-      message.success('add success')
+      message.success({
+        content: 'add success!',
+        icon: <img src={MsgSuccess}/>
+      })
     }
   } catch (err) {
     console.log(err, 'addToken')

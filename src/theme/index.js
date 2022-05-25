@@ -28,7 +28,8 @@ export function colors(darkMode = false) {
     selectMenuBg: darkMode ? '#1D82C7' : '#1D82C7',
     selectMenuHovBg: darkMode ? '#1D9BF0' : '#1D9BF0',
     disabled: darkMode ? 'rgba(255, 255, 255, 0.25)' : 'rgba(15, 20, 25, 0.25)',
-    scrollBar: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)'
+    scrollBar: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+    shadow1: darkMode ? '0px 1px 6px 1px rgba(255, 255, 255, 0.05)' : '0px 1px 6px 1px rgba(0,0,0,0.15)'
   }
 }
 

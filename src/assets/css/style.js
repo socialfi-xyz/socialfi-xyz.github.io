@@ -234,4 +234,15 @@ export const FixedGlobalStyle = createGlobalStyle`
     animation: rotate 1s linear infinite;
   }
 }
+.ant-message-notice-content{
+  background: ${({ theme }) => theme.bg2};
+  border-radius: 8px;
+  color: ${({ theme }) => theme.text1};
+  box-shadow: ${({ theme }) => theme.shadow1};
+  img{
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+  }
+}
 `

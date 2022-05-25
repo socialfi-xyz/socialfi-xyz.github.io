@@ -26,12 +26,12 @@ const FILTER_ACTION_ALL = [
   {
     title: 'Remaining Period',
     id: 2,
-    sort: 'asc',//desc
+    sort: 'desc',
   },
   {
     title: '7-day Return',
     id: 3,
-    sort: 'asc',//desc
+    sort: 'desc',
   },
   {
     title: 'Rewards',
@@ -41,12 +41,12 @@ const FILTER_ACTION_ALL = [
   {
     title: 'Rewoof TVL',
     id: 5,
-    sort: 'asc',//desc
+    sort: 'desc',
   },
   {
     title: 'Rewoofers',
     id: 6,
-    sort: 'asc',//desc
+    sort: 'desc',
   }
 ]
 
@@ -85,7 +85,6 @@ export default function WooferFeed({type = 'all'}) {
   const getData = async () => {
     setLoadLoading(true)
     const poolList_ = await getWoofData()
-    console.log('poolList_', poolList_)
     if (type === 'account') {
       for (let i = 0; i < poolList_.length; i++) {
         const inCoWoof = poolList_[i].cowoofs.find(item => item.account.toLowerCase() === account.toLowerCase())
@@ -122,8 +121,8 @@ export default function WooferFeed({type = 'all'}) {
       }
     }
     switch (id) {
-      case 1:
-        filterList_ = filterList_.sort((a, b) => a.timestamp - b.timestamp)
+      case 0:
+        filterList_ = filterList_.sort((a, b) => b.timestamp - a.timestamp)
         break
       case 2:
         filterList_ = filterList_.sort((a, b) => subT((itemsData[b.tweetId]?.woofEndTime || 0), (itemsData[a.tweetId]?.woofEndTime || 0), sort === 'desc'))

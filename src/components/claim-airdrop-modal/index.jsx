@@ -12,6 +12,7 @@ import {connect, useDispatch} from "react-redux";
 import CloseIcon from "../../assets/images/svg/close.svg";
 import {getNodeSign} from "../../request/twitter";
 import {UPDATE_COUNT} from "../../redux";
+import MsgSuccess from "../../assets/images/svg/msgSuccess.svg";
 
 function ClaimAirdropModal({visible, onClose, userData, params}) {
   const {chainId, library, account} = useActiveWeb3React()
@@ -74,7 +75,10 @@ function ClaimAirdropModal({visible, onClose, userData, params}) {
         dispath({
           type: UPDATE_COUNT
         })
-        message.success("success")
+        message.success({
+          content: 'success',
+          icon: <img src={MsgSuccess}/>
+        })
         setClaimLoading(false)
       })
       .on('error', (err, receipt) => {
