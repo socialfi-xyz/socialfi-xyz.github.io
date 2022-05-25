@@ -21,6 +21,7 @@ export function colors(darkMode = false) {
     line1: darkMode ? '#373951' : 'rgba(15, 20, 25, 0.07)',
 
     border1: darkMode ? '#373951' : '#FAFAFA',
+    border2: darkMode ? '#33354C' : '#F0F0F0',
 
     cardBg1: darkMode ? '#373951' : '#FAFAFA',
     inputBg1: darkMode ? '#33354C' : '#F0F0F0',

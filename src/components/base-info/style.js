@@ -8,7 +8,7 @@ export const UserBaseInfoView = styled.div`
     flex: 1;
     border: 1px solid ${({ theme }) => theme.inputBg1};
     border-radius: 16px;
-    padding: 32px;
+    padding: 24px 32px;
     .twitter-avatar {
       display: flex;
       align-items: center;
@@ -54,7 +54,7 @@ export const UserBaseInfoView = styled.div`
   }
 
   .chart {
-    width: 342px;
+    width: 360px;
     border: 1px solid ${({ theme }) => theme.inputBg1};
     border-radius: 16px;
     padding: 10px;

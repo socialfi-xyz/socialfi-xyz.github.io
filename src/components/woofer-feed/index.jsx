@@ -11,35 +11,42 @@ import {cloneDeep} from "lodash";
 import {useActiveWeb3React} from "../../web3";
 import LoadingIcon from "../../assets/images/svg/loading.svg";
 import EmptyIcon from "../../assets/images/svg/empty.svg";
+import ArrowSortIcon from "../../assets/images/svg/arrow-down-sort.svg";
 
-const FILTER_LIST = [
+const FILTER_ACTION_ALL = [
   {
     title: 'None',
     id: 0
   },
-  {
-    title: 'Start Time',
-    id: 1
-  },
+  // {
+  //   title: 'Start Time',
+  //   id: 1,
+  //   sort: 'asc',//desc
+  // },
   {
     title: 'Remaining Period',
-    id: 2
+    id: 2,
+    sort: 'asc',//desc
   },
   {
-    title: 'Highest APY',
-    id: 3
+    title: '7-day Return',
+    id: 3,
+    sort: 'asc',//desc
   },
   {
-    title: 'Highest Rewards',
-    id: 4
+    title: 'Rewards',
+    id: 4,
+    sort: 'asc',//desc
   },
   {
-    title: 'Highest Rewoof TVL',
-    id: 5
+    title: 'Rewoof TVL',
+    id: 5,
+    sort: 'asc',//desc
   },
   {
-    title: 'Highest Rewoofers',
-    id: 6
+    title: 'Rewoofers',
+    id: 6,
+    sort: 'asc',//desc
   }
 ]
 
@@ -56,6 +63,8 @@ export default function WooferFeed({type = 'all'}) {
   const [loadLoading, setLoadLoading] = useState(false)
 
   const {updateWoofList} = useSelector(state => state.index)
+
+  const [filterActions, setFilterActions] = useState(FILTER_ACTION_ALL)
 
   const [woofUserModalData, setWoofUserModalData] = useState({
     title: '',
@@ -86,10 +95,10 @@ export default function WooferFeed({type = 'all'}) {
         }
       }
       setPoolList(poolList_)
-      onFilter(filterId, poolList_)
+      onFilter(filterId,'desc', poolList_)
     } else {
       setPoolList(poolList_)
-      onFilter(filterId, poolList_)
+      onFilter(filterId,'desc', poolList_)
     }
     setLoadLoading(false)
   }
@@ -99,28 +108,40 @@ export default function WooferFeed({type = 'all'}) {
     setCoWoofItem(woof)
   }
 
-  const onFilter = (id, poolList_ = poolList) => {
+  const subT = (a, b, bol) => {
+    return bol ? a-b : b-a
+  }
+
+  const onFilter = (id, sort, poolList_ = poolList) => {
     let filterList_ = cloneDeep(poolList_)
+    let filterActions_ = cloneDeep(filterActions)
+    for (let i = 0; i < filterActions_.length; i++) {
+      if (filterActions_[i].id === id){
+        filterActions_[i].sort = sort
+        break
+      }
+    }
     switch (id) {
       case 1:
         filterList_ = filterList_.sort((a, b) => a.timestamp - b.timestamp)
         break
       case 2:
-        filterList_ = filterList_.sort((a, b) => (itemsData[a.tweetId]?.woofEndTime || 0) - (itemsData[b.tweetId]?.woofEndTime || 0))
+        filterList_ = filterList_.sort((a, b) => subT((itemsData[b.tweetId]?.woofEndTime || 0), (itemsData[a.tweetId]?.woofEndTime || 0), sort === 'desc'))
         break
       case 3:
-        filterList_ = filterList_.sort((a, b) => (itemsData[a.tweetId]?.APY || 0) - (itemsData[b.tweetId]?.APY || 0))
+        filterList_ = filterList_.sort((a, b) => subT((itemsData[b.tweetId]?.APY || 0), (itemsData[a.tweetId]?.APY || 0), sort === 'desc'))
         break
       case 4:
-        filterList_ = filterList_.sort((a, b) => a.reward - b.reward)
+        filterList_ = filterList_.sort((a, b) => subT(a.reward , b.reward, sort === 'desc'))
         break
       case 5:
-        filterList_ = filterList_.sort((a, b) => a.rewoofAmount - b.rewoofAmount)
+        filterList_ = filterList_.sort((a, b) => subT(a.rewoofAmount , b.rewoofAmount, sort === 'desc'))
         break
       case 6:
-        filterList_ = filterList_.sort((a, b) => a.rewoofs.length - b.rewoofs.length)
+        filterList_ = filterList_.sort((a, b) => subT(a.rewoofs.length , b.rewoofs.length, sort === 'desc'))
         break
     }
+    setFilterActions(filterActions_)
     setFilterId(id)
     setFilterPoolList(filterList_)
   }
@@ -140,14 +161,21 @@ export default function WooferFeed({type = 'all'}) {
             Sort <img src={ArrowDown2Dark} alt=""/>
             <div className="filter-switch-list">
               {
-                FILTER_LIST.map((item) => (
-                  <div key={item.id} onClick={() => onFilter(item.id)}>
+                filterActions.map((item) => (
+                  <div key={item.id} onClick={() => onFilter(item.id, filterId === item.id ? item.sort === 'desc' ? 'asc' : 'desc' : item.sort)}>
                     <div>
-                      {filterId === item.id && <img src={Check} alt=""/>}
+                      {filterId === item.id && <img src={Check} alt="" className="sort-check"/>}
                     </div>
-                    <div>
-                      {item.title}
+                    <div className="sort-check-item">
+                      <span>{item.title}</span>
+                      {
+                        item.id === filterId && item.id !== 0 && <>
+                          <img src={ArrowSortIcon} className={item.sort === 'desc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
+                          <img src={ArrowSortIcon} className={item.sort === 'asc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
+                        </>
+                      }
                     </div>
+
                   </div>
                 ))
               }

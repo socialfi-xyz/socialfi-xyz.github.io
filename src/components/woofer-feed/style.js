@@ -49,15 +49,37 @@ export const WooferFeedView = styled.div`
           height: 34px;
           font-size: 12px;
           padding: 0 24px;
-            &>div{
-                display: flex;
-                align-items: center;
-                height: 34px;
+          user-select: none;
+
+          & > div {
+            display: flex;
+            align-items: center;
+          }
+
+          .sort-check-item {
+
+            height: 34px;
+            white-space: nowrap;
+            word-wrap: normal;
+
+            .sort-check-on {
+
             }
 
-          img {
-            width: 8px;
-            height: 8px;
+            .sort-check-off {
+              opacity: 0.6;
+              transform: rotate(180deg);
+            }
+          }
+
+          img.sort-check {
+            width: 12px;
+            height: 12px;
+          }
+
+          .sort-check-on {
+            width: 14px;
+            height: 14px;
           }
 
           &:hover {
@@ -78,44 +100,51 @@ export const WooferFeedView = styled.div`
     }
   }
 
-  .woof-loading{
-    background: ${({ theme }) => theme.cardBg1};
+  .woof-loading {
+    background: ${({theme}) => theme.cardBg1};
     padding: 50px;
     border-radius: 8px;
-    color: ${({ theme }) => theme.text1};
+    color: ${({theme}) => theme.text1};
     margin: 30px auto;
     ${FlexCenter};
-    .icon-loading{
+
+    .icon-loading {
       margin-right: 10px;
     }
   }
-  .woof-empty{
-    background: ${({ theme }) => theme.cardBg1};
+
+  .woof-empty {
+    background: ${({theme}) => theme.cardBg1};
     padding: 50px;
     ${FlexCenter};
     border-radius: 8px;
     flex-direction: column;
     margin: 30px auto;
-    img{
+
+    img {
       width: 140px;
       height: 140px;
     }
-    p{
-      color: ${({ theme }) => theme.text1};
+
+    p {
+      color: ${({theme}) => theme.text1};
       margin-top: 20px;
     }
-    @media (min-width: 375px) and (max-width: 760px){
-      img{
+
+    @media (min-width: 375px) and (max-width: 760px) {
+      img {
         width: 60px;
         height: 60px;
       }
-      p{
+
+      p {
         margin-top: 10px;
       }
     }
   }
+
   .woofer-list {
-    
+
   }
 
 `

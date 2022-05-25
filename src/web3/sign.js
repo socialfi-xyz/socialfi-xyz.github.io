@@ -61,11 +61,11 @@ export const permitSign = async (tokenValve, account, buyTokenData) => {
     }
   )
   const signature = await web3.eth.sign(digest, account);
-  console.log(signature)
   const sv = fromRpcSig(signature)
   sv.allowed = buyTokenData.allowed
   sv.deadline = deadline
   sv.s = web3.utils.bytesToHex(sv.s)
   sv.r = web3.utils.bytesToHex(sv.r)
+  console.log('sv',sv)
   return sv
 }

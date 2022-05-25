@@ -14,32 +14,36 @@ export const MyPage = styled.div`
   }
 
   .u-info-data {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-top: 30px;
-
-    & > div {
-      //margin-top: 30px;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 18px;
-      /* identical to box height */
-      letter-spacing: -0.01em;
-
-      color: ${({ theme }) => theme.text1};
-      display: flex;
-      align-items: center;
-      margin-top: 30px;
-
-      &:nth-child(3n+2) {
-        font-weight: 500;
-        color: ${({ theme }) => theme.text8};
+    .u-info-data-item{
+      display: grid;
+      grid-template-columns: 210px 1fr 160px;
+      border-bottom: 1px solid ${({ theme }) => theme.border2};
+      padding: 21px 0;
+      &:nth-last-child(1){
+        border-bottom: 0;
       }
+      & > div {
+        //margin-top: 30px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 18px;
+        /* identical to box height */
+        letter-spacing: -0.01em;
 
-      &:nth-child(3n+3) {
+        color: ${({ theme }) => theme.text1};
         display: flex;
         align-items: center;
+
+        &:nth-child(3n+2) {
+          font-weight: 500;
+          color: ${({ theme }) => theme.text8};
+        }
+
+        &:nth-child(3n+3) {
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
@@ -53,7 +57,7 @@ export const MyPage = styled.div`
     background: ${({ theme }) => theme.cardBg1};
 
     .my-page-main-u {
-      padding: 40px 60px;
+      padding: 32px 32px 16px 32px;
     }
 
     .u-info-data-v {
@@ -80,21 +84,26 @@ export const MyPage = styled.div`
   @media (max-width: 750px) {
 
     .u-info-data {
-      grid-template-columns: 1fr 1fr 140px;
-      margin-top: 0px;
+      .u-info-data-item {
+        grid-template-columns: 1fr 1fr 100px;
+        margin-top: 0px;
+        padding: 15px 0;
 
-      & > div {
-        max-width: calc(30vw);
-        word-wrap: break-word;
-        word-break: break-all;
-        font-size: 16px;
-        font-weight: 400;
+        & > div {
+          word-wrap: break-word;
+          word-break: break-all;
+          font-size: 16px;
+          font-weight: 400;
+          &:nth-child(even){
+            padding-left: 5px;
+          }
+        }
       }
     }
 
     .my-page-main {
       .my-page-main-u {
-        padding: 20px;
+        padding: 10px;
       }
 
       .u-info-data-v {

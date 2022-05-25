@@ -12,6 +12,7 @@ import {fromWei, keepDecimals, toFormat, tweetIdToHex} from "../../utils/format"
 import LoadingIcon from '../../assets/images/svg/loading.svg'
 import VirtualList from 'rc-virtual-list';
 import {Avatar, List} from 'antd';
+import Web3 from "web3";
 
 function CountDown({endTime}) {
   const {day, hours, minutes} = useCountDown(endTime)
@@ -72,23 +73,29 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
     woofEndTime: '0',
   })
 
-  const getContractStaticData = () => {
+  const getContractStaticData = async () => {
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const tweetId = tweetIdToHex(tweet.tweetId)
     const calls = [
-      contract.woofEndTime(tweetId),
-      contract.APY(tweetId),
+      contract.woofEndTime(tweetId)
     ]
-    multicallClient(calls).then(res => {
-      setContractStateData({
-        woofEndTime: res[0],
-        APY: fromWei(res[1], 18).toString()
-      })
-      reportItemsData({
-        tweetId: tweet.tweetId,
-        woofEndTime: res[0],
-        APY: fromWei(res[1], 18).toString()
-      })
+    const woofEndTime = await multicallClient(calls).then(res => {
+      if (!res){
+        return null
+      }
+      return res[0]
+    })
+    const web3 = new Web3(window.ethereum)
+    const contract2 = new web3.eth.Contract(WOOF.abi, WOOF.address)
+    const APY = await contract2.methods.APY(tweetId).call().catch(e => {})
+    setContractStateData({
+      woofEndTime: woofEndTime,
+      APY: fromWei(APY||'0', 18).toString()
+    })
+    reportItemsData({
+      tweetId: tweet.tweetId,
+      woofEndTime: woofEndTime,
+      APY: fromWei(APY||'0', 18).toString()
     })
   }
 
@@ -96,14 +103,12 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
   const getAccountData = () => {
     const contract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
     const tweetId = tweetIdToHex(tweet.tweetId)
-    console.log(tweetId, account)
     const calls = [
       contract.woofDog(tweetId, account),
       contract.earned(tweetId, account),
       // contract.roi(tweetId, account),
     ]
     multicallClient(calls).then(res => {
-      console.log(res)
       if (res[0] === null) {
         return
       }
@@ -117,8 +122,6 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
         rewardPerToken: keepDecimals(fromWei(rewardPerToken, 10)),
         reward: keepDecimals(fromWei(reward, 10)),
         rewardPaid: keepDecimals(fromWei(rewardPaid, 10)),
-
-
         earned: keepDecimals(fromWei(res[1], 10)),
         // roi: keepDecimals(fromWei(res[2], 10)),
       })

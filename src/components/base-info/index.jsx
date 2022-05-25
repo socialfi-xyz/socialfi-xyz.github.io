@@ -65,7 +65,7 @@ export default function BaseInfo({userData, atClaim}){
         </div>
       </div>
       <div className="chart flex-center">
-        <RadarChart outerRadius={90} width={342} height={254} data={data}>
+        <RadarChart outerRadius={90} width={360} height={254} data={data}>
           <PolarGrid />
           <PolarAngleAxis dataKey="subject" color="#ffffff" stroke="#BBBDBF"/>
           <PolarRadiusAxis angle={30} domain={[0, 150]}/>
