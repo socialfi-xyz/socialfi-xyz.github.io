@@ -319,19 +319,42 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     setWoofValue(twitterUserInfo.unlockedOf)
     onMax()
   }, [twitterUserInfo])
+
+  const onPaste = () => {
+    const TEXT = navigator.clipboard.readText();
+    TEXT.then(text => {
+      const S = text.split('/')
+      if (text.indexOf('https://twitter.com/') === 0 && S[4] === 'status' && !isNaN(S[5])){
+        setTweetLink(text)
+      } else {
+        message.warning('Please copy the tweet address first')
+      }
+    }).catch(err => {
+      message.warning('Failed to read clipboard contents')
+    });
+  }
+
   return (
     <ReWoofView>
       {
         woofType !== 'Rewoof' && <>
-          <CInput
-            type="text"
-            className="pro-input"
-            value={tweetLink}
-            placeholder="Tweet link"
-            style={{paddingRight: 0}}
-            onInput={e => setTweetLink(e.target.value)}
-            readOnly={woofType === 'Co-woof'}
-          />
+          <STInput>
+            <div className="st-input-box">
+              <CInput
+                type="text"
+                className="pro-input"
+                value={tweetLink}
+                placeholder="Tweet link"
+                style={{paddingRight: 0}}
+                onInput={e => setTweetLink(e.target.value)}
+                readOnly={woofType === 'Co-woof'}
+              />
+              <div className="st-input-menu">
+                <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+              </div>
+            </div>
+          </STInput>
+
           <SInput
             onMax={onMax}
             buyTokenData={buyTokenData}
