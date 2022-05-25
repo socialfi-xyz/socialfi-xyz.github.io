@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.919fe803.chunk.css",
-    "main.js": "/static/js/main.75d7d814.chunk.js",
+    "main.js": "/static/js/main.be3e1bb6.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.55d62592.js",
     "static/css/2.40bbe35b.chunk.css": "/static/css/2.40bbe35b.chunk.css",
     "static/js/2.18cb235d.chunk.js": "/static/js/2.18cb235d.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/2.18cb235d.chunk.js.LICENSE.txt": "/static/js/2.18cb235d.chunk.js.LICENSE.txt",
     "static/js/2.18cb235d.chunk.js.gz": "/static/js/2.18cb235d.chunk.js.gz",
     "static/js/3.bd5686ee.chunk.js.gz": "/static/js/3.bd5686ee.chunk.js.gz",
-    "static/js/main.75d7d814.chunk.js.gz": "/static/js/main.75d7d814.chunk.js.gz",
+    "static/js/main.be3e1bb6.chunk.js.gz": "/static/js/main.be3e1bb6.chunk.js.gz",
     "static/media/airdrop-icon-off.2e93f570.svg": "/static/media/airdrop-icon-off.2e93f570.svg",
     "static/media/airdrop-icon-on.ab1980f4.svg": "/static/media/airdrop-icon-on.ab1980f4.svg",
     "static/media/arrow-down-sort.b3a1e14d.svg": "/static/media/arrow-down-sort.b3a1e14d.svg",
@@ -55,6 +55,6 @@
     "static/css/2.40bbe35b.chunk.css",
     "static/js/2.18cb235d.chunk.js",
     "static/css/main.919fe803.chunk.css",
-    "static/js/main.75d7d814.chunk.js"
+    "static/js/main.be3e1bb6.chunk.js"
   ]
 }
