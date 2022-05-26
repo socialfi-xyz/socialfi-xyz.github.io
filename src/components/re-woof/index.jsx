@@ -41,7 +41,7 @@ function SInput({
     <>
       <div className="s-view">
         {
-          (tokenValve < buyTokenData.woofMin) && (woofType === 'woof' || woofType === 'Co-woof') &&
+          (tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof') &&
           <p className="input-error-t">Minimum required to
             woof: {toFormat(buyTokenData.woofMin)} {buyTokenData.symbol} ({toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})</p>
         }
@@ -180,7 +180,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     if (!account) {
       return
     }
-    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === 'woof' || woofType === 'Co-woof')){
+    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof')){
       message.warning(`Minimum required to woof: ${toFormat(buyTokenData.woofMin)} ${buyTokenData.symbol} (${toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})`)
       return
     }
@@ -247,7 +247,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       buyTokenData.router,
       signData.signatureList)
 
-    if(woofType === 'Co-woof' || woofType === 'woof') {
+    if(woofType === 'Co-woof' || woofType === 'Woof') {
       contract.methods.cowoof(
         tweetIdToHex(twitterUserInfo.twitterId),
         tweetIdToHex(twitterId_),
@@ -272,7 +272,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
               content: 'Co-woofed!',
               icon: <img src={MsgSuccess}/>
             })
-          } else if (woofType === 'woof') {
+          } else if (woofType === 'Woof') {
             message.success({
               content: 'Woofed!',
               icon: <img src={MsgSuccess}/>
@@ -350,7 +350,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
                 readOnly={woofType === 'Co-woof'}
               />
               {
-                woofType === 'woof' && <div className="st-input-menu">
+                woofType === 'Woof' && <div className="st-input-menu">
                   <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
                 </div>
               }
@@ -430,13 +430,14 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         </div>
         <div className="flex-center">
           <StepRadius disabled>2</StepRadius>
-
           {
             !buyTokenData.isApprove ? (
               <CButton type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</CButton>
             ) : !buyTokenData.isPermitSign && !permitSignData ? (
               <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
-            ) : <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet} loading={loading}>Woof</CButton>
+            ) : <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet} loading={loading}>
+              {woofType}
+            </CButton>
           }
           <img src={ArrowDown3} className={cs({
             "arrow-down-3": true,

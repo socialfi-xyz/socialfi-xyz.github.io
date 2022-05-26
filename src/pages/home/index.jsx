@@ -14,7 +14,7 @@ export default function Home() {
             Home
           </div>
           <div className="home-banner">
-            <ReWoof woofType="woof"/>
+            <ReWoof woofType="Woof"/>
           </div>
           <WooferFeed/>
         </div>
