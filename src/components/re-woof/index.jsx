@@ -349,9 +349,11 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
                 onInput={e => setTweetLink(e.target.value)}
                 readOnly={woofType === 'Co-woof'}
               />
-              <div className="st-input-menu">
-                <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
-              </div>
+              {
+                woofType === 'woof' && <div className="st-input-menu">
+                  <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+                </div>
+              }
             </div>
           </STInput>
 
