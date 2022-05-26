@@ -13,6 +13,7 @@ import LoadingIcon from '../../assets/images/svg/loading.svg'
 import VirtualList from 'rc-virtual-list';
 import {Avatar, List} from 'antd';
 import Web3 from "web3";
+import {GetRewardsModal} from "../get-rewards-modal";
 
 function CountDown({endTime}) {
   const {day, hours, minutes} = useCountDown(endTime)
@@ -51,10 +52,10 @@ function WoofTwitterList ({list}) {
 }
 
 export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
-  const {account, library} = useActiveWeb3React()
+  const {account} = useActiveWeb3React()
   const {updateCount, woofPrice, accountAirClaimed} = useSelector(state => state.index)
   const [tweetLoading, setTweetLoading] = useState(true)
-  const [getRewardLoading, setRewardLoading] = useState(false)
+  const [showRewardsModal, setShowRewardsModal] = useState(false)
   const {darkMode} = useIsDarkMode()
   const [accountData, setAccountData] = useState({
     cowoofAmt: '0',
@@ -131,22 +132,6 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
   const calcWoofVal = (amount) => {
     return toFormat(keepDecimals(amount * woofPrice))
   }
-  const getRewards = () => {
-    setRewardLoading(true)
-    const contract = getContract(library, WOOF.abi, WOOF.address)
-    // tweetIdToHex(twitterUserInfo.twitterId),
-    contract.methods.getReward(
-      tweetIdToHex(tweet.tweetId),
-    ).send({
-      from: account,
-    })
-      .on('receipt', (_) => {
-        setRewardLoading(false)
-      })
-      .on('error', () => {
-        setRewardLoading(false)
-      })
-  }
 
   useMemo(() => {
     getContractStaticData()
@@ -222,11 +207,12 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                     </div>)
                   }
                   {
-                    accountData.yield_ > 0 && (
+                    accountData.cowoofAmt > 0 && (
                       <div className="woofer-item-info-data-i">
-                        <span>Woof Rewards</span>
-                        <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
-                      </div>)
+                        <span>Co-woof Amount</span>
+                        <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
+                      </div>
+                    )
                   }
                   {
                     accountData.reward > 0 && (
@@ -235,16 +221,13 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                         <span>{toFormat(accountData.reward)} WOOF (${calcWoofVal(accountData.reward)})</span>
                       </div>)
                   }
-                  <>
-                    {
-                      accountData.cowoofAmt > 0 && (
-                        <div className="woofer-item-info-data-i">
-                          <span>Co-woof Amount</span>
-                          <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
-                        </div>
-                      )
-                    }
-                  </>
+                  {
+                    accountData.yield_ > 0 && (
+                      <div className="woofer-item-info-data-i">
+                        <span>Co-woof Rewards</span>
+                        <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
+                      </div>)
+                  }
                 </>
               }
             </div>
@@ -273,7 +256,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                   }
                   {
                     (accountData.reward > 0 || accountData.yield_ > 0) &&
-                    <CButton type="primary" ghost onClick={getRewards} loading={getRewardLoading}>Receive
+                    <CButton type="primary" ghost onClick={() => setShowRewardsModal(true)}>Receive
                       rewards</CButton>
                   }
                 </div>
@@ -282,6 +265,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
           </div>
         </div>
       </div>
+      <GetRewardsModal visible={showRewardsModal} accountData={accountData} onClose={() => setShowRewardsModal(false)} tweet={tweet}/>
     </WooferFeedItemView>
   )
 }

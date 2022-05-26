@@ -50,7 +50,7 @@ const FILTER_ACTION_ALL = [
   }
 ]
 
-export default function WooferFeed({type = 'all'}) {
+export default function WooferFeed({type = 'all', setUserWoofFeed}) {
   const [filterId, setFilterId] = useState(0)
   const {account} = useActiveWeb3React()
   const [coWoofItem, setCoWoofItem] = useState(null)
@@ -94,6 +94,7 @@ export default function WooferFeed({type = 'all'}) {
         }
       }
       setPoolList(poolList_)
+      setUserWoofFeed && setUserWoofFeed(poolList_)
       onFilter(filterId,'desc', poolList_)
     } else {
       setPoolList(poolList_)
