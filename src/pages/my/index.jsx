@@ -202,7 +202,6 @@ function My() {
           showByModal && <BuyModal twitterUserInfo={twitterUserInfo} visible={showByModal} ref={buyModalRef}
                                    onClose={() => setShowByModal(false)}/>
         }
-
         <TransferModal twitterUserInfo={twitterUserInfo} visible={showTransferModal}
                        onClose={() => setShowTransferModal(false)}/>
       </MyPage>
