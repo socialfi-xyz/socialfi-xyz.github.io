@@ -198,7 +198,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
               {
                 account && <>
                 {
-                  (accountData.rewoofAmt > 0 || accountData.cowoofAmt > 0 || accountData.yield_ > 0 || accountData.reward > 0) && <h2 className="woofer-item-info-h2">Your</h2>
+                  (accountData.rewoofAmt > 0 || accountData.cowoofAmt > 0 || accountData.yield_ > 0 || accountData.reward > 0) && <h2 className="woofer-item-info-h2">Your Stats</h2>
                 }
                   {
                     accountData.rewoofAmt > 0 && (<div className="woofer-item-info-data-i">

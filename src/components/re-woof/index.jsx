@@ -304,7 +304,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
             type: UPDATE_WOOF_LIST
           })
           message.success({
-            content: 'Rewoof!',
+            content: 'Completed!',
             icon: <img src={MsgSuccess}/>
           })
         })

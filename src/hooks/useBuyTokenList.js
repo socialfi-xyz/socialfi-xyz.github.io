@@ -7,6 +7,7 @@ import {useMemo} from "react";
 import {useActiveWeb3React} from "../web3";
 import {cloneDeep} from "lodash";
 import {useDispatch, useSelector} from "react-redux";
+import BigNumber from "bignumber.js";
 
 export default function useBuyTokenList() {
   const {account} = useActiveWeb3React()
@@ -21,11 +22,11 @@ export default function useBuyTokenList() {
 
     const minCowoof = await multicallClient([woofContract.gets([stringToHex('minCowoof', 32)])]).then(res => res[0] !== null ? res[0][0] : numToWei('100000', WOOF.decimals))
 
+
     for (let i = 0; i < defSuperTokenList.length; i++) {
       callsCalcIn.push(woofContract.calcIn(minCowoof, defSuperTokenList[i].router))
-      console.log()
       if (i >= 1) {
-        const contract = new ClientContract(DAI_ABI, defSuperTokenList[i].address, ChainId.MAINNET)
+        const contract = new ClientContract(DAI_ABI, defSuperTokenList[i].address, ChainId.defaultChainId)
         calls.push(contract.balanceOf(account))
         if (!defSuperTokenList[i].isApprove) {
           calls.push(contract.allowance(account, WOOF.address))
@@ -34,18 +35,18 @@ export default function useBuyTokenList() {
     }
 
     Promise.all([
-      multicallClient.getEthBalance(account, ChainId.MAINNET),
+      multicallClient.getEthBalance(account, ChainId.defaultChainId),
       multicallClient(calls),
       multicallClient(callsCalcIn),
     ]).then(res => {
       const res1 = res[1]
       const res2 = res[2]
-      console.log('res1', res1)
+      console.log('res1', res)
       defSuperTokenList[0].balanceOf = keepDecimals(fromWei(res[0], defSuperTokenList[0].decimal))
       for (let i = 0, j = 0; i < defSuperTokenList.length; i++) {
         // defSuperTokenList[i].woofMinOut = fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(4)
         defSuperTokenList[i].woofMinOut = keepDecimals(fromWei(minCowoof, WOOF.decimals))
-        defSuperTokenList[i].woofMin = keepDecimals(fromWei(res2[i] || 0, defSuperTokenList[i].decimal))
+        defSuperTokenList[i].woofMin = keepDecimals(fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(4,0))
         if (i >= 1) {
           defSuperTokenList[i].balanceOf = keepDecimals(fromWei(res1[j] || 0, defSuperTokenList[i].decimal))
           j = j + 1
