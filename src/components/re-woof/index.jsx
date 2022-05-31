@@ -220,7 +220,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     console.log('queryData', queryData)
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const value = numToWei(tokenValve, buyTokenData.decimal).toString()
-    const amount = numToWei(woofValve, WOOF.decimals)
+    const amount = numToWei(woofValve||'0', WOOF.decimals)
     const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.id : queryData.tweet.tweetId
     const twitterId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.author_id : queryData.tweet.twitterId
     console.log('params__', tweetIdToHex(twitterUserInfo.twitterId),
