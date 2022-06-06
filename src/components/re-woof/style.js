@@ -35,6 +35,7 @@ export const ReWoofView = styled.div`
           &>div{
             border-color: ${({ theme }) => theme.primary1};
             background: ${({ theme }) => theme.primary1};
+            color: #ffffff!important;
           }
         }
         flex-direction: column;
@@ -49,7 +50,7 @@ export const ReWoofView = styled.div`
           font-weight: 600;
           font-size: 20px;
           line-height: 29px;
-          color: #FFFFFF;
+          color: ${({ theme }) => theme.text1};
           img{
             width: 16px;
             height: 16px;
