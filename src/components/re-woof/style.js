@@ -9,7 +9,7 @@ export const ReWoofView = styled.div`
       padding-top: 35px;
       .arrow-l{
         position: absolute;
-        left: 32px;
+        left: 20px;
         top: 40px;
         transform: translate(50%, -50%);
         width: 24px;
@@ -144,8 +144,13 @@ export const ReWoofView = styled.div`
     p{
       font-size: 12px;
       line-height: 18px;
-      text-align: right;
       color: #BBBDBF;
+      &:nth-child(1){
+        text-align: left;
+      }
+      &:nth-last-child(1){
+        text-align: right;
+      }
     }
   }
   .h-view{
