@@ -380,27 +380,29 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
                   </div>
                 }
                 <div className="re-tweet-view-item">
-                  <p>Co-woof</p>
-                  <div className="tweet-link-input">
-                    <STInput>
-                      <div className="st-input-box">
-                        <CInput
-                          type="text"
-                          className="pro-input"
-                          value={tweetLink}
-                          placeholder="Tweet link"
-                          style={{paddingRight: 0}}
-                          onInput={e => setTweetLink(e.target.value)}
-                          readOnly={woofType === 'Co-woof'}
-                        />
-                        {
-                          woofType === 'Woof' && <div className="st-input-menu">
-                            <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
-                          </div>
-                        }
-                      </div>
-                    </STInput>
-                  </div>
+                  <p>{woofType === 'Woof' ? 'Co-woof' : woofType}</p>
+                  {
+                    woofType === 'Woof' && <div className="tweet-link-input">
+                      <STInput>
+                        <div className="st-input-box">
+                          <CInput
+                            type="text"
+                            className="pro-input"
+                            value={tweetLink}
+                            placeholder="Tweet link"
+                            style={{paddingRight: 0}}
+                            onInput={e => setTweetLink(e.target.value)}
+                            readOnly={woofType === 'Co-woof'}
+                          />
+                          {
+                            woofType === 'Woof' && <div className="st-input-menu">
+                              <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+                            </div>
+                          }
+                        </div>
+                      </STInput>
+                    </div>
+                  }
                   <CButton type="primary" disabled={!tweetLink} onClick={() => onTweet('retweet')}
                            loading={onReTweetLoading}>Tweet</CButton>
                 </div>

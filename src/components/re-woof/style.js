@@ -81,8 +81,9 @@ export const ReWoofView = styled.div`
       grid-template-columns: 1fr 1fr;
       max-width: 800px;
       .re-tweet-view-item{
-        ${FlexCenter};
+        display: flex;
         flex-direction: column;
+        align-items: center;
         padding: 0 15px;
         p{
           font-weight: 500;
