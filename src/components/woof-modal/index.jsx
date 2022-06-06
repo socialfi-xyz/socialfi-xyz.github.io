@@ -12,10 +12,11 @@ export function WoofModal({onClose, woofType, coWoofItem}) {
       visible={woofType}
       footer={null}
       onCancel={onClose}
+      centered
       wrapClassName="woof-modal-wrap"
       zIndex={1001}
       destroyOnClose
-      width="900px"
+      width="560px"
       getContainer={false}
       closeIcon={<img src={CloseIcon} alt=""/>}
     >
