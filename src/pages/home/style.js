@@ -21,23 +21,7 @@ export const HomePage = styled.div`
     .home-banner {
       background: ${({theme}) => theme.cardBg1};
       border-radius: 16px;
-      padding: 40px 88px;
       margin-top: 24px;
-    }
-  }
-
-  @media (max-width: 750px) {
-    .home-view {
-      .home-banner {
-        padding: 40px 40px;
-      }
-    }
-  }
-  @media (max-width: 450px) {
-    .home-view {
-      .home-banner {
-        padding: 30px 20px;
-      }
     }
   }
 `

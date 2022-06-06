@@ -41,12 +41,11 @@ export default function useBuyTokenList() {
     ]).then(res => {
       const res1 = res[1]
       const res2 = res[2]
-      console.log('res1', res)
       defSuperTokenList[0].balanceOf = keepDecimals(fromWei(res[0], defSuperTokenList[0].decimal))
       for (let i = 0, j = 0; i < defSuperTokenList.length; i++) {
         // defSuperTokenList[i].woofMinOut = fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(4)
-        defSuperTokenList[i].woofMinOut = keepDecimals(fromWei(minCowoof, WOOF.decimals))
-        defSuperTokenList[i].woofMin = keepDecimals(fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(4,0))
+        defSuperTokenList[i].woofMinOut = fromWei(minCowoof, WOOF.decimals)
+        defSuperTokenList[i].woofMin = fromWei(res2[i] || 0, defSuperTokenList[i].decimal).toFixed(6,0)
         if (i >= 1) {
           defSuperTokenList[i].balanceOf = keepDecimals(fromWei(res1[j] || 0, defSuperTokenList[i].decimal))
           j = j + 1
@@ -56,6 +55,7 @@ export default function useBuyTokenList() {
           }
         }
       }
+      console.log('defSuperTokenList', defSuperTokenList)
       dispatch({
         type: SUPER_BUY_TOKEN_LIST,
         data: defSuperTokenList

@@ -115,15 +115,31 @@ export const WooferFeedItemView = styled.div`
           left: 50%;
           top: 100%;
           z-index: 10;
-          transform: translateX(-50%);
+          transform: translate(-50%, calc(-100% - 24px));
           cursor: default;
           width: 100%;
           height: 200px;
           border-radius: 10px;
-          overflow: hidden;
-          background: ${({ theme }) => theme.cardBg1};
+          //overflow: hidden;
+          background: ${({ theme }) => theme.bg4};
           box-shadow: 0px 1px 2px rgba(25, 3, 69, 0.25);
           ${({ theme }) => CustomScroll(theme)};
+          flex-direction: column;
+          .arrow-t{
+            width:0;
+            height:0;
+            border-left:12px solid transparent;
+            border-right:12px solid transparent;
+            border-top:6px solid ${({ theme }) => theme.bg4};
+            position: absolute;
+            bottom: 0;
+            left: 40%;
+            transform: translateY(100%);
+          }
+          .woof-twitter-list-v{
+            flex: 1;
+            overflow: hidden;
+          }
           .ant-list-item{
             border-color: ${({ theme }) => theme.border1}!important;
             padding: 6px 0;
@@ -158,7 +174,7 @@ export const WooferFeedItemView = styled.div`
         }
         &:hover{
           .woof-twitter-list{
-            display: block;
+            display: flex;
           }
         }
       }

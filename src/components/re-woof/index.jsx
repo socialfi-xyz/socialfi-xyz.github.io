@@ -5,24 +5,27 @@ import ArrowDown2Dark from '../../assets/images/svg/arrow-down2_d.svg'
 import ArrowDown3 from "../../assets/images/svg/arrow-down3.svg";
 import cs from "classnames";
 import {useDispatch, useSelector} from "react-redux";
-import {formatAmount, fromWei, numToHex, numToWei, toFormat, tweetIdToHex} from "../../utils/format";
+import {fromWei, numToHex, numToWei, toFormat, tweetIdToHex} from "../../utils/format";
 import {ClientContract, multicallClient, multicallConfig} from "../../web3/multicall";
 import {ADDRESS_INFINITY, WOOF} from "../../web3/address";
 import {ReWoofView} from "./style";
-import {STInput, CInput, CButton, StepRadius} from "../../theme/styleComponent";
+import {STInput, CInput, CButton} from "../../theme/styleComponent";
 import {tweetIntent} from "../../utils/tweet";
 import {getHref} from "../../utils";
-import {HASHTAG, TASK_TYPE_QUOTA, TASK_TYPE_RE_WOOF} from "../../request";
+import {HASHTAG, TASK_TYPE_RE_WOOF} from "../../request";
 import {getContract, useActiveWeb3React} from "../../web3";
 import Web3 from "web3";
 import {permitSign} from "../../web3/sign";
 import ERC20Abi from "../../web3/abi/ERC20.json";
-import {TWITTER_USER_INFO_RELY, UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redux";
+import {UPDATE_COUNT, UPDATE_WOOF_LIST} from "../../redux";
 import {message} from 'antd'
 import {getNodeSign, getNonce, getUserInfo} from "../../request/twitter";
 import {useIsDarkMode} from "../../hooks";
 import BigNumber from "bignumber.js";
 import MsgSuccess from '../../assets/images/svg/msgSuccess.svg'
+import SuccessIcon from '../../assets/images/svg/success.svg'
+import ArrowRIcon from '../../assets/images/svg/arrow-r.svg'
+import ArrowLIcon from '../../assets/images/svg/arrow-l.svg'
 
 function SInput({
                   tokenValve,
@@ -65,7 +68,6 @@ function SInput({
             <CInput type="number" value={tokenValve} onInput={e => setTokenValve(e.target.value)}
                     placeholder={'0 ' + selectToken}/>
             <div className="st-input-menu">
-              <span>{selectToken}</span>
               <CButton size="small" onClick={onMax}>MAX</CButton>
             </div>
           </div>
@@ -81,10 +83,10 @@ function SInput({
 
 
 //woofType = Woof Rewoof Co-woof
-export default function ReWoof({woofType = 'Woof', coWoofItem}) {
+export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
 
   const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
-  const {superBuyTokenList, ethPrice, woofPrice, twitterUserInfo} = useSelector(state => state.index)
+  const {superBuyTokenList, twitterUserInfo} = useSelector(state => state.index)
   const {account, library} = useActiveWeb3React()
   const dispatch = useDispatch()
 
@@ -98,9 +100,11 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     [superBuyTokenList, selectToken])
   const [outWoof, setOutWoof] = useState('0')
   const [calcNonce, setCalcNonce] = useState('')
-  const [isOnTweet, setIsOnTweet] = useState(false)
   const [onTweetLoading, setOnTweetLoading] = useState(false)
-  const isDarkMode = useIsDarkMode()
+  const [onReTweetLoading, setOnReTweetLoading] = useState(false)
+  const [woofTweetType, setWoofTweetType] = useState(0)//0 tweet, 1 retweet (woofType===Woof)
+
+  const [step, setStep] = useState(1)
 
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
@@ -138,23 +142,33 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     setPermitSignData(null)
   }, [selectToken])
 
-  const onTweet = async () => {
+  const onTweet = async (type) => {
     if (account) {
-      setOnTweetLoading(true)
+      if (type === 'tweet') {
+        setOnTweetLoading(true)
+        setWoofTweetType(0)
+      } else if (type === 'retweet') {
+        setOnReTweetLoading(true)
+        setWoofTweetType(1)
+      }
       const calcNonce_ = await getNonce(account)
       setCalcNonce(calcNonce_)
-      setOnTweetLoading(false)
+      if (type === 'tweet') {
+        setOnTweetLoading(false)
+      } else if (type === 'retweet') {
+        setOnReTweetLoading(false)
+      }
       window.open(tweetIntent({
         text: getHref(twitterUserInfo.username, calcNonce_),
         url: tweetLink,
         hashtags: HASHTAG
-      }))
-      setIsOnTweet(true)
+      }), '_blank', `width=1000,height=500,menubar=no,toolbar=no,status=no,scrollbars=yes,left=${window.screenLeft + 200}px,top=${window.screenTop + 200}px`)
+      setStep(2)
     }
   }
 
   const onPermitSign = async () => {
-    if (!tokenValve || tokenValve <= 0){
+    if (!tokenValve || tokenValve <= 0) {
       return
     }
     const sv = await permitSign(tokenValve, account, buyTokenData)
@@ -180,7 +194,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     if (!account) {
       return
     }
-    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof')){
+    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof')) {
       message.warning(`Minimum required to woof: ${toFormat(buyTokenData.woofMin)} ${buyTokenData.symbol} (${toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})`)
       return
     }
@@ -194,10 +208,11 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     }
     const tokenContract = new ClientContract(WOOF.abi, WOOF.address)
     let tokenNonce = 0
-    if (!buyTokenData.isPermitSign){
+    if (!buyTokenData.isPermitSign) {
       tokenNonce = await multicallClient([
         tokenContract.nonces(account)
-      ]).then(data => data[0]).catch(() => {})
+      ]).then(data => data[0]).catch(() => {
+      })
       PermitSign = permitSignData
       console.log('tokenNonce', tokenNonce)
     }
@@ -214,13 +229,13 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       message.warning('tweet not found')
       setLoading(false)
     })
-    if (!queryData){
+    if (!queryData) {
       return
     }
     console.log('queryData', queryData)
     const contract = getContract(library, WOOF.abi, WOOF.address)
     const value = numToWei(tokenValve, buyTokenData.decimal).toString()
-    const amount = numToWei(woofValve||'0', WOOF.decimals)
+    const amount = numToWei(woofValve || '0', WOOF.decimals)
     const tweetId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.id : queryData.tweet.tweetId
     const twitterId_ = queryData.tweet.referencedTweets.length > 0 ? queryData.tweet.referencedTweets[0].tweet.author_id : queryData.tweet.twitterId
     console.log('params__', tweetIdToHex(twitterUserInfo.twitterId),
@@ -230,7 +245,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       value,
       PermitSign,
       buyTokenData.router,
-      )
+    )
 
     console.log('params__', params)
     const signData = await getNodeSign(params).catch(() => {
@@ -247,7 +262,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
       buyTokenData.router,
       signData.signatureList)
 
-    if(woofType === 'Co-woof' || woofType === 'Woof') {
+    if (woofType === 'Co-woof' || woofType === 'Woof') {
       contract.methods.cowoof(
         tweetIdToHex(twitterUserInfo.twitterId),
         tweetIdToHex(twitterId_),
@@ -262,7 +277,6 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
         value: buyTokenData.symbol === superBuyTokenList[0].symbol ? value : undefined
       })
         .on('receipt', (_, receipt) => {
-          setIsOnTweet(false)
           setLoading(false)
           dispatch({
             type: UPDATE_WOOF_LIST
@@ -272,11 +286,14 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
               content: 'Co-woofed!',
               icon: <img src={MsgSuccess}/>
             })
+            onClose && onClose()
           } else if (woofType === 'Woof') {
             message.success({
               content: 'Woofed!',
               icon: <img src={MsgSuccess}/>
             })
+            setWoofTweetType(1)
+            setTweetLink('')
           }
         })
         .on('error', (err, receipt) => {
@@ -298,7 +315,6 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
 
       })
         .on('receipt', (_, receipt) => {
-          setIsOnTweet(false)
           setLoading(false)
           dispatch({
             type: UPDATE_WOOF_LIST
@@ -307,6 +323,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
             content: 'Completed!',
             icon: <img src={MsgSuccess}/>
           })
+          onClose && onClose()
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -319,12 +336,11 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
     setWoofValue(twitterUserInfo.unlockedOf)
     onMax()
   }, [twitterUserInfo])
-
   const onPaste = () => {
     const TEXT = navigator.clipboard.readText();
     TEXT.then(text => {
       const S = text.split('/')
-      if (text.indexOf('https://twitter.com/') === 0 && S[4] === 'status' && !isNaN(S[5])){
+      if (text.indexOf('https://twitter.com/') === 0 && S[4] === 'status' && !isNaN(S[5])) {
         setTweetLink(text)
       } else {
         message.warning('Please copy the tweet address first')
@@ -336,113 +352,169 @@ export default function ReWoof({woofType = 'Woof', coWoofItem}) {
 
   return (
     <ReWoofView>
-      {
-        woofType !== 'Rewoof' && <>
-          <STInput>
-            <div className="st-input-box">
-              <CInput
-                type="text"
-                className="pro-input"
-                value={tweetLink}
-                placeholder="Tweet link"
-                style={{paddingRight: 0}}
-                onInput={e => setTweetLink(e.target.value)}
-                readOnly={woofType === 'Co-woof'}
-              />
-              {
-                woofType === 'Woof' && <div className="st-input-menu">
-                  <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
-                </div>
-              }
-            </div>
-          </STInput>
-
-          <SInput
-            onMax={onMax}
-            buyTokenData={buyTokenData}
-            selectToken={selectToken}
-            setSelectToken={setSelectToken}
-            setTokenValve={setTokenValve}
-            tokenValve={tokenValve}
-            superBuyTokenList={superBuyTokenList}
-            woofType={woofType}
-            outWoof={outWoof}
-          />
+      <div className="re-woof-panel">
+        <div className="steps-v">
           {
-            showMore && <>
-              <div className="h-view">
-                <div className="s-view">
-                  <STInput>
-                    <div className="st-input-box">
-                      <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
-                              placeholder="WOOF"/>
-                      <div className="st-input-menu">
-                        <CButton size="small" onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
-                      </div>
-                    </div>
-                  </STInput>
-                </div>
-              </div>
-            </>
+            step === 2 && woofType === 'Woof' && <img src={ArrowLIcon} className='arrow-l' alt="" onClick={() => setStep(1)}/>
           }
-        </>
-      }
-      {
-        woofType === 'Rewoof' && showMore && (
-          <>
-            <div>
-              <div className="s-view">
-                <div className="s-view">
-                  {
-                    (!outWoof || outWoof < woofValve * 0.1) && <p className="input-error-t">Minimum 10% of Rewoofer TVL required</p>
-                  }
-                  <STInput>
-                    <div className="st-input-box">
-                      <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
-                              placeholder="WOOF"/>
-                      <div className="st-input-menu">
-                        <CButton size="small" onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
-                      </div>
-                    </div>
-                  </STInput>
-                </div>
-              </div>
+          <div className="steps">
+            <div className={"step active " + (step !== 1 ? ' n-border' : '')}>
+              <div>{step >= 1 ? <img src={SuccessIcon} alt=""/> : '1'}</div>
+              <p>Tweet</p>
+              <img src={ArrowRIcon} className='arrow-r' alt=""/>
             </div>
-            <SInput
-              onMax={onMax}
-              buyTokenData={buyTokenData}
-              selectToken={selectToken}
-              setSelectToken={setSelectToken}
-              setTokenValve={setTokenValve}
-              tokenValve={tokenValve}
-              superBuyTokenList={superBuyTokenList}
-              woofType={woofType}
-              outWoof={outWoof}
-            />
-          </>
-        )
-      }
-
-      <div className="step-btn-box">
-        <div className="flex-center">
-          <StepRadius>1</StepRadius>
-          <CButton type="primary" onClick={onTweet} loading={onTweetLoading}>Tweet</CButton>
+            <div className={'step' + (step >= 2 ? ' active' : '')}>
+              <div>2</div>
+              <p>{woofType}</p>
+            </div>
+          </div>
         </div>
-        <div className="flex-center">
-          <StepRadius disabled>2</StepRadius>
+        <div className="panel-v">
           {
-            !buyTokenData.isApprove ? (
-              <CButton type="primary" onClick={onApprove} loading={loading} style={{width: '100%'}}>Approve</CButton>
-            ) : !buyTokenData.isPermitSign && !permitSignData ? (
-              <CButton type="primary" onClick={onPermitSign} loading={loading} >PermitSign</CButton>
-            ) : <CButton type="primary" onClick={onReWoof} disabled={!isOnTweet} loading={loading}>
-              {woofType}
-            </CButton>
+            step === 1 && (
+              <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === 'Woof' ? '1fr 1fr' : '1fr', maxWidth: woofType === 'Woof' ? '800px' : '400px'}}>
+                {
+                  <div className="re-tweet-view-item" style={{display: woofType === 'Woof' ? 'flex' : 'none'}}>
+                    <p>Woof</p>
+                    <CButton type="primary" onClick={() => onTweet('tweet')} loading={onTweetLoading}>Tweet</CButton>
+                  </div>
+                }
+                <div className="re-tweet-view-item">
+                  <p>Co-woof</p>
+                  <div className="tweet-link-input">
+                    <STInput>
+                      <div className="st-input-box">
+                        <CInput
+                          type="text"
+                          className="pro-input"
+                          value={tweetLink}
+                          placeholder="Tweet link"
+                          style={{paddingRight: 0}}
+                          onInput={e => setTweetLink(e.target.value)}
+                          readOnly={woofType === 'Co-woof'}
+                        />
+                        {
+                          woofType === 'Woof' && <div className="st-input-menu">
+                            <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+                          </div>
+                        }
+                      </div>
+                    </STInput>
+                  </div>
+                  <CButton type="primary" disabled={!tweetLink} onClick={() => onTweet('retweet')}
+                           loading={onReTweetLoading}>Tweet</CButton>
+                </div>
+              </div>)
           }
-          <img src={ArrowDown3} className={cs({
-            "arrow-down-3": true,
-            'top-v': showMore
-          })} alt="" onClick={() => setShowMore(!showMore)}/>
+          {
+            step === 2 && (
+              <div className="woof-view">
+                {
+                  ((woofType === 'Woof' && woofTweetType === 1) || woofType !== 'Woof') && <STInput>
+                    <div className="st-input-box">
+                      <CInput
+                        type="text"
+                        className="pro-input"
+                        value={tweetLink}
+                        placeholder="Tweet link"
+                        style={{paddingRight: 0}}
+                        onInput={e => setTweetLink(e.target.value)}
+                        readOnly
+                      />
+                    </div>
+                  </STInput>
+                }
+                {
+                  woofType !== 'Rewoof' && <>
+                    <SInput
+                      onMax={onMax}
+                      buyTokenData={buyTokenData}
+                      selectToken={selectToken}
+                      setSelectToken={setSelectToken}
+                      setTokenValve={setTokenValve}
+                      tokenValve={tokenValve}
+                      superBuyTokenList={superBuyTokenList}
+                      woofType={woofType}
+                      outWoof={outWoof}
+                    />
+                    {
+                      showMore && <>
+                        <div className="h-view">
+                          <div className="s-view">
+                            <STInput>
+                              <div className="st-input-box">
+                                <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
+                                        placeholder="WOOF"/>
+                                <div className="st-input-menu">
+                                  <CButton size="small"
+                                           onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
+                                </div>
+                              </div>
+                            </STInput>
+                          </div>
+                        </div>
+                      </>
+                    }
+                  </>
+                }
+                {
+                  woofType === 'Rewoof' && showMore && (
+                    <>
+                      <div>
+                        <div className="s-view">
+                          <div className="s-view">
+                            {
+                              (!outWoof || outWoof < woofValve * 0.1) &&
+                              <p className="input-error-t">Minimum 10% of Rewoofer TVL required</p>
+                            }
+                            <STInput>
+                              <div className="st-input-box">
+                                <CInput type="number" value={woofValve} onInput={e => setWoofValue(e.target.value)}
+                                        placeholder="WOOF"/>
+                                <div className="st-input-menu">
+                                  <CButton size="small"
+                                           onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
+                                </div>
+                              </div>
+                            </STInput>
+                          </div>
+                        </div>
+                      </div>
+                      <SInput
+                        onMax={onMax}
+                        buyTokenData={buyTokenData}
+                        selectToken={selectToken}
+                        setSelectToken={setSelectToken}
+                        setTokenValve={setTokenValve}
+                        tokenValve={tokenValve}
+                        superBuyTokenList={superBuyTokenList}
+                        woofType={woofType}
+                        outWoof={outWoof}
+                      />
+                    </>
+                  )
+                }
+                <div className="woof-btn">
+                  {
+                    !buyTokenData.isApprove ? (
+                      <CButton type="primary" onClick={onApprove} loading={loading}
+                               style={{width: '100%'}}>Approve</CButton>
+                    ) : !buyTokenData.isPermitSign && !permitSignData ? (
+                      <CButton type="primary" onClick={onPermitSign} loading={loading}>PermitSign</CButton>
+                    ) : <CButton type="primary" onClick={onReWoof} disabled={(tokenValve < buyTokenData.woofMin)}
+                                 loading={loading}>
+                      {woofType}
+                    </CButton>
+                  }
+                  <img src={ArrowDown3} className={cs({
+                    "arrow-down-3": true,
+                    'top-v': showMore
+                  })} alt="" onClick={() => setShowMore(!showMore)}/>
+                </div>
+
+              </div>
+            )
+          }
         </div>
       </div>
     </ReWoofView>

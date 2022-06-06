@@ -8,6 +8,7 @@ export function colors(darkMode = false) {
     bg1: darkMode ? '#2D2F45' : '#FFFFFF',
     bg2: darkMode ? '#28293D' : '#FFFFFF',
     bg3: darkMode ? '#0A142F' : '#FAFAFA',
+    bg4: darkMode ? 'rgba(48,49,74,0.95)' : 'rgba(255,255,255,0.95)',
 
     text1: darkMode ? '#ffffff' : '#0F1419',
     text2: darkMode ? '#AEB9BE' : '#999999',
@@ -19,6 +20,7 @@ export function colors(darkMode = false) {
     text8: darkMode ? '#BBBDBF' : 'rgba(15, 20, 25, 0.5)',
 
     line1: darkMode ? '#373951' : 'rgba(15, 20, 25, 0.07)',
+    line2: darkMode ? 'rgba(187, 189, 191, 0.2)' : 'rgba(187, 189, 191, 0.2)',
 
     border1: darkMode ? '#373951' : '#FAFAFA',
     border2: darkMode ? '#33354C' : '#F0F0F0',

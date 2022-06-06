@@ -29,24 +29,27 @@ function CountDown({endTime}) {
 function WoofTwitterList ({list}) {
   return (
     <div className="woof-twitter-list">
-      <List>
-        <VirtualList
-          data={list}
-          height={200}
-          itemHeight={54}
-          itemKey="twitterId"
-        >
-          {it => (
-            <List.Item key={it.email}>
-              <List.Item.Meta
-                avatar={<Avatar src={it.accountTwitterData.avatar} style={{marginRight: '2px'}}/>}
-                title={<span>{it.accountTwitterData.name}</span>}
-                description={'@' + it.accountTwitterData.username}
-              />
-            </List.Item>
-          )}
-        </VirtualList>
-      </List>
+      <div className="arrow-t"/>
+      <div className="woof-twitter-list-v">
+        <List>
+          <VirtualList
+            data={list}
+            height={190}
+            itemHeight={54}
+            itemKey="twitterId"
+          >
+            {it => (
+              <List.Item key={it.email}>
+                <List.Item.Meta
+                  avatar={<Avatar src={it.accountTwitterData.avatar} style={{marginRight: '2px'}}/>}
+                  title={<span>{it.accountTwitterData.name}</span>}
+                  description={'@' + it.accountTwitterData.username}
+                />
+              </List.Item>
+            )}
+          </VirtualList>
+        </List>
+      </div>
     </div>
   )
 }

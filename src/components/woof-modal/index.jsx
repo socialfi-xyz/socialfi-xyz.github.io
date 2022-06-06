@@ -12,17 +12,16 @@ export function WoofModal({onClose, woofType, coWoofItem}) {
       visible={woofType}
       footer={null}
       onCancel={onClose}
-      centered
       wrapClassName="woof-modal-wrap"
       zIndex={1001}
       destroyOnClose
-      width="560px"
+      width="900px"
       getContainer={false}
       closeIcon={<img src={CloseIcon} alt=""/>}
     >
       <div className="woof-modal-wrap-box custom-scroll">
         {
-          woofType && <ReWoof woofType={woofType} coWoofItem={coWoofItem}/>
+          woofType && <ReWoof woofType={woofType} coWoofItem={coWoofItem} onClose={onClose}/>
         }
       </div>
     </Modal>

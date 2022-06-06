@@ -9,6 +9,7 @@ import Web3 from "web3";
 
 
 function lookup(params) {
+  console.log('xxxxx', params)
   return axios.post(requestUrl + '/task/lookup', {
     ...params
   }).then(ret => {
