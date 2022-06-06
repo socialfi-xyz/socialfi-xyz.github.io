@@ -11,6 +11,7 @@ export const ReWoofView = styled.div`
         position: absolute;
         left: 20px;
         top: 40px;
+        z-index: 1;
         transform: translate(50%, -50%);
         width: 24px;
         height: 24px;

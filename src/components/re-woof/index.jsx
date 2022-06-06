@@ -359,7 +359,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
           }
           <div className="steps">
             <div className={"step active " + (step !== 1 ? ' n-border' : '')}>
-              <div>{step >= 1 ? <img src={SuccessIcon} alt=""/> : '1'}</div>
+              <div>{step > 1 ? <img src={SuccessIcon} alt=""/> : '1'}</div>
               <p>Tweet</p>
               <img src={ArrowRIcon} className='arrow-r' alt=""/>
             </div>
