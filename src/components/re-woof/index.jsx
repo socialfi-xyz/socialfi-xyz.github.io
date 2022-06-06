@@ -355,7 +355,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
       <div className="re-woof-panel">
         <div className="steps-v">
           {
-            step === 2 && woofType === 'Woof' && <img src={ArrowLIcon} className='arrow-l' alt="" onClick={() => setStep(1)}/>
+            step === 2 && <img src={ArrowLIcon} className='arrow-l' alt="" onClick={() => setStep(1)}/>
           }
           <div className="steps">
             <div className={"step active " + (step !== 1 ? ' n-border' : '')}>
