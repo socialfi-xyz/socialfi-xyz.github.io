@@ -373,36 +373,34 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
           {
             step === 1 && (
               <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === 'Woof' ? '1fr 1fr' : '1fr', maxWidth: woofType === 'Woof' ? '800px' : '400px'}}>
-                {
-                  <div className="re-tweet-view-item" style={{display: woofType === 'Woof' ? 'flex' : 'none'}}>
+                <div className="re-tweet-view-item" style={{display: woofType === 'Woof' ? 'flex' : 'none'}}>
                     <p>Woof</p>
                     <CButton type="primary" onClick={() => onTweet('tweet')} loading={onTweetLoading}>Tweet</CButton>
                   </div>
-                }
                 <div className="re-tweet-view-item">
-                  <p>{woofType === 'Woof' ? 'Co-woof' : woofType}</p>
                   {
-                    woofType === 'Woof' && <div className="tweet-link-input">
-                      <STInput>
-                        <div className="st-input-box">
-                          <CInput
-                            type="text"
-                            className="pro-input"
-                            value={tweetLink}
-                            placeholder="Tweet link"
-                            style={{paddingRight: 0}}
-                            onInput={e => setTweetLink(e.target.value)}
-                            readOnly={woofType === 'Co-woof'}
-                          />
-                          {
-                            woofType === 'Woof' && <div className="st-input-menu">
-                              <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
-                            </div>
-                          }
-                        </div>
-                      </STInput>
-                    </div>
+                    woofType === 'Woof' && <p>Co-woof</p>
                   }
+                  <div className="tweet-link-input" style={{marginTop: woofType === 'Woof' ? '24px' : 0}}>
+                    <STInput>
+                      <div className="st-input-box">
+                        <CInput
+                          type="text"
+                          className="pro-input"
+                          value={tweetLink}
+                          placeholder="Tweet link"
+                          style={{paddingRight: 0}}
+                          onInput={e => setTweetLink(e.target.value)}
+                          readOnly={woofType === 'Co-woof'}
+                        />
+                        {
+                          woofType === 'Woof' && <div className="st-input-menu">
+                            <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+                          </div>
+                        }
+                      </div>
+                    </STInput>
+                  </div>
                   <CButton type="primary" disabled={!tweetLink} onClick={() => onTweet('retweet')}
                            loading={onReTweetLoading}>Tweet</CButton>
                 </div>

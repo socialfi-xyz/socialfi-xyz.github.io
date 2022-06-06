@@ -121,6 +121,15 @@ export const ReWoofView = styled.div`
           margin-right: 8px;
         }
       }
+      .arrow-down-3{
+        width: 16px;
+        height: 16px;
+        margin-left: 8px;
+        cursor: pointer;
+        &.top-v{
+          transform: rotateZ(180deg);
+        }
+      }
     }
   }
   
@@ -157,30 +166,6 @@ export const ReWoofView = styled.div`
   .h-view{
     border-top: 1px dashed rgba(196, 196, 196, 0.2);
   }
-  .step-btn-box{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 50px;
-    margin-top: 20px;
-    .step-radius{
-      margin-right: 4px;
-    }
-    button{
-      width: 100%;
-      max-width: 280px;
-      height: 32px;
-      border-radius: 8px;
-    }
-    .arrow-down-3{
-      width: 16px;
-      height: 16px;
-      margin-left: 8px;
-      cursor: pointer;
-      &.top-v{
-        transform: rotateZ(180deg);
-      }
-    }
-  }
 
 
   @media (max-width: 750px) {
@@ -203,18 +188,13 @@ export const ReWoofView = styled.div`
       .re-tweet-view {
         grid-template-columns: 1fr!important;
         .re-tweet-view-item{
-          &>button{
-            margin-top: 10px;
-          }
           &:nth-child(1){
             border-right: 0;
           }
           &:nth-last-child(1){
             margin-top: 20px;
           }
-          .tweet-link-input{
-            margin-top: 10px;
-          }
+    
         }
       }
     }
