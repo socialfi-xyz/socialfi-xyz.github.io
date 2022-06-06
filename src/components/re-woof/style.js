@@ -195,7 +195,7 @@ export const ReWoofView = styled.div`
         padding: 20px 10px 15px 10px;
       }
       .re-tweet-view {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr!important;
         .re-tweet-view-item{
           &>button{
             margin-top: 10px;

@@ -12,7 +12,6 @@ export function WoofModal({onClose, woofType, coWoofItem}) {
       visible={woofType}
       footer={null}
       onCancel={onClose}
-      centered
       wrapClassName="woof-modal-wrap"
       zIndex={1001}
       destroyOnClose
