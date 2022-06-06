@@ -26,6 +26,7 @@ import MsgSuccess from '../../assets/images/svg/msgSuccess.svg'
 import SuccessIcon from '../../assets/images/svg/success.svg'
 import ArrowRIcon from '../../assets/images/svg/arrow-r.svg'
 import ArrowLIcon from '../../assets/images/svg/arrow-l.svg'
+import {CO_WOOF, H_WOOF, RE_WOOF} from "../../utils/enum";
 
 function SInput({
                   tokenValve,
@@ -44,7 +45,7 @@ function SInput({
     <>
       <div className="s-view">
         {
-          (tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof') &&
+          (tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === CO_WOOF) &&
           <p className="input-error-t">Minimum required to
             woof: {toFormat(buyTokenData.woofMin)} {buyTokenData.symbol} ({toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})</p>
         }
@@ -83,7 +84,7 @@ function SInput({
 
 
 //woofType = Woof Rewoof Co-woof
-export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
+export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
 
   const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
   const {superBuyTokenList, twitterUserInfo} = useSelector(state => state.index)
@@ -104,7 +105,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
   const [onReTweetLoading, setOnReTweetLoading] = useState(false)
   const [woofTweetType, setWoofTweetType] = useState(0)//0 tweet, 1 retweet (woofType===Woof)
 
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2)
 
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
@@ -112,6 +113,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
     } else {
       setTokenValve(buyTokenData.balanceOf)
     }
+  }
+  const onMin = () => {
+    if (woofType === H_WOOF || woofType === CO_WOOF)
+    setTokenValve(buyTokenData.woofMin)
   }
   const calcOut = () => {
     const tokenValue_ = numToWei(Number(tokenValve || 0).toFixed(buyTokenData.decimal), buyTokenData.decimal)
@@ -138,7 +143,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
   }, [selectToken, tokenValve])
 
   useMemo(() => {
-    setTokenValve(null)
+    onMin()
     setPermitSignData(null)
   }, [selectToken])
 
@@ -194,7 +199,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
     if (!account) {
       return
     }
-    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === 'Co-woof')) {
+    if ((!tokenValve || tokenValve < buyTokenData.woofMin) && (woofType === H_WOOF || woofType === CO_WOOF)) {
       message.warning(`Minimum required to woof: ${toFormat(buyTokenData.woofMin)} ${buyTokenData.symbol} (${toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})`)
       return
     }
@@ -262,7 +267,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
       buyTokenData.router,
       signData.signatureList)
 
-    if (woofType === 'Co-woof' || woofType === 'Woof') {
+    if (woofType === CO_WOOF || woofType === H_WOOF) {
       contract.methods.cowoof(
         tweetIdToHex(twitterUserInfo.twitterId),
         tweetIdToHex(twitterId_),
@@ -281,13 +286,13 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
           dispatch({
             type: UPDATE_WOOF_LIST
           })
-          if (woofType === 'Co-woof') {
+          if (woofType === CO_WOOF) {
             message.success({
               content: 'Co-woofed!',
               icon: <img src={MsgSuccess}/>
             })
             onClose && onClose()
-          } else if (woofType === 'Woof') {
+          } else if (woofType === H_WOOF) {
             message.success({
               content: 'Woofed!',
               icon: <img src={MsgSuccess}/>
@@ -299,7 +304,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
         .on('error', (err, receipt) => {
           setLoading(false)
         })
-    } else if (woofType === 'Rewoof') {
+    } else if (woofType === RE_WOOF) {
       contract.methods.rewoof(
         tweetIdToHex(twitterUserInfo.twitterId),
         tweetIdToHex(tweetId_),
@@ -334,7 +339,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
   }
   useMemo(() => {
     setWoofValue(twitterUserInfo.unlockedOf)
-    onMax()
+    onMin()
   }, [twitterUserInfo])
   const onPaste = () => {
     const TEXT = navigator.clipboard.readText();
@@ -372,16 +377,16 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
         <div className="panel-v">
           {
             step === 1 && (
-              <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === 'Woof' ? '1fr 1fr' : '1fr', maxWidth: woofType === 'Woof' ? '800px' : '400px'}}>
-                <div className="re-tweet-view-item" style={{display: woofType === 'Woof' ? 'flex' : 'none'}}>
+              <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === H_WOOF ? '1fr 1fr' : '1fr', maxWidth: woofType === H_WOOF ? '800px' : '400px'}}>
+                <div className="re-tweet-view-item" style={{display: woofType === H_WOOF ? 'flex' : 'none'}}>
                     <p>Woof</p>
                     <CButton type="primary" onClick={() => onTweet('tweet')} loading={onTweetLoading}>Tweet</CButton>
                   </div>
                 <div className="re-tweet-view-item">
                   {
-                    woofType === 'Woof' && <p>Co-woof</p>
+                    woofType === H_WOOF && <p>Co-woof</p>
                   }
-                  <div className="tweet-link-input" style={{marginTop: woofType === 'Woof' ? '24px' : 0}}>
+                  <div className="tweet-link-input" style={{marginTop: woofType === H_WOOF ? '24px' : 0}}>
                     <STInput>
                       <div className="st-input-box">
                         <CInput
@@ -391,10 +396,10 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
                           placeholder="Tweet link"
                           style={{paddingRight: 0}}
                           onInput={e => setTweetLink(e.target.value)}
-                          readOnly={woofType === 'Co-woof'}
+                          readOnly={woofType === CO_WOOF}
                         />
                         {
-                          woofType === 'Woof' && <div className="st-input-menu">
+                          woofType === H_WOOF && <div className="st-input-menu">
                             <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
                           </div>
                         }
@@ -410,7 +415,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
             step === 2 && (
               <div className="woof-view">
                 {
-                  ((woofType === 'Woof' && woofTweetType === 1) || woofType !== 'Woof') && <STInput>
+                  ((woofType === H_WOOF && woofTweetType === 1) || woofType !== H_WOOF) && <STInput>
                     <div className="st-input-box">
                       <CInput
                         type="text"
@@ -425,7 +430,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
                   </STInput>
                 }
                 {
-                  woofType !== 'Rewoof' && <>
+                  woofType !== RE_WOOF && <>
                     <SInput
                       onMax={onMax}
                       buyTokenData={buyTokenData}
@@ -458,7 +463,7 @@ export default function ReWoof({woofType = 'Woof', coWoofItem, onClose}) {
                   </>
                 }
                 {
-                  woofType === 'Rewoof' && showMore && (
+                  woofType === RE_WOOF && showMore && (
                     <>
                       <div>
                         <div className="s-view">

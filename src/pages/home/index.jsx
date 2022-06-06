@@ -3,6 +3,7 @@ import Layout from "../../components/layout";
 import WooferFeed from "../../components/woofer-feed";
 import ReWoof from "../../components/re-woof";
 import {HomePage} from "./style";
+import {H_WOOF} from "../../utils/enum";
 
 export default function Home() {
 
@@ -14,7 +15,7 @@ export default function Home() {
             Home
           </div>
           <div className="home-banner">
-            <ReWoof woofType="Woof"/>
+            <ReWoof woofType={H_WOOF}/>
           </div>
           <WooferFeed/>
         </div>

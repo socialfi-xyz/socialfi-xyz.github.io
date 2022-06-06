@@ -14,6 +14,7 @@ import VirtualList from 'rc-virtual-list';
 import {Avatar, List} from 'antd';
 import Web3 from "web3";
 import {GetRewardsModal} from "../get-rewards-modal";
+import {CO_WOOF, RE_WOOF} from "../../utils/enum";
 
 function CountDown({endTime}) {
   const {day, hours, minutes} = useCountDown(endTime)
@@ -252,8 +253,8 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                   {
                     contractStateData.woofEndTime > now && (
                       <>
-                        <CButton type="primary" ghost onClick={() => onWoofBtn('Co-woof', tweet)}>Co-woof</CButton>
-                        <CButton type="primary" ghost onClick={() => onWoofBtn('Rewoof', tweet)}>Rewoof</CButton>
+                        <CButton type="primary" ghost onClick={() => onWoofBtn(CO_WOOF, tweet)}>Co-woof</CButton>
+                        <CButton type="primary" ghost onClick={() => onWoofBtn(RE_WOOF, tweet)}>Rewoof</CButton>
                       </>
                     )
                   }
