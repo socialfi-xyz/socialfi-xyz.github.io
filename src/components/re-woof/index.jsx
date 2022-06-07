@@ -105,7 +105,7 @@ export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
   const [onReTweetLoading, setOnReTweetLoading] = useState(false)
   const [woofTweetType, setWoofTweetType] = useState(0)//0 tweet, 1 retweet (woofType===Woof)
 
-  const [step, setStep] = useState(2)
+  const [step, setStep] = useState(1)
 
   const onMax = () => {
     if (selectToken === superBuyTokenList[0].symbol) {
@@ -379,13 +379,9 @@ export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
             step === 1 && (
               <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === H_WOOF ? '1fr 1fr' : '1fr', maxWidth: woofType === H_WOOF ? '800px' : '400px'}}>
                 <div className="re-tweet-view-item" style={{display: woofType === H_WOOF ? 'flex' : 'none'}}>
-                    <p>Woof</p>
                     <CButton type="primary" onClick={() => onTweet('tweet')} loading={onTweetLoading}>Tweet</CButton>
                   </div>
                 <div className="re-tweet-view-item">
-                  {
-                    woofType === H_WOOF && <p>Co-woof</p>
-                  }
                   <div className="tweet-link-input" style={{marginTop: woofType === H_WOOF ? '24px' : 0}}>
                     <STInput>
                       <div className="st-input-box">

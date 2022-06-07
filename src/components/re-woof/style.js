@@ -74,7 +74,7 @@ export const ReWoofView = styled.div`
       }
     }
     .panel-v{
-      padding: 35px 20px 40px 20px;
+      padding: 0 20px 40px 20px;
     }
     .re-tweet-view{
       margin: auto;
@@ -86,6 +86,9 @@ export const ReWoofView = styled.div`
         flex-direction: column;
         align-items: center;
         padding: 0 15px;
+        &:nth-child(1){
+          flex-direction: column-reverse;
+        }
         p{
           font-weight: 500;
           font-size: 24px;
@@ -184,7 +187,7 @@ export const ReWoofView = styled.div`
         }
       }
       .panel-v{
-        padding: 20px 10px 15px 10px;
+        padding: 0 10px 15px 10px;
       }
       .re-tweet-view {
         grid-template-columns: 1fr!important;
