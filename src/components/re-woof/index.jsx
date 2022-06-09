@@ -94,10 +94,10 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
   const [loading, setLoading] = useState(false)
   const [tokenValve, setTokenValve] = useState('')
   const [woofValve, setWoofValue] = useState(0)
-  const [showMore, setShowMore] = useState(false)
   const buyTokenData = useMemo(() => (superBuyTokenList.filter(item => item.symbol === selectToken))[0],
     [superBuyTokenList, selectToken])
   const [outWoof, setOutWoof] = useState('0')
+  const [showMore, setShowMore] = useState(false)
   const [calcNonce, setCalcNonce] = useState('')
   const [onTweetLoading, setOnTweetLoading] = useState(false)
   const [onReTweetLoading, setOnReTweetLoading] = useState(false)
@@ -353,6 +353,25 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
     });
   }
 
+  useMemo(() => {
+    if (woofType === RE_WOOF){
+      if (woofValve > 0) {
+        const woofValveMin = Math.ceil(woofValve * 0.11)
+        const woofContract = new ClientContract(WOOF.abi, WOOF.address, multicallConfig.defaultChainId)
+        multicallClient([woofContract.calcIn(numToWei(woofValveMin, WOOF.decimals), buyTokenData.router)]).then(res => {
+          if (res[0]!==null){
+            setTokenValve(fromWei(res[0], buyTokenData.decimal).toFixed(6,0))
+          }
+        })
+      } else {
+        setTokenValve('')
+      }
+    }
+  }, [woofValve, selectToken])
+  const reWoofMax = () => {
+    setWoofValue(twitterUserInfo.unlockedOf)
+  }
+
   return (
       <div className="re-woof-panel">
         <div className="steps-v">
@@ -475,7 +494,7 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
                                         placeholder="WOOF"/>
                                 <div className="st-input-menu">
                                   <CButton size="small"
-                                           onClick={() => setWoofValue(twitterUserInfo.unlockedOf)}>MAX</CButton>
+                                           onClick={reWoofMax}>MAX</CButton>
                                 </div>
                               </div>
                             </STInput>
