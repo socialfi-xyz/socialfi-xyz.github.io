@@ -21,7 +21,7 @@ export function WoofModal({onClose, woofType, coWoofItem}) {
     >
       <div className="woof-modal-wrap-box custom-scroll">
         {
-          woofType && <ReWoof woofType={woofType} coWoofItem={coWoofItem} onClose={onClose}/>
+          woofType && <ReWoof woofType={woofType} coWoofItem={coWoofItem} onClose={onClose} modal={true}/>
         }
       </div>
     </Modal>

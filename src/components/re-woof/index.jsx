@@ -524,8 +524,10 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
 
 export default function ReCoWoof(props){
   return (
-    <ReWoofView>
-      <ReWoof {...props} showType={1}/>
+    <ReWoofView modal={props.modal}>
+      {
+        !props.modal && <ReWoof {...props} showType={1}/>
+      }
       <ReWoof {...props} showType={2}/>
     </ReWoofView>
   )

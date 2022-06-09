@@ -4,7 +4,7 @@ import {FlexCenter} from "../../theme/style";
 export const ReWoofView = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${({ theme, modal }) => modal ? '1fr' : '1fr 1fr'};
   grid-column-gap: 24px;
   .re-woof-panel{
     background: ${({theme}) => theme.cardBg1};
@@ -82,7 +82,7 @@ export const ReWoofView = styled.div`
     }
     .panel-v{
       flex: 1;
-      padding: 0 20px 40px 20px;
+      padding: 20px 20px 40px 20px;
     }
     .re-tweet-view{
       margin: auto;
