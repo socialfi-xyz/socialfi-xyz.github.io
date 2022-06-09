@@ -2,7 +2,15 @@ import styled from 'styled-components'
 import {FlexCenter} from "../../theme/style";
 
 export const ReWoofView = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 24px;
   .re-woof-panel{
+    background: ${({theme}) => theme.cardBg1};
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
     .steps-v{
       position: relative;
       border-bottom: 1px solid ${({ theme }) => theme.line2};
@@ -22,7 +30,6 @@ export const ReWoofView = styled.div`
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      max-width: 700px;
       margin: auto;
       .step{
         position: relative;
@@ -74,21 +81,19 @@ export const ReWoofView = styled.div`
       }
     }
     .panel-v{
+      flex: 1;
       padding: 0 20px 40px 20px;
     }
     .re-tweet-view{
       margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       max-width: 800px;
+      height: 100%;
       .re-tweet-view-item{
+        height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 0 15px;
-        &:nth-child(1){
-          flex-direction: column-reverse;
-        }
         p{
           font-weight: 500;
           font-size: 24px;
@@ -103,18 +108,14 @@ export const ReWoofView = styled.div`
           height: 32px;
           border-radius: 8px;
         }
-        &:nth-child(1){
-          border-right: 1px dashed ${({ theme }) => theme.line2};
-        }
-        .tweet-link-input{
-          width: 100%;
-          margin-top: 24px;
-        }
-     
       }
     }
+    .tweet-link-input{
+      width: 100%;
+      margin-top: 24px;
+    }
     .woof-view{
-      margin: auto;
+      margin-top: 24px;
       max-width: 800px;
       .woof-btn{
         margin-top: 24px;
@@ -173,7 +174,11 @@ export const ReWoofView = styled.div`
 
 
   @media (max-width: 750px) {
+    grid-template-columns: 1fr!important;
     .re-woof-panel{
+      &:nth-child(1){
+        margin-bottom: 10px;
+      }
       .steps-v{
         padding-top: 20px;
         .arrow-l{
@@ -190,15 +195,8 @@ export const ReWoofView = styled.div`
         padding: 0 10px 15px 10px;
       }
       .re-tweet-view {
-        grid-template-columns: 1fr!important;
         .re-tweet-view-item{
-          &:nth-child(1){
-            border-right: 0;
-          }
-          &:nth-last-child(1){
-            margin-top: 20px;
-          }
-    
+          
         }
       }
     }

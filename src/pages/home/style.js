@@ -19,8 +19,6 @@ export const HomePage = styled.div`
     }
 
     .home-banner {
-      background: ${({theme}) => theme.cardBg1};
-      border-radius: 16px;
       margin-top: 24px;
     }
   }

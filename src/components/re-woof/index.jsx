@@ -82,9 +82,7 @@ function SInput({
   )
 }
 
-
-//woofType = Woof Rewoof Co-woof
-export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
+function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
 
   const [tweetLink, setTweetLink] = useState(coWoofItem ? `https://twitter.com/${coWoofItem.accountTwitterData.username}/status/${coWoofItem.tweetId}` : '')
   const {superBuyTokenList, twitterUserInfo} = useSelector(state => state.index)
@@ -356,7 +354,6 @@ export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
   }
 
   return (
-    <ReWoofView>
       <div className="re-woof-panel">
         <div className="steps-v">
           {
@@ -378,33 +375,37 @@ export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
           {
             step === 1 && (
               <div className="re-tweet-view" style={{'gridTemplateColumns': woofType === H_WOOF ? '1fr 1fr' : '1fr', maxWidth: woofType === H_WOOF ? '800px' : '400px'}}>
-                <div className="re-tweet-view-item" style={{display: woofType === H_WOOF ? 'flex' : 'none'}}>
+                {
+                  showType === 1 && (<div className="re-tweet-view-item" style={{flexDirection: 'column-reverse'}}>
                     <CButton type="primary" onClick={() => onTweet('tweet')} loading={onTweetLoading}>Tweet</CButton>
-                  </div>
-                <div className="re-tweet-view-item">
-                  <div className="tweet-link-input" style={{marginTop: woofType === H_WOOF ? '24px' : 0}}>
-                    <STInput>
-                      <div className="st-input-box">
-                        <CInput
-                          type="text"
-                          className="pro-input"
-                          value={tweetLink}
-                          placeholder="Tweet link"
-                          style={{paddingRight: 0}}
-                          onInput={e => setTweetLink(e.target.value)}
-                          readOnly={woofType === CO_WOOF}
-                        />
-                        {
-                          woofType === H_WOOF && <div className="st-input-menu">
-                            <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
-                          </div>
-                        }
-                      </div>
-                    </STInput>
-                  </div>
-                  <CButton type="primary" disabled={!tweetLink} onClick={() => onTweet('retweet')}
-                           loading={onReTweetLoading}>Tweet</CButton>
-                </div>
+                  </div>)
+                }
+                {
+                  showType === 2 && (<div className="re-tweet-view-item">
+                    <div className="tweet-link-input" style={{marginTop: woofType === H_WOOF ? '24px' : 0}}>
+                      <STInput>
+                        <div className="st-input-box">
+                          <CInput
+                            type="text"
+                            className="pro-input"
+                            value={tweetLink}
+                            placeholder="Tweet link"
+                            style={{paddingRight: 0}}
+                            onInput={e => setTweetLink(e.target.value)}
+                            readOnly={woofType === CO_WOOF}
+                          />
+                          {
+                            woofType === H_WOOF && <div className="st-input-menu">
+                              <CButton size="small" onClick={onPaste} id="paste">Paste</CButton>
+                            </div>
+                          }
+                        </div>
+                      </STInput>
+                    </div>
+                    <CButton type="primary" disabled={!tweetLink} onClick={() => onTweet('retweet')}
+                             loading={onReTweetLoading}>Tweet</CButton>
+                  </div>)
+                }
               </div>)
           }
           {
@@ -518,6 +519,14 @@ export default function ReWoof({woofType = H_WOOF, coWoofItem, onClose}) {
           }
         </div>
       </div>
+  )
+}
+
+export default function ReCoWoof(props){
+  return (
+    <ReWoofView>
+      <ReWoof {...props} showType={1}/>
+      <ReWoof {...props} showType={2}/>
     </ReWoofView>
   )
 }

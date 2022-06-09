@@ -68,7 +68,7 @@ export const WooferFeedItemView = styled.div`
 
     .woofer-item-info-data {
       background: ${({theme}) => theme.cardBg1};
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 16px 24px;
 
       .woofer-item-info-data-i {
@@ -77,7 +77,7 @@ export const WooferFeedItemView = styled.div`
 
         span {
           font-weight: 400;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 18px;
           margin: 4px 0;
           color: ${({theme}) => theme.text6};
