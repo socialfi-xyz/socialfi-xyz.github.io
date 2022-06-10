@@ -26,6 +26,8 @@ import MsgSuccess from '../../assets/images/svg/msgSuccess.svg'
 import SuccessIcon from '../../assets/images/svg/success.svg'
 import ArrowRIcon from '../../assets/images/svg/arrow-r.svg'
 import ArrowLIcon from '../../assets/images/svg/arrow-l.svg'
+import CheckIcon from '../../assets/images/svg/check.svg'
+
 import {CO_WOOF, H_WOOF, RE_WOOF} from "../../utils/enum";
 
 function SInput({
@@ -47,7 +49,7 @@ function SInput({
         {
           (tokenValve < buyTokenData.woofMin) && (woofType === 'Woof' || woofType === CO_WOOF) &&
           <p className="input-error-t">Minimum required to
-            woof: {toFormat(buyTokenData.woofMin)} {buyTokenData.symbol} ({toFormat(buyTokenData.woofMinOut)} ${WOOF.symbol})</p>
+            woof: {toFormat(buyTokenData.woofMin)} {buyTokenData.symbol} ({toFormat(buyTokenData.woofMinOut)} {WOOF.symbol})</p>
         }
         <STInput>
           <div className="select-view flex-center">
@@ -59,6 +61,7 @@ function SInput({
                   <div key={item.symbol} onClick={() => {
                     setSelectToken(item.symbol)
                   }}>
+                    <img src={CheckIcon} alt="" className={item.symbol === selectToken ? 'active' : ''}/>
                     {item.symbol}
                   </div>
                 ))

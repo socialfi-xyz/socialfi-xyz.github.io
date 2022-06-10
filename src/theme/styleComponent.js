@@ -36,11 +36,23 @@ export const STInput = styled.div`
       width: 100%;
       padding: 5px 0;
       background: ${({theme}) => theme.selectMenuBg};
+      box-shadow: 0px 1px 4px rgba(25, 3, 69, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
 
       & > div {
         color: #ffffff;
-        text-align: center;
         padding: 5px 10px;
+        font-size: 12px;
+
+        & > img {
+          width: 10px;
+          opacity: 0;
+            margin-right: 4px;
+          &.active {
+            opacity: 1;
+          }
+        }
 
         &:hover {
           opacity: 0.8;
@@ -75,7 +87,7 @@ export const STInput = styled.div`
       flex: 1;
       border: 0;
       background: transparent !important;
-        
+
       &:focus {
         border-color: transparent;
         box-shadow: none;
@@ -121,15 +133,17 @@ export const CInput = styled(Input)`
 `
 
 export const CButton = styled(Button)`
-    &.ant-btn-primary{
-        border-color: ${({ theme }) => theme.primary1};
-        background: ${({ theme }) => theme.primary1};
-        color: #ffffff;
-    }
-    &.ant-btn-background-ghost{
-        background: transparent;
-        color: ${({ theme }) => theme.text1}!important;
-    }
+  &.ant-btn-primary {
+    border-color: ${({theme}) => theme.primary1};
+    background: ${({theme}) => theme.primary1};
+    color: #ffffff;
+  }
+
+  &.ant-btn-background-ghost {
+    background: transparent;
+    color: ${({theme}) => theme.text1} !important;
+  }
+
   &.ant-btn-primary[disabled] {
     background: ${({theme}) => theme.disabled} !important;
     color: #ffffff;
@@ -156,29 +170,32 @@ export const StepRadius = styled.div`
 `
 export const ModalView = styled.div`
 
-    .ant-modal-content{
-        border-radius: 10px;
-        overflow: hidden;
-        background: ${({ theme }) => theme.cardBg1};
-        .ant-modal-header{
-            border-bottom: 0;
-            background: ${({ theme }) => theme.cardBg1};
-            padding: 20px 24px;
-        }
-        .ant-modal-title{
-            font-style: normal;
-            font-weight: bold;
-            font-size: 14px;
-            line-height: 19px;
-            /* identical to box height */
+  .ant-modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+    background: ${({theme}) => theme.cardBg1};
 
-            letter-spacing: -0.01em;
-
-            color: #1D9BF0;
-
-        }
-        .ant-modal-body{
-            padding-top: 10px;
-        }
+    .ant-modal-header {
+      border-bottom: 0;
+      background: ${({theme}) => theme.cardBg1};
+      padding: 20px 24px;
     }
+
+    .ant-modal-title {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 19px;
+      /* identical to box height */
+
+      letter-spacing: -0.01em;
+
+      color: #1D9BF0;
+
+    }
+
+    .ant-modal-body {
+      padding-top: 10px;
+    }
+  }
 `
