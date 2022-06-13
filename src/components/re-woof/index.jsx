@@ -301,6 +301,7 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
           }
           setWoofTweetType(1)
           setTweetLink('')
+          setStep(1)
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -329,6 +330,7 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
             content: 'Completed!',
             icon: <img src={MsgSuccess}/>
           })
+          setStep(1)
           onClose && onClose()
         })
         .on('error', (err, receipt) => {
