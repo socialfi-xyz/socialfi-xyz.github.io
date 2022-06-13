@@ -213,7 +213,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                   {
                     accountData.cowoofAmt > 0 && (
                       <div className="woofer-item-info-data-i">
-                        <span>Co-woof Amount</span>
+                        <span>Cowoof Amount</span>
                         <span>{toFormat(accountData.cowoofAmt)} WOOF (${calcWoofVal(accountData.cowoofAmt)})</span>
                       </div>
                     )
@@ -228,7 +228,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                   {
                     accountData.yield_ > 0 && (
                       <div className="woofer-item-info-data-i">
-                        <span>Co-woof Rewards</span>
+                        <span>Cowoof Rewards</span>
                         <span>{toFormat(accountData.yield_)} WOOF (${calcWoofVal(accountData.yield_)})</span>
                       </div>)
                   }
@@ -238,7 +238,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
             <div className="woofer-item-partake">
               <div className="flex-center">
                 <Avatars list={tweet.cowoofs}/>
-                <span><span>{tweet.cowoofs.length}</span> Co-woofers</span>
+                <span><span>{tweet.cowoofs.length}</span> Cowoofers</span>
                 <WoofTwitterList list={tweet.cowoofs}/>
               </div>
               <div className="flex-center">
@@ -253,7 +253,7 @@ export default function WooferFeedItem({tweet, onWoofBtn, reportItemsData}) {
                   {
                     contractStateData.woofEndTime > now && (
                       <>
-                        <CButton type="primary" ghost onClick={() => onWoofBtn(CO_WOOF, tweet)}>Co-woof</CButton>
+                        <CButton type="primary" ghost onClick={() => onWoofBtn(CO_WOOF, tweet)}>Cowoof</CButton>
                         <CButton type="primary" ghost onClick={() => onWoofBtn(RE_WOOF, tweet)}>Rewoof</CButton>
                       </>
                     )
