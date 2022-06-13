@@ -287,9 +287,9 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
           dispatch({
             type: UPDATE_WOOF_LIST
           })
-          if (woofType === CO_WOOF) {
+          if (woofType === CO_WOOF || (woofType === H_WOOF && showType === 2)) {
             message.success({
-              content: 'Co-woofed!',
+              content: 'Cowoofed!',
               icon: <img src={MsgSuccess}/>
             })
             onClose && onClose()
@@ -298,9 +298,9 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
               content: 'Woofed!',
               icon: <img src={MsgSuccess}/>
             })
-            setWoofTweetType(1)
-            setTweetLink('')
           }
+          setWoofTweetType(1)
+          setTweetLink('')
         })
         .on('error', (err, receipt) => {
           setLoading(false)
@@ -377,6 +377,9 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
 
   return (
       <div className="re-woof-panel">
+        {
+          woofType === H_WOOF && <p className="re-woof-panel-title">{showType === 2 ? CO_WOOF : H_WOOF}</p>
+        }
         <div className="steps-v">
           {
             step === 2 && <img src={ArrowLIcon} className='arrow-l' alt="" onClick={() => setStep(1)}/>
@@ -389,7 +392,7 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
             </div>
             <div className={'step' + (step >= 2 ? ' active' : '')}>
               <div>2</div>
-              <p>{woofType}</p>
+              <p>{woofType === H_WOOF && showType === 2 ? CO_WOOF : woofType}</p>
             </div>
           </div>
         </div>

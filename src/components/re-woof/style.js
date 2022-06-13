@@ -11,10 +11,18 @@ export const ReWoofView = styled.div`
     border-radius: 16px;
     display: flex;
     flex-direction: column;
+    .re-woof-panel-title{
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 21px;
+      color: #1D9BF0;
+      margin: 16px 0 0 32px;
+
+    }
     .steps-v{
       position: relative;
       border-bottom: 1px solid ${({ theme }) => theme.line2};
-      padding-top: 35px;
+      padding-top: 30px;
       .arrow-l{
         position: absolute;
         left: 20px;
