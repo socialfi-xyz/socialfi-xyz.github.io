@@ -5,12 +5,8 @@ export const FixedGlobalStyle = createGlobalStyle`
     font-family: "Poppins";
     src: url('../font/Poppins.ttf');
   }
-  @font-face {
-    font-family: "OpenSans";
-    src: url('../font/OpenSans.ttf');
-  }
   html,body,p,h1,div{
-    font-family: -apple-system, "OpenSans", "Poppins", "Inter";
+    font-family: -apple-system, "Poppins", "Inter";
   }
 
   .share-btn iframe{

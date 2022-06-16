@@ -1,6 +1,6 @@
 import {useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {DARK_MODE} from "../redux/index";
+import {DARK_MODE, IS_LIGHT_MODE} from "../redux/index";
 
 export const useNow = () => {
   const [now, setNow] = useState(() => ~~(new Date().getTime() / 1000))
@@ -37,7 +37,7 @@ export const useIsDarkMode = () => {
   const darkMode = useSelector(state => state.index.darkMode)
   const dispatch = useDispatch()
   const changeDarkMode = (isDarkMode) => {
-    localStorage.setItem('isDarkMode', isDarkMode ? '1' : '0')
+    localStorage.setItem(IS_LIGHT_MODE, isDarkMode ? '' : IS_LIGHT_MODE)
     dispatch(
       {
         type: DARK_MODE,

@@ -14,11 +14,12 @@ export const WEB_WALLET_DATA = 'WEB_WALLET_DATA'
 export const TWITTER_USER_INFO = 'TWITTER_USER_INFO'
 export const TWITTER_USER_INFO_RELY = 'TWITTER_USER_INFO_RELY'
 export const UPDATE_WOOF_LIST = 'UPDATE_WOOF_LIST'
+export const IS_LIGHT_MODE = 'IS_LIGHT_MODE'
 
 const initState = {
   language: 'en',
   showConnectWallet: false,
-  darkMode: true,
+  darkMode: !(localStorage.getItem(IS_LIGHT_MODE) === 'IS_LIGHT_MODE'),
   webWalletData: {},
   updateCount: 0,
   blockHeight: 0,

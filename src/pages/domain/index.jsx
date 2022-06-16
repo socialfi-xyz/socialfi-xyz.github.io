@@ -11,10 +11,24 @@ import GithubLight from '../../assets/images/links/github_light.svg'
 import GitbookDark from '../../assets/images/links/gitbook_dark.svg'
 import GitbookLight from '../../assets/images/links/gitbook_light.svg'
 import {NavLink} from "react-router-dom";
-import {getQueryString} from "../../utils";
 import {DomainPage} from "./style";
 import {useIsDarkMode} from "../../hooks";
+import FooterDarkBg from '../../assets/images/domain/footer-bg_dark.svg'
+import FooterLightBg from '../../assets/images/domain/footer-bg_light.svg'
+import WhatWoofer1 from '../../assets/images/domain/what-woofer-icon1.svg'
+import WhatWoofer2 from '../../assets/images/domain/what-woofer-icon2.svg'
+import WhatWoofer from '../../assets/images/domain/what-woofer.svg'
+import WhatWooferD from '../../assets/images/domain/what-woofer_d.svg'
+import HowWoofer from '../../assets/images/domain/how-woofer.svg'
+import HowWooferD from '../../assets/images/domain/how-woofer_d.svg'
 
+import HowWoofer1 from '../../assets/images/domain/how-woofer-icon1.svg'
+import HowWoofer2 from '../../assets/images/domain/how-woofer-icon2.svg'
+import HowWoofer3 from '../../assets/images/domain/how-woofer-icon3.svg'
+import HowWoofer1D from '../../assets/images/domain/how-woofer-icon1_d.svg'
+import HowWoofer2D from '../../assets/images/domain/how-woofer-icon2_d.svg'
+import HowWoofer3D from '../../assets/images/domain/how-woofer-icon3_d.svg'
+import ArrowDown from '../../assets/images/domain/arrow-d.svg'
 const links = [
   {
     name: 'Twitter',
@@ -92,6 +106,54 @@ export default function Domain() {
         </div>
       </div>
       <div className="domain-footer-img">
+        <img src={darkMode ? FooterDarkBg : FooterLightBg} alt=""/>
+      </div>
+      <div className="what-woofer">
+        <div className="box-show-lt"></div>
+        <img src={darkMode ? WhatWooferD : WhatWoofer} className="what-woofer-title" alt=""/>
+        <div className="what-woofer-card-b">
+          <div className="what-woofer-card">
+            <div className="what-woofer-card-icon">
+              <img src={WhatWoofer1} alt=""/>
+            </div>
+            <div className="what-woofer-card-desc">
+              The mission of Woofer is to curate a community that supports educational content on blockchain and is eventually able to use the token to support promising projects. Beyond CT, however, there are many non-blockchain native accounts on Twitter that continue to educate, support others, and allow users to feel socially connected. Woofer aims to reward these contributors as well and encourage them to participate in the blockchain space.
+            </div>
+            <img src={WhatWoofer2} className="what-woofer-icon-rb" alt=""/>
+          </div>
+        </div>
+      </div>
+      <div className="how-woofer">
+        <img src={darkMode ? HowWooferD : HowWoofer} className="how-woofer-title" alt=""/>
+        <div className="how-woofer-box">
+          <div className="how-woofer-box-item">
+            <img src={darkMode ? HowWoofer1D : HowWoofer1} alt="" className="item-icon"/>
+            <h1>Woof</h1>
+            <p>Tweet through Woofer</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Create reward pool</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Receive rewards</p>
+          </div>
+          <div className="how-woofer-box-item">
+            <img src={darkMode ? HowWoofer2D : HowWoofer2} alt="" className="item-icon"/>
+            <h1>Cowoof</h1>
+            <p>Share someone else’s tweet through Woofer</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Create reward pool</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Receive rewards</p>
+          </div>
+          <div className="how-woofer-box-item">
+            <img src={darkMode ? HowWoofer3D : HowWoofer3} alt="" className="item-icon"/>
+            <h1>Rewoof</h1>
+            <p>Support someone’s tweet through Woofer</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Contribute tokens</p>
+            <img src={ArrowDown} alt="" className="arrow-down"/>
+            <p>Receive rewards</p>
+          </div>
+        </div>
       </div>
       <div className="domain-footer flex-center">
         <div className="links">
