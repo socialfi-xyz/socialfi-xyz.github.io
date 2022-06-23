@@ -9,10 +9,10 @@ export function colors(darkMode = false) {
     bg2: darkMode ? '#28293D' : '#FFFFFF',
     bg3: darkMode ? '#0A142F' : '#FAFAFA',
     bg4: darkMode ? 'rgba(48,49,74,0.95)' : 'rgba(255,255,255,0.95)',
-    bg5: darkMode ? 'linear-gradient(208.92deg, #11174C -25.24%, #0C103A 116.73%)' : 'rgb(225,241,255)',
+    bg5: darkMode ? 'linear-gradient(208.92deg, #11174C -25.24%, #0C103A 116.73%)' : 'linear-gradient(209.33deg, rgba(29, 155, 240, 0.06) -4.79%, rgba(177, 212, 236, 0.054) 101.8%);',
     bg6: darkMode ? '#0B0F39' : '#ffffff',
     bg7: darkMode ? '#3359A3' : 'rgba(29,155,240,0.05)',
-    bg8: darkMode ? 'linear-gradient(316deg,#258BD8 1%, transparent 40%)' : 'linear-gradient(316deg, #42ABF3 1%, transparent 40%)',
+    bg8: darkMode ? 'linear-gradient(316deg, #42ABF3 1%, #131b52 40%)' : 'linear-gradient(316deg,#258BD8 1%, #ffffff 40%)',
     bg9: darkMode ? 'linear-gradient(216.69deg, #0F1545 0.27%, #101648 100.66%)' : 'linear-gradient(205.77deg, rgba(29, 155, 240, 0.04) -12.07%, rgba(177, 212, 236, 0.05) 101.15%)',
 
     text1: darkMode ? '#ffffff' : '#0F1419',
@@ -39,7 +39,8 @@ export function colors(darkMode = false) {
     selectMenuHovBg: darkMode ? '#1D9BF0' : '#1D9BF0',
     disabled: darkMode ? 'rgba(255, 255, 255, 0.25)' : 'rgba(15, 20, 25, 0.25)',
     scrollBar: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
-    shadow1: darkMode ? '0px 1px 6px 1px rgba(255, 255, 255, 0.05)' : '0px 1px 6px 1px rgba(0,0,0,0.15)'
+    shadow1: darkMode ? '0px 1px 6px 1px rgba(255, 255, 255, 0.05)' : '0px 1px 6px 1px rgba(0,0,0,0.15)',
+    shadow2: darkMode ? 'rgba(0, 0, 0, 0.15)' : 'rgba(0, 0, 0, 0.02)'
   }
 }
 

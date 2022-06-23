@@ -112,46 +112,51 @@ export default function Domain() {
         <div className="box-show-lt"></div>
         <img src={darkMode ? WhatWooferD : WhatWoofer} className="what-woofer-title" alt=""/>
         <div className="what-woofer-card-b">
-          <div className="what-woofer-card">
-            <div className="what-woofer-card-icon">
-              <img src={WhatWoofer1} alt=""/>
+          <div className="what-woofer-card-m">
+            <div className="what-woofer-card">
+              <div className="what-woofer-card-icon">
+                <img src={WhatWoofer1} alt=""/>
+              </div>
+              <div className="what-woofer-card-desc">
+                The mission of Woofer is to curate a community that supports educational content on blockchain and is eventually able to use the token to support promising projects. Beyond CT, however, there are many non-blockchain native accounts on Twitter that continue to educate, support others, and allow users to feel socially connected. Woofer aims to reward these contributors as well and encourage them to participate in the blockchain space.
+              </div>
+              <img src={WhatWoofer2} className="what-woofer-icon-rb" alt=""/>
             </div>
-            <div className="what-woofer-card-desc">
-              The mission of Woofer is to curate a community that supports educational content on blockchain and is eventually able to use the token to support promising projects. Beyond CT, however, there are many non-blockchain native accounts on Twitter that continue to educate, support others, and allow users to feel socially connected. Woofer aims to reward these contributors as well and encourage them to participate in the blockchain space.
-            </div>
-            <img src={WhatWoofer2} className="what-woofer-icon-rb" alt=""/>
           </div>
         </div>
       </div>
-      <div className="how-woofer">
-        <img src={darkMode ? HowWooferD : HowWoofer} className="how-woofer-title" alt=""/>
-        <div className="how-woofer-box">
-          <div className="how-woofer-box-item">
-            <img src={darkMode ? HowWoofer1D : HowWoofer1} alt="" className="item-icon"/>
-            <h1>Woof</h1>
-            <p>Tweet through Woofer</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Create reward pool</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Receive rewards</p>
-          </div>
-          <div className="how-woofer-box-item">
-            <img src={darkMode ? HowWoofer2D : HowWoofer2} alt="" className="item-icon"/>
-            <h1>Cowoof</h1>
-            <p>Share someone else’s tweet through Woofer</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Create reward pool</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Receive rewards</p>
-          </div>
-          <div className="how-woofer-box-item">
-            <img src={darkMode ? HowWoofer3D : HowWoofer3} alt="" className="item-icon"/>
-            <h1>Rewoof</h1>
-            <p>Support someone’s tweet through Woofer</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Contribute tokens</p>
-            <img src={ArrowDown} alt="" className="arrow-down"/>
-            <p>Receive rewards</p>
+      <div className="how-woofer-main">
+        <div className="how-woofer-r-b"/>
+        <div className="how-woofer">
+          <img src={darkMode ? HowWooferD : HowWoofer} className="how-woofer-title" alt=""/>
+          <div className="how-woofer-box">
+            <div className="how-woofer-box-item">
+              <img src={darkMode ? HowWoofer1D : HowWoofer1} alt="" className="item-icon"/>
+              <h1>Woof</h1>
+              <p>Tweet through Woofer</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Create reward pool</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Receive rewards</p>
+            </div>
+            <div className="how-woofer-box-item">
+              <img src={darkMode ? HowWoofer2D : HowWoofer2} alt="" className="item-icon"/>
+              <h1>Cowoof</h1>
+              <p>Share someone else’s tweet through Woofer</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Create reward pool</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Receive rewards</p>
+            </div>
+            <div className="how-woofer-box-item">
+              <img src={darkMode ? HowWoofer3D : HowWoofer3} alt="" className="item-icon"/>
+              <h1>Rewoof</h1>
+              <p>Support someone’s tweet through Woofer</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Contribute tokens</p>
+              <img src={ArrowDown} alt="" className="arrow-down"/>
+              <p>Receive rewards</p>
+            </div>
           </div>
         </div>
       </div>

@@ -166,21 +166,24 @@ export const DomainPage = styled.div`
       height: 40px;
       margin: 140px auto 0 auto;
     }
-    .what-woofer-card-b{
-      width: 1024px;
-      max-width: 96vw;
-      min-height: 375px;
-      padding: 2px;
-      border-radius: 24px;
-      background: ${({ theme }) => theme.bg8};
-      margin: 60px auto 0 auto;
+      .what-woofer-card-b{
+        width: 1024px;
+        max-width: 96vw;
+        padding: 2px;
+        border-radius: 24px;
+        background: ${({ theme }) => theme.bg8};
+        box-shadow: 0px 15px 37px ${({ theme }) => theme.shadow2};
+        margin: 60px auto 0 auto;
+        .what-woofer-card-m{
+          border-radius: 24px;
+          background: ${({ theme }) => theme.cardBg1};
+      }
     }
     .what-woofer-card {
       position: relative;
       width: 100%;
       height: 100%;
       background: ${({ theme }) => theme.bg5};
-      box-shadow: 0px 15px 37px rgba(0, 0, 0, 0.15);
       padding: 72px 53px;
       display: flex;
       align-items: center;
@@ -212,55 +215,71 @@ export const DomainPage = styled.div`
     }
     
   }
-  .how-woofer{
-    max-width: 96vw;
-    width: 1024px;
-    margin: auto;
-    .how-woofer-title {
-      display: block;
-      height: 40px;
-      margin: 140px auto 0 auto;
+  .how-woofer-main{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .how-woofer-r-b{
+      position: absolute;
+      right: -391px;
+      bottom: -200px;
+      width: 782px;
+      height: 782px;
+
+      background: #1D9BF0;
+      opacity: 0.05;
+      filter: blur(324px);
     }
-    .how-woofer-box{
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      margin: 60px 0 140px 0;
-      grid-column-gap: 20px;
-      .how-woofer-box-item{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 32px 35px;
-        background: ${({ theme }) => theme.bg9};
-        border-radius: 16px;
-        box-shadow: 0px 15px 37px rgba(0, 0, 0, 0.03);
-        .item-icon{
-          width: 120px;
-          height: 120px;
-        }
-        h1{
-          margin: 24px 0 16px 0;
-          font-weight: 600;
-          font-size: 32px;
-          line-height: 48px;
-          text-align: center;
-          color: ${({ theme }) => theme.text10};
-        }
-        p{
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 27px;
-          color: ${({ theme }) => theme.text11};
-          margin: 0;
-          text-align: center;
-        }
-        .arrow-down{
-          width: 12px;
-          height: 28px;
+    .how-woofer{
+      max-width: 96vw;
+      width: 1024px;
+      margin: auto;
+      .how-woofer-title {
+        display: block;
+        height: 40px;
+        margin: 140px auto 0 auto;
+      }
+      .how-woofer-box{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: 60px 0 140px 0;
+        grid-column-gap: 20px;
+        .how-woofer-box-item{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 32px 35px;
+          background: ${({ theme }) => theme.bg9};
+          border-radius: 16px;
+          box-shadow: 0px 15px 37px rgba(0, 0, 0, 0.03);
+          .item-icon{
+            width: 120px;
+            height: 120px;
+          }
+          h1{
+            margin: 24px 0 16px 0;
+            font-weight: 600;
+            font-size: 32px;
+            line-height: 48px;
+            text-align: center;
+            color: ${({ theme }) => theme.text10};
+          }
+          p{
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 27px;
+            color: ${({ theme }) => theme.text11};
+            margin: 0;
+            text-align: center;
+          }
+          .arrow-down{
+            width: 12px;
+            height: 28px;
+          }
         }
       }
-    }
   }
 }
 
@@ -333,9 +352,11 @@ export const DomainPage = styled.div`
       }
 
       .what-woofer-card-b {
-
         border-radius: 16px;
         margin: 60px auto 0 auto;
+        .what-woofer-card-m{
+          border-radius: 16px;
+        }
       }
 
       .what-woofer-card {
@@ -418,6 +439,9 @@ export const DomainPage = styled.div`
         border-radius: 16px;
         margin: 40px auto 0 auto;
         height: auto;
+        .what-woofer-card-m{
+          border-radius: 16px;
+        }
       }
       .what-woofer-card {
         padding: 10px 10px;
