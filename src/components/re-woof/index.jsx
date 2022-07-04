@@ -100,7 +100,7 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
   const buyTokenData = useMemo(() => (superBuyTokenList.filter(item => item.symbol === selectToken))[0],
     [superBuyTokenList, selectToken])
   const [outWoof, setOutWoof] = useState('0')
-  const [showMore, setShowMore] = useState(false)
+  const [showMore, setShowMore] = useState(true)
   const [calcNonce, setCalcNonce] = useState('')
   const [onTweetLoading, setOnTweetLoading] = useState(false)
   const [onReTweetLoading, setOnReTweetLoading] = useState(false)
@@ -535,10 +535,10 @@ function ReWoof({woofType = H_WOOF, coWoofItem, onClose, showType}) {
                       {woofType}
                     </CButton>
                   }
-                  <img src={ArrowDown3} className={cs({
-                    "arrow-down-3": true,
-                    'top-v': showMore
-                  })} alt="" onClick={() => setShowMore(!showMore)}/>
+                  {/*<img src={ArrowDown3} className={cs({*/}
+                  {/*  "arrow-down-3": true,*/}
+                  {/*  'top-v': showMore*/}
+                  {/*})} alt="" onClick={() => setShowMore(!showMore)}/>*/}
                 </div>
 
               </div>

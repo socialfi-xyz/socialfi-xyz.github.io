@@ -91,7 +91,7 @@ export default function Domain() {
       </div>
       <div className="domain-banner">
         <div className="domain-banner-title">
-          <h2>The <span>Woofer Token.</span></h2>
+          <h2>The <span>SocialFi Token.</span></h2>
           <p>Woofer is a token created to support and reward the everyday contributors on Twitter and progress educational and insightful content</p>
           <div className="domain-banner-btn">
             <NavLink className="domain-page-enter-app flex-center" to="/home">Enter App</NavLink>
