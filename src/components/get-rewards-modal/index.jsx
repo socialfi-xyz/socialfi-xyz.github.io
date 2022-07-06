@@ -66,7 +66,7 @@ export function GetRewardsModal({visible, onClose, accountData, tweet}) {
         <div className="rewards-item">
           <p>Cowoof Rewards</p>
           <div>
-            <span>{toFormat(accountData.yield_)}</span>
+            <span>{toFormat(accountData.yield_)} WOOF</span>
             <span>(${calcWoofVal(accountData.yield_)})</span>
           </div>
           {

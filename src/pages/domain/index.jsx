@@ -110,7 +110,9 @@ export default function Domain() {
       </div>
       <div className="what-woofer">
         <div className="box-show-lt"></div>
-        <img src={darkMode ? WhatWooferD : WhatWoofer} className="what-woofer-title" alt=""/>
+        <h1 className="what-woofer-title">
+          What is the mission of Woofer?
+        </h1>
         <div className="what-woofer-card-b">
           <div className="what-woofer-card-m">
             <div className="what-woofer-card">
@@ -128,7 +130,7 @@ export default function Domain() {
       <div className="how-woofer-main">
         <div className="how-woofer-r-b"/>
         <div className="how-woofer">
-          <img src={darkMode ? HowWooferD : HowWoofer} className="how-woofer-title" alt=""/>
+          <h1 className="how-woofer-title">How to use Woofer</h1>
           <div className="how-woofer-box">
             <div className="how-woofer-box-item">
               <img src={darkMode ? HowWoofer1D : HowWoofer1} alt="" className="item-icon"/>

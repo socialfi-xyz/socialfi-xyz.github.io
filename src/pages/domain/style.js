@@ -162,9 +162,13 @@ export const DomainPage = styled.div`
       filter: blur(281.739px);
     }
     .what-woofer-title {
-      display: block;
-      height: 40px;
-      margin: 140px auto 0 auto;
+      text-align: center;
+      color: ${({ theme }) => theme.text1};
+      font-style: normal;
+      font-weight: 600;
+      font-size: 56px;
+      line-height: 84px;
+      margin-top: 110px;
     }
       .what-woofer-card-b{
         width: 1024px;
@@ -236,9 +240,13 @@ export const DomainPage = styled.div`
       width: 1024px;
       margin: auto;
       .how-woofer-title {
-        display: block;
-        height: 40px;
-        margin: 140px auto 0 auto;
+        text-align: center;
+        color: ${({ theme }) => theme.text1};
+        font-style: normal;
+        font-weight: 600;
+        font-size: 56px;
+        line-height: 84px;
+        margin-top: 110px;
       }
       .how-woofer-box{
         width: 100%;
@@ -347,8 +355,9 @@ export const DomainPage = styled.div`
 
     .what-woofer {
       .what-woofer-title {
-        height: 30px;
-        margin: 60px auto 0 auto;
+        margin-top: 80px!important;
+        font-size: 40px!important;
+        line-height: 50px!important;
       }
 
       .what-woofer-card-b {
@@ -383,10 +392,10 @@ export const DomainPage = styled.div`
       }
     }
     .how-woofer {
-
       .how-woofer-title {
-        height: 30px;
-        margin: 60px auto 0 auto;
+        margin-top: 80px!important;
+        font-size: 40px!important;
+        line-height: 50px!important;
       }
     }
   }
@@ -431,14 +440,17 @@ export const DomainPage = styled.div`
       padding: 50px 20px 0 20px;
     }
     .what-woofer {
+      padding: 0 20px!important;
       .what-woofer-title {
-        height: 15px;
-        margin: 60px auto 0 auto;
+        font-size: 30px!important;
+        line-height: 35px!important;
+        margin-top: 60px!important;
       }
       .what-woofer-card-b{
         border-radius: 16px;
         margin: 40px auto 0 auto;
         height: auto;
+        width: 100%;
         .what-woofer-card-m{
           border-radius: 16px;
         }
@@ -478,13 +490,15 @@ export const DomainPage = styled.div`
     .how-woofer{
       
       .how-woofer-title {
-        height: 15px;
-        margin: 60px auto 0 auto;
+        font-size: 30px!important;
+        line-height: 35px!important;
+        margin-top: 60px!important;
       }
       .how-woofer-box{
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr!important;
         margin: 40px auto 60px auto;
         grid-row-gap: 20px;
+        padding: 0 10px;
         .how-woofer-box-item{
           max-width: 98vw;
           padding: 22px 25px;
