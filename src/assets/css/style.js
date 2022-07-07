@@ -1,13 +1,7 @@
 import {createGlobalStyle} from "styled-components";
+import './index.less'
 
 export const FixedGlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: "Poppins";
-    src: url('../font/Poppins.ttf');
-  }
-  html,body,p,h1,div{
-    font-family: -apple-system, "Poppins", "Inter";
-  }
 
   .share-btn iframe{
     display: block!important;

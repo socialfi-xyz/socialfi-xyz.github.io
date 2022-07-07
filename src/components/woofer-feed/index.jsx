@@ -12,6 +12,7 @@ import {useActiveWeb3React} from "../../web3";
 import LoadingIcon from "../../assets/images/svg/loading.svg";
 import EmptyIcon from "../../assets/images/svg/empty.svg";
 import ArrowSortIcon from "../../assets/images/svg/arrow-down-sort.svg";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const FILTER_ACTION_ALL = [
   {
@@ -49,8 +50,8 @@ const FILTER_ACTION_ALL = [
     sort: 'desc',
   }
 ]
-
-export default function WooferFeed({type = 'all', setUserWoofFeed}) {
+const pageSize = 5
+export default function WooferFeed({type = 'all', setUserWoofFeed, children}) {
   const [filterId, setFilterId] = useState(0)
   const {account} = useActiveWeb3React()
   const [coWoofItem, setCoWoofItem] = useState(null)
@@ -61,6 +62,8 @@ export default function WooferFeed({type = 'all', setUserWoofFeed}) {
   const [woofType, setWoofType] = useState(null)
   const [itemsData, setItemsData] = useState({})
   const [loadLoading, setLoadLoading] = useState(false)
+  const [pageNum, setPageNum] = useState(1)
+  const [showPoolList, setShowPoolList] = useState([])
 
   const {updateWoofList} = useSelector(state => state.index)
 
@@ -144,6 +147,7 @@ export default function WooferFeed({type = 'all', setUserWoofFeed}) {
     setFilterActions(filterActions_)
     setFilterId(id)
     setFilterPoolList(filterList_)
+    setPageNum(1)
   }
 
   useMemo(() => {
@@ -152,62 +156,81 @@ export default function WooferFeed({type = 'all', setUserWoofFeed}) {
     }
   }, [updateWoofList, account])
 
+  const loadData = () => {
+    const moreShowPoolList_ = filterPoolList.slice(0, pageNum * pageSize)
+    setTimeout(() => {
+      setShowPoolList(moreShowPoolList_)
+    }, 1000)
+  }
+  useMemo(() =>{
+    loadData()
+  }, [pageNum, filterPoolList])
   return (
-    <>
-      <WooferFeedView>
-        <div className="woofer-feed-header">
-          <div className="woofer-feed-header-l">Woofer Feed</div>
-          <div className="filter-switch flex-center">
-            Sort <img src={ArrowDown2Dark} alt=""/>
-            <div className="filter-switch-list">
-              {
-                filterActions.map((item) => (
-                  <div key={item.id} onClick={() => onFilter(item.id, filterId === item.id ? item.sort === 'desc' ? 'asc' : 'desc' : item.sort)}>
-                    <div>
-                      {filterId === item.id && <img src={Check} alt="" className="sort-check"/>}
-                    </div>
-                    <div className="sort-check-item">
-                      <span>{item.title}</span>
-                      {
-                        item.id === filterId && item.id !== 0 && <>
-                          <img src={ArrowSortIcon} className={item.sort === 'desc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
-                          <img src={ArrowSortIcon} className={item.sort === 'asc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
-                        </>
-                      }
-                    </div>
-
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-        {
-          loadLoading ? (
+    <WooferFeedView>
+      {children}
+      <div className="woofer-feed-infinite-scroll">
+        <InfiniteScroll
+          dataLength={showPoolList.length}
+          next={() => {
+            setPageNum(pageNum + 1)
+          }}
+          hasMore={!(showPoolList.length >= filterPoolList.length) || loadLoading}
+          loader={
             <div className="woof-loading">
               <div className="icon-loading">
                 <img src={LoadingIcon} alt=""/>
               </div>
               <span>loading...</span>
             </div>
-          ) : filterPoolList.length === 0 ? (
-            <div className="woof-empty">
-              <img src={EmptyIcon} alt=""/>
-              <p>No Content</p>
+          }
+          scrollableTarget="scrollableDiv"
+          endMessage={
+            filterPoolList.length === 0 && !loadLoading ? (
+              <div className="woof-empty">
+                <img src={EmptyIcon} alt=""/>
+                <p>No Content</p>
+              </div>
+            ) : <div/>
+          }
+        >
+          <div className="woofer-feed-header">
+            <div className="woofer-feed-header-l">Woofer Feed</div>
+            <div className="filter-switch flex-center">
+              Sort <img src={ArrowDown2Dark} alt=""/>
+              <div className="filter-switch-list">
+                {
+                  filterActions.map((item) => (
+                    <div key={item.id} onClick={() => onFilter(item.id, filterId === item.id ? item.sort === 'desc' ? 'asc' : 'desc' : item.sort)}>
+                      <div>
+                        {filterId === item.id && <img src={Check} alt="" className="sort-check"/>}
+                      </div>
+                      <div className="sort-check-item">
+                        <span>{item.title}</span>
+                        {
+                          item.id === filterId && item.id !== 0 && <>
+                            <img src={ArrowSortIcon} className={item.sort === 'desc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
+                            <img src={ArrowSortIcon} className={item.sort === 'asc' ? 'sort-check-on' : 'sort-check-off'} alt=""/>
+                          </>
+                        }
+                      </div>
+
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-          ) : (
-            <div className="woofer-list">
-              {
-                filterPoolList.map((item) => <WooferFeedItem tweet={item} key={item.tweetId} setShowWoofUserModalFn={setShowWoofUserModalFn} onWoofBtn={onWoofBtn} reportItemsData={reportItemsData}/>)
-              }
-            </div>
-          )
-        }
-        <WoofUserModal list={woofUserModalData.list} title={woofUserModalData.title}
-                       onClose={() => setShowWoofUserModal(false)}
-                       visible={showWoofUserModal}/>
-        <WoofModal visible={!!woofType} onClose={() => setWoofType(null)} woofType={woofType} coWoofItem={coWoofItem}/>
-      </WooferFeedView>
-    </>
+          </div>
+          <div className="woofer-list">
+            {
+              showPoolList.map((item) => <WooferFeedItem tweet={item} key={item.tweetId} setShowWoofUserModalFn={setShowWoofUserModalFn} onWoofBtn={onWoofBtn} reportItemsData={reportItemsData}/>)
+            }
+          </div>
+        </InfiniteScroll>
+      </div>
+      <WoofUserModal list={woofUserModalData.list} title={woofUserModalData.title}
+                     onClose={() => setShowWoofUserModal(false)}
+                     visible={showWoofUserModal}/>
+      <WoofModal visible={!!woofType} onClose={() => setWoofType(null)} woofType={woofType} coWoofItem={coWoofItem}/>
+    </WooferFeedView>
   )
 }

@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import './style'
 import Layout from "../../components/layout";
 import {WOOF} from "../../web3/address";
@@ -23,7 +23,6 @@ let timer = null
 
 function My() {
   const {account, library} = useActiveWeb3React()
-  const buyModalRef = useRef()
   const {accountAirClaimed, twitterUserInfo, woofPrice} = useSelector(state => state.index)
   const history = useHistory()
   const [showByModal, setShowByModal] = useState(false)
@@ -39,7 +38,6 @@ function My() {
 
   const [unlockRemainingTime, setUnlockRemainingTime] = useState('-')
 
-  console.log('twitterUserInfo', twitterUserInfo)
   const calcWoofVal = (amount) => {
     if (!amount){
       return 0
@@ -140,66 +138,67 @@ function My() {
 
   return (
     <Layout>
-      <MyPage>
-        <Spin spinning={!twitterUserInfo.twitterId}>
-          <div className="my-page-main">
-            <div className="my-page-main-u">
-              <BaseInfo userData={twitterUserInfo}/>
-            </div>
-            <div className="u-info-data-v">
-              <div className="u-info-data">
-                <div className="u-info-data-item">
+      <MyPage id="scrollableDiv">
+        <WooferFeed type="account" setUserWoofFeed={setUserWoofFeed}>
+          <Spin spinning={!twitterUserInfo.twitterId}>
+            <div className="my-page-main">
+              <div className="my-page-main-u">
+                <BaseInfo userData={twitterUserInfo}/>
+              </div>
+              <div className="u-info-data-v">
+                <div className="u-info-data">
+                  <div className="u-info-data-item">
 
-                  <div>Total Balance</div>
-                  <div>{toFormat(twitterUserInfo.balanceOf, '-')} {WOOF.symbol} (${twitterUserInfo.balanceOfValue})</div>
-                  {/*<div><Button onClick={() => setShowByModal(true)}>Contribute</Button></div>*/}
-                </div>
-                <div className="u-info-data-item">
-                  <div>Locked Balance</div>
-                  <div>{toFormat(twitterUserInfo.lockedOf, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo.lockedOf)})</div>
-                  <div></div>
-                </div>
-                <div className="u-info-data-item">
-                  <div>Unlocked Balance</div>
-                  <div>{toFormat(twitterUserInfo.unlockedOf, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo.unlockedOf)})</div>
-                  <div><Button onClick={() => setShowTransferModal(true)}>Transfer</Button></div>
-                </div>
-                <div className="u-info-data-item">
-                  <div>Vesting Period</div>
-                  <div>{unlockRemainingTime}</div>
-                </div>
-                <div className="u-info-data-item">
+                    <div>Total Balance</div>
+                    <div>{toFormat(twitterUserInfo.balanceOf, '-')} {WOOF.symbol} (${twitterUserInfo.balanceOfValue})</div>
+                    {/*<div><Button onClick={() => setShowByModal(true)}>Contribute</Button></div>*/}
+                  </div>
+                  <div className="u-info-data-item">
+                    <div>Locked Balance</div>
+                    <div>{toFormat(twitterUserInfo.lockedOf, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo.lockedOf)})</div>
+                    <div></div>
+                  </div>
+                  <div className="u-info-data-item">
+                    <div>Unlocked Balance</div>
+                    <div>{toFormat(twitterUserInfo.unlockedOf, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo.unlockedOf)})</div>
+                    <div><Button onClick={() => setShowTransferModal(true)}>Transfer</Button></div>
+                  </div>
+                  <div className="u-info-data-item">
+                    <div>Vesting Period</div>
+                    <div>{unlockRemainingTime}</div>
+                  </div>
+                  <div className="u-info-data-item">
 
-                  <div>Total Cowoof Rewards</div>
-                  <div>{toFormat(coWoofRewards)} {WOOF.symbol} (${calcWoofVal(coWoofRewards)})</div>
-                  <div>
-                    {
-                      coWoofIds.length > 0 && <Button onClick={getYields} loading={cLoading}>Claim all</Button>
-                    }
+                    <div>Total Cowoof Rewards</div>
+                    <div>{toFormat(coWoofRewards)} {WOOF.symbol} (${calcWoofVal(coWoofRewards)})</div>
+                    <div>
+                      {
+                        coWoofIds.length > 0 && <Button onClick={getYields} loading={cLoading}>Claim all</Button>
+                      }
+                    </div>
                   </div>
-                </div>
-                <div className="u-info-data-item">
-                  <div>Total Rewoof Rewards</div>
-                  <div>{toFormat(reWoofRewards)} {WOOF.symbol} (${calcWoofVal(reWoofRewards)})</div>
-                  <div>
-                    {
-                      reWoofIds.length > 0 && <Button onClick={getRewards} loading={rLoading}>Claim all</Button>
-                    }
+                  <div className="u-info-data-item">
+                    <div>Total Rewoof Rewards</div>
+                    <div>{toFormat(reWoofRewards)} {WOOF.symbol} (${calcWoofVal(reWoofRewards)})</div>
+                    <div>
+                      {
+                        reWoofIds.length > 0 && <Button onClick={getRewards} loading={rLoading}>Claim all</Button>
+                      }
+                    </div>
                   </div>
-                </div>
-                <div className="u-info-data-item">
-                  <div>Next Rebase Reward</div>
-                  <div> {toFormat(twitterUserInfo?.calcRebaseProfit?.profit, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo?.calcRebaseProfit?.profit)})
+                  <div className="u-info-data-item">
+                    <div>Next Rebase Reward</div>
+                    <div> {toFormat(twitterUserInfo?.calcRebaseProfit?.profit, '-')} {WOOF.symbol} (${calcWoofVal(twitterUserInfo?.calcRebaseProfit?.profit)})
+                    </div>
+                    <div></div>
                   </div>
-                  <div></div>
                 </div>
               </div>
             </div>
-          </div>
-        </Spin>
-        <WooferFeed type="account" setUserWoofFeed={setUserWoofFeed}/>
+          </Spin>
+        </WooferFeed>
         {
-          showByModal && <BuyModal twitterUserInfo={twitterUserInfo} visible={showByModal} ref={buyModalRef}
+          showByModal && <BuyModal twitterUserInfo={twitterUserInfo} visible={showByModal}
                                    onClose={() => setShowByModal(false)}/>
         }
         <TransferModal twitterUserInfo={twitterUserInfo} visible={showTransferModal}

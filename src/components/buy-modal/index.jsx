@@ -21,7 +21,7 @@ import {BuyModalView} from "./style";
 import MsgSuccess from "../../assets/images/svg/msgSuccess.svg";
 
 
-function BuyModal({visible, onClose}, ref) {
+function BuyModal({visible, onClose}) {
   const { library, account} = useActiveWeb3React()
   const [tokenValve, setTokenValve] = useState(null)
   const {darkMode} = useIsDarkMode()
@@ -242,4 +242,4 @@ function BuyModal({visible, onClose}, ref) {
   )
 }
 
-export default forwardRef(BuyModal)
+export default BuyModal

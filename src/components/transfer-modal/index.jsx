@@ -70,7 +70,7 @@ export function TransferModal({visible, onClose}) {
             <p className="p-t">To</p>
             <div>
               <div className="input-eth">
-                <CInput type="text" value={toAddress} placeholder="0X000000" style={{ paddingRight: 0}} onInput={e => setToAddress(e.target.value)}/>
+                <CInput type="text" value={toAddress} placeholder="0x000000" style={{ paddingRight: 0}} onInput={e => setToAddress(e.target.value)}/>
               </div>
             </div>
           </div>

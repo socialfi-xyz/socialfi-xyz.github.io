@@ -10,14 +10,17 @@ export default function Home() {
   return (
     <Layout>
       <HomePage>
-        <div className="home-view">
-          <div className="home-header">
-            Home
-          </div>
-          <div className="home-banner">
-            <ReWoof woofType={H_WOOF}/>
-          </div>
-          <WooferFeed/>
+        <div className="home-view" id="scrollableDiv">
+          <WooferFeed>
+            <>
+              <div className="home-header">
+                Home
+              </div>
+              <div className="home-banner">
+                <ReWoof woofType={H_WOOF}/>
+              </div>
+            </>
+          </WooferFeed>
         </div>
       </HomePage>
     </Layout>

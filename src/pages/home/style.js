@@ -2,12 +2,13 @@ import styled from "styled-components";
 import {CustomScroll, LayoutContentPage} from "../../theme/style";
 
 export const HomePage = styled.div`
-  ${({ theme }) => CustomScroll(theme)};
   ${LayoutContentPage};
+  padding-right: 0;
   .home-view{
-    max-width: 1000px;
     margin: 0 auto;
-
+    height: 100%;
+    overflow: auto;
+    ${({ theme }) => CustomScroll(theme)};
     .home-header {
       font-style: normal;
       font-weight: 600;

@@ -6,8 +6,9 @@ export const STInput = styled.div`
   display: flex;
   align-items: center;
   background: ${({theme}) => theme.inputBg1} !important;
-  padding: 0 10px;
+  padding: 0 10px 0 0!important;
   border-radius: 8px;
+    overflow: hidden;
 
   .select-view {
     ${FlexCenter};

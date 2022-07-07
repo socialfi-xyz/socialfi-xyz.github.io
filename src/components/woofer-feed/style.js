@@ -2,8 +2,13 @@ import styled from "styled-components";
 import {FlexCenter} from "../../theme/style";
 
 export const WooferFeedView = styled.div`
-  margin-top: 40px;
-
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    .woofer-feed-infinite-scroll{
+        flex: 1;
+    }
   .woofer-feed-header {
     display: flex;
     font-style: normal;
@@ -13,6 +18,7 @@ export const WooferFeedView = styled.div`
     color: ${({theme}) => theme.text1};
     border-bottom: 1px solid ${({theme}) => theme.line1};
     padding-bottom: 9px;
+    margin-top: 40px;
 
     .woofer-feed-header-l {
       flex: 1;

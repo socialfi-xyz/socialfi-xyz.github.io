@@ -2,17 +2,20 @@ import styled from "styled-components";
 import {CustomScroll, LayoutContentPage} from "../../theme/style";
 
 export const MyPage = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 930px;
-  margin: auto;
+  //display: flex;
+  //flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  margin: 0 auto;
   ${({ theme }) => CustomScroll(theme)};
-  ${LayoutContentPage};
+  
   .ant-spin-nested-loading {
+    max-width: 930px;
     border-radius: 10px;
     overflow: hidden;
+    margin: 0 auto;
   }
-
   .u-info-data {
     .u-info-data-item{
       display: grid;
