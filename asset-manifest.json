@@ -1,18 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.78d62703.chunk.css",
-    "main.js": "/static/js/main.468c8b65.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.4973acba.js",
+    "main.css": "/static/css/main.69bae8e0.chunk.css",
+    "main.js": "/static/js/main.782d4421.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.5f069601.js",
     "static/css/2.40bbe35b.chunk.css": "/static/css/2.40bbe35b.chunk.css",
-    "static/js/2.d45d2a7a.chunk.js": "/static/js/2.d45d2a7a.chunk.js",
-    "static/js/3.2deccb28.chunk.js": "/static/js/3.2deccb28.chunk.js",
-    "static/js/4.93b08baf.chunk.js": "/static/js/4.93b08baf.chunk.js",
+    "static/js/2.92070d78.chunk.js": "/static/js/2.92070d78.chunk.js",
+    "static/js/3.ec588fa9.chunk.js": "/static/js/3.ec588fa9.chunk.js",
+    "static/js/4.37c4d187.chunk.js": "/static/js/4.37c4d187.chunk.js",
     "index.html": "/index.html",
     "static/css/2.40bbe35b.chunk.css.gz": "/static/css/2.40bbe35b.chunk.css.gz",
-    "static/js/2.d45d2a7a.chunk.js.LICENSE.txt": "/static/js/2.d45d2a7a.chunk.js.LICENSE.txt",
-    "static/js/2.d45d2a7a.chunk.js.gz": "/static/js/2.d45d2a7a.chunk.js.gz",
-    "static/js/3.2deccb28.chunk.js.gz": "/static/js/3.2deccb28.chunk.js.gz",
-    "static/js/main.468c8b65.chunk.js.gz": "/static/js/main.468c8b65.chunk.js.gz",
+    "static/js/2.92070d78.chunk.js.LICENSE.txt": "/static/js/2.92070d78.chunk.js.LICENSE.txt",
+    "static/js/2.92070d78.chunk.js.gz": "/static/js/2.92070d78.chunk.js.gz",
+    "static/js/3.ec588fa9.chunk.js.gz": "/static/js/3.ec588fa9.chunk.js.gz",
+    "static/js/main.782d4421.chunk.js.gz": "/static/js/main.782d4421.chunk.js.gz",
+    "static/media/index.less": "/static/media/Poppins.4603832f.ttf",
     "static/media/airdrop-icon-off.2e93f570.svg": "/static/media/airdrop-icon-off.2e93f570.svg",
     "static/media/airdrop-icon-on.ab1980f4.svg": "/static/media/airdrop-icon-on.ab1980f4.svg",
     "static/media/arrow-d.f00a885d.svg": "/static/media/arrow-d.f00a885d.svg",
@@ -66,10 +67,10 @@
     "static/media/what-woofer_d.885530c0.svg": "/static/media/what-woofer_d.885530c0.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.4973acba.js",
+    "static/js/runtime-main.5f069601.js",
     "static/css/2.40bbe35b.chunk.css",
-    "static/js/2.d45d2a7a.chunk.js",
-    "static/css/main.78d62703.chunk.css",
-    "static/js/main.468c8b65.chunk.js"
+    "static/js/2.92070d78.chunk.js",
+    "static/css/main.69bae8e0.chunk.css",
+    "static/js/main.782d4421.chunk.js"
   ]
 }
