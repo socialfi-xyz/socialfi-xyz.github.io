@@ -29,7 +29,6 @@ export function GetRewardsModal({visible, onClose, accountData, tweet}) {
       .on('receipt', (_) => {
         dispatch({type: UPDATE_COUNT})
         setCLoading(false)
-        onClose()
       })
       .on('error', () => {
         setCLoading(false)
@@ -46,7 +45,6 @@ export function GetRewardsModal({visible, onClose, accountData, tweet}) {
       .on('receipt', (_) => {
         dispatch({type: UPDATE_COUNT})
         setRLoading(false)
-        onClose()
       })
       .on('error', () => {
         setRLoading(false)
